@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_savanna",
+  "spawners":
+  {
+    "type": "creaturefeature:minds",
+    "weight": 40,
+    "minCount": 2,
+    "maxCount": 4
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "net.atired.creaturefeature.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "nomansland.refmap.json",
+  "mixins": [
+    "LivingEntityGoopMixin",
+    "PlayerMixin"
+  ],
+  "client": [
+    "CameraMixin",
+    "CameraTypeMixin",
+    "CFGameRendererMixin",
+    "CFPostChainMixin",
+    "IamActivelyHavingaMigraineMixin"
+  ]
+}

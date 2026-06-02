@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:heavy_core"
+    },
+    "A": {
+      "item": "creaturefeature:blitz_rod"
+    }
+  },
+  "pattern": [
+    "A#",
+    " A",
+    " A"
+  ],
+  "result": {
+    "count": 1,
+    "id": "creaturefeature:heavy_axe"
+  }
+}

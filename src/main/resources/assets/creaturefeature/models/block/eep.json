@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "creaturefeature:block/eep_bottom",
+    "side": "creaturefeature:block/eep_side",
+    "top": "creaturefeature:block/eep_top"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "desc.creaturefeature.bouquet": "Clones other flowers, if put together.",
+  "desc.creaturefeature.murky": "Does... Nothing.",
+
+  "jukebox_song.creaturefeature.nothing": "Tory Fox - egg.ogg",
+  "sound.creaturefeature.nothing": "Well, There's not a man here. ",
+  "effect.creaturefeature.sleepy": "Sleepy",
+
+  "item.creaturefeature.machination_spawn_egg": "Machination Spawn Egg",
+  "item.creaturefeature.beauty_spawn_egg": "Beauty Spawn Egg",
+  "item.creaturefeature.sinister_spawn_egg": "Sinister Spawn Egg",
+  "item.creaturefeature.minds_spawn_egg": "Minds Spawn Egg",
+
+  "item.creaturefeature.blitz_spawn_egg": "Blitz Spawn Egg",
+  "item.creaturefeature.eeper_spawn_egg": "Eeper Spawn Egg",
+  "item.creaturefeature.minedflayer_spawn_egg": "Minedflayer Spawn Egg",
+  "item.creaturefeature.nothing_spawn_egg": "NoThing Spawn Egg",
+
+  "item.creaturefeature.canary_spawn_egg": "Canary Spawn Egg",
+  "item.creaturefeature.vertigo_spawn_egg": "Vertigo Spawn Egg",
+
+
+  "item.creaturefeature.sleeping_powder": "Sleeping Powder",
+  "item.creaturefeature.music_disc_nothing": "Music Disc",
+
+  "item.creaturefeature.bouquet": "Living Bouquet",
+  "item.creaturefeature.heavy_axe": "Heavy Axe",
+  "item.creaturefeature.blitz_rod": "Blitz Fragment",
+  "item.creaturefeature.murky_pearl": "Murky Pearl",
+  "item.creaturefeature.vertigo_horn": "Vertigo Horn",
+  "item.creaturefeature.minedflayer_goop": "Minedflayer Goop",
+  "item.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
+  "block.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
+  "block.creaturefeature.eep": "EEP",
+
+  "entity.creaturefeature.eep": "Primed Eep",
+  "entity.creaturefeature.murky_pearl": "Murky Pearl",
+  "entity.creaturefeature.sinister": "Sinister",
+  "entity.creaturefeature.machination": "Machination",
+  "entity.creaturefeature.beauty": "Beauty",
+  "entity.creaturefeature.blitz": "Blitz",
+  "entity.creaturefeature.eeper": "Eeper",
+  "entity.creaturefeature.minedflayer": "MinedFlayer",
+  "entity.creaturefeature.minds": "Minds",
+  "entity.creaturefeature.nothing": "NoThing",
+  "entity.creaturefeature.canary": "Canary",
+  "entity.creaturefeature.vertigo": "Vertigo",
+  "entity.creaturefeature.canary_part": "Canary Part"
+}

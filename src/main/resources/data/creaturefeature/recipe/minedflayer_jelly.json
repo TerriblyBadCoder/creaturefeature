@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "creaturefeature:minedflayer_jelly"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "creaturefeature:minedflayer_goop"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "minecraft:warped_forest",
+  "spawners":
+  {
+    "type": "creaturefeature:machination",
+    "weight": 10,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}
