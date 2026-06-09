@@ -10,6 +10,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.InstrumentTags;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -37,6 +41,11 @@ public class CFItemInit {
             SpawnEggItem(CFEntityInit.NOTHING.get(),0xdfce9b,0xdfce9b,new  Item.Properties()));
 
 
+    public static final DeferredItem<Item> FIEND_EGG = ITEMS.register("fiend_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.FIEND.get(),0xf58dfc,0xdf52f2,new  Item.Properties()));
+
+
+
     public static final DeferredItem<Item> CANARY_EGG = ITEMS.register("canary_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.CANARY.get(),0xaab5b3,0x99e550,new  Item.Properties()));
     public static final DeferredItem<Item> VERTIGO_EGG = ITEMS.register("vertigo_spawn_egg", ()->new
@@ -51,6 +60,15 @@ public class CFItemInit {
     public static final DeferredItem<Item> BOUQUET = ITEMS.register(
             "bouquet",
             ()->new BouquetItem(new Item.Properties().durability(8).stacksTo(1))
+    );
+    public static final FoodProperties BLIGHTED_BRAIN_FOOD = (new FoodProperties.Builder()).nutrition(11).saturationModifier(0.3F)
+            .effect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0), 0.8F)
+            .effect(new MobEffectInstance(MobEffects.INFESTED, 400, 0), 0.8F)
+            .effect(new MobEffectInstance(MobEffects.OOZING, 200, 0), 0.8F).build();
+
+    public static final DeferredItem<Item> BLIGHTED_BRAIN = ITEMS.register(
+            "blighted_brain",
+            ()->new Item(new Item.Properties().food(BLIGHTED_BRAIN_FOOD))
     );
     public static final DeferredItem<Item> SLEEPING_POWDER = ITEMS.register(
             "sleeping_powder",

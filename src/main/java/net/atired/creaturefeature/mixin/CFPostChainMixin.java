@@ -23,8 +23,9 @@ public class CFPostChainMixin implements PostChainDepthPassAccessor {
 
     @Override
     public void depthEmPostPasses() {
-        for(PostPass i : this.passes){
-            i.getEffect().setSampler("TrueDepthSampler", CreatureFeatureClient.RABIES_TARGET::getDepthTextureId);
-        }
+        if(CreatureFeatureClient.RABIES_TARGET!=null)
+            for(PostPass i : this.passes){
+                i.getEffect().setSampler("TrueDepthSampler", CreatureFeatureClient.RABIES_TARGET::getDepthTextureId);
+            }
     }
 }

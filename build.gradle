@@ -28,7 +28,15 @@ sourceSets.main.resources {
 
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
+
+    maven {
+        url = uri("https://registry.somethingcatchy.net/repository/maven-public/")
+        content {
+            includeGroup("dev.galena")
+        }
+    }
 }
+
 
 base {
     archivesName = mod_id

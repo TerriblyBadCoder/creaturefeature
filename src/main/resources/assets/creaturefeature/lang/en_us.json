@@ -19,6 +19,7 @@
   "item.creaturefeature.canary_spawn_egg": "Canary Spawn Egg",
   "item.creaturefeature.vertigo_spawn_egg": "Vertigo Spawn Egg",
 
+  "item.creaturefeature.fiend_spawn_egg": "Fiend Spawn Egg",
 
   "item.creaturefeature.sleeping_powder": "Sleeping Powder",
   "item.creaturefeature.music_disc_nothing": "Music Disc",
@@ -30,15 +31,18 @@
   "item.creaturefeature.vertigo_horn": "Vertigo Horn",
   "item.creaturefeature.minedflayer_goop": "Minedflayer Goop",
   "item.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
+  "item.creaturefeature.blighted_brain": "Blighted Brain",
   "block.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
   "block.creaturefeature.eep": "EEP",
 
   "entity.creaturefeature.eep": "Primed Eep",
+  "entity.creaturefeature.kicked_block": "Punted Block",
   "entity.creaturefeature.murky_pearl": "Murky Pearl",
   "entity.creaturefeature.sinister": "Sinister",
   "entity.creaturefeature.machination": "Machination",
   "entity.creaturefeature.beauty": "Beauty",
   "entity.creaturefeature.blitz": "Blitz",
+  "entity.creaturefeature.fiend": "Fiend",
   "entity.creaturefeature.eeper": "Eeper",
   "entity.creaturefeature.minedflayer": "MinedFlayer",
   "entity.creaturefeature.minds": "Minds",

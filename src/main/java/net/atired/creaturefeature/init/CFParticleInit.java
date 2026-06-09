@@ -24,6 +24,10 @@ public class CFParticleInit {
             "flower",
             () -> new SimpleParticleType(false)
     );
+    public static final Supplier<SimpleParticleType> CRIT_PARTICLE = PARTICLE_TYPES.register(
+            "crit",
+            () -> new SimpleParticleType(false)
+    );
     public static final Supplier<SimpleParticleType> SLEEPY_EXPLODE_PARTICLE = PARTICLE_TYPES.register(
             "sleepy_explode",
             () -> new SimpleParticleType(false)

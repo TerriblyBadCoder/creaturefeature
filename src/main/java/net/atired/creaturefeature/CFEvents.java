@@ -57,6 +57,8 @@ public class CFEvents {
             event.accept(CFItemInit.VERTIGO_EGG.get());
             //cannonball crab egg
             //Yet I egg
+            event.accept(CFItemInit.FIEND_EGG.get());
+
         }
         if(event.getTabKey()==CreativeModeTabs.COMBAT){
             event.insertBefore(Items.MACE.getDefaultInstance(),CFItemInit.HEAVY_AXE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
@@ -75,6 +77,9 @@ public class CFEvents {
         }
         if(event.getTabKey()==CreativeModeTabs.FUNCTIONAL_BLOCKS){
             event.insertBefore(Items.LODESTONE.getDefaultInstance(), CFBlockInit.MINEDFLAYER_JELLY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
+            event.insertBefore(Items.ROTTEN_FLESH.getDefaultInstance(), CFItemInit.BLIGHTED_BRAIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.REDSTONE_BLOCKS){
             event.insertBefore(Items.TNT.getDefaultInstance(), CFBlockInit.EEP.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -127,6 +132,8 @@ public class CFEvents {
 
         event.register(CFEntityInit.VERTIGO.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, VertigoEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.CANARY.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CanaryEntity::checkCanarySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+
+        event.register(CFEntityInit.FIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FiendEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
     }
     @SubscribeEvent

@@ -66,6 +66,7 @@ public class CreatureFeature {
         event.put(CFEntityInit.CANARY.get(), CanaryEntity.createCanaryAttributes().build());
         event.put(CFEntityInit.CANARY_PART.get(), CanaryPart.createCanaryAttributes().build());
         event.put(CFEntityInit.VERTIGO.get(), VertigoEntity.createVertigoAttributes().build());
+        event.put(CFEntityInit.FIEND.get(), FiendEntity.createFiendAttributes().build());
     }
 
 }

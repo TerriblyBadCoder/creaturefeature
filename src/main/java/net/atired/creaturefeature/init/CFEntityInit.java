@@ -35,6 +35,10 @@ public class CFEntityInit {
             ENTITIES.register("beauty", () -> EntityType.Builder.of(BeautyEntity::new, MobCategory.MONSTER)
                     .sized(0.8f,1.9f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("beauty"));
+    public static final Supplier<EntityType<FiendEntity>> FIEND =
+            ENTITIES.register("fiend", () -> EntityType.Builder.of(FiendEntity::new, MobCategory.MONSTER)
+                    .sized(0.8f,1.85f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("fiend"));
     public static final Supplier<EntityType<BlitzEntity>> BLITZ =
             ENTITIES.register("blitz", () -> EntityType.Builder.of(BlitzEntity::new, MobCategory.MONSTER)
                     .sized(0.8f, 1.9f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
@@ -63,6 +67,10 @@ public class CFEntityInit {
             ENTITIES.register("murky_pearl", () -> EntityType.Builder.<MurkyPearlEntity>of(MurkyPearlEntity::new, MobCategory.MISC)
                     .sized(0.4f, 0.4f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("murky_pearl"));
+    public static final Supplier<EntityType<KickedBlockEntity>> KICKED_BLOCK =
+            ENTITIES.register("kicked_block", () -> EntityType.Builder.<KickedBlockEntity>of(KickedBlockEntity::new, MobCategory.MISC)
+                    .sized(0.6f, 0.6f).eyeHeight(0.3f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("kicked_block"));
     public static final Supplier<EntityType<PrimedEepEntity>> EEP =
             ENTITIES.register("eep", () -> EntityType.Builder.<PrimedEepEntity>of(PrimedEepEntity::new, MobCategory.MISC)
                     .sized(0.98f, 0.98f).eyeHeight(0.5F).passengerAttachments(0.3125F).ridingOffset(-0.5F).clientTrackingRange(12)

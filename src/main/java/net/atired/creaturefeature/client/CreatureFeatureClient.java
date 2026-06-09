@@ -232,6 +232,8 @@ public class CreatureFeatureClient {
         event.registerSpriteSet(CFParticleInit.TOOT_PARTICLE.get(), VertigoHornParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CLEAVE_PARTICLE.get(), RotatedVertigoHornParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.FLOWER_PARTICLE.get(), FlowerParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.CRIT_PARTICLE.get(), CritParticle.Provider::new);
+
 
     }
     @SubscribeEvent
@@ -247,6 +249,8 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(CanaryEntityModel.LAYER_LOCATION, CanaryEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityPartModel.LAYER_LOCATION, CanaryEntityPartModel::createBodyLayer);
         event.registerLayerDefinition(VertigoEntityModel.LAYER_LOCATION, VertigoEntityModel::createBodyLayer);
+        event.registerLayerDefinition(FiendEntityModel.LAYER_LOCATION, FiendEntityModel::createBodyLayer);
+
     }
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -261,7 +265,9 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.CANARY.get(), CanaryEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.CANARY_PART.get(), CanaryPartRenderer::new);
         event.registerEntityRenderer(CFEntityInit.VERTIGO.get(), VertigoEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.FIEND.get(), FiendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEP.get(), EepEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.KICKED_BLOCK.get(), KickedBlockEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MURKY_PEARL.get(), (c)->{return new MurkyPearlEntityRenderer(c,1.0f,false);});
     }
     public static void vertex(PoseStack.Pose pose, VertexConsumer consumer, double x, double y, double z, float u, float v, int normalX, int normalY, int normalZ, int packedLight, float alpha) {

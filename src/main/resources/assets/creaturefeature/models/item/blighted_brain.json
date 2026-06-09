@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "creaturefeature:item/music_disc_nothing"
+    "layer0": "creaturefeature:item/blighted_brain"
   }
 }

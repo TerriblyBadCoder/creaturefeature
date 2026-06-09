@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "minecraft:nether_wastes",
+  "spawners":
+  {
+    "type": "creaturefeature:fiend",
+    "weight": 7,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}
