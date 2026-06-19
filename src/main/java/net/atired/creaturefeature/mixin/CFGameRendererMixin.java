@@ -2,13 +2,19 @@ package net.atired.creaturefeature.mixin;
 
 import net.atired.creaturefeature.accessors.LivingEntityGoopAccessor;
 import net.atired.creaturefeature.accessors.PostChainDepthPassAccessor;
+import net.atired.creaturefeature.client.CFClientProxy;
+import net.atired.creaturefeature.client.CFRenderTypes;
 import net.atired.creaturefeature.client.CreatureFeatureClient;
 import net.atired.creaturefeature.accessors.GameRendererResourceManagerAccessor;
 import net.atired.creaturefeature.accessors.PlayerBrainrotAccessor;
+import net.atired.creaturefeature.client.renderers.FriendEntityRenderer;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.PostPass;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,9 +29,16 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
     @Inject(method = "renderLevel",at= @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V",ordinal = 2,shift= At.Shift.BEFORE))
     private void renderDepthCF(DeltaTracker deltaTracker, CallbackInfo ci) {
         if(CreatureFeatureClient.RABIES_TARGET!=null){
-            PostChain[] chains = {CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
+            PostChain[] chains = {CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
             CreatureFeatureClient.RABIES_TARGET.clear(Minecraft.ON_OSX);
             CreatureFeatureClient.RABIES_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+
+            if(CreatureFeatureClient.FRIEND instanceof PostChainDepthPassAccessor accessor){
+                for(PostPass pass : accessor.getDemPostPasses()){
+                    pass.getEffect().setSampler("FriendSampler",CreatureFeatureClient.FRIEND_TARGET::getColorTextureId);
+                }
+            }
+            //RESET
             Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
             for(PostChain i : chains){
                 if(i instanceof PostChainDepthPassAccessor accessor){
@@ -41,6 +54,8 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
                 CreatureFeatureClient.MINEDFLAYER !=null&&Minecraft.getInstance().player!=null&&
                 Minecraft.getInstance().gameRenderer instanceof GameRendererResourceManagerAccessor accessor){
 
+            PostChain chain2 = CreatureFeatureClient.FRIEND;
+            chain2.process(deltaTracker.getRealtimeDeltaTicks());
             if(Minecraft.getInstance().player instanceof PlayerBrainrotAccessor accessor1&&
                     Minecraft.getInstance().player instanceof LivingEntityGoopAccessor accessor2&&(accessor1.getBrainrot()>0.01f||accessor2.getGoop()>0.01f)){
 
@@ -55,6 +70,13 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
                 chain.setUniform("GameTime",(Minecraft.getInstance().level.getGameTime()%24000));
                 chain.setUniform("FadeInTest",accessor1.getRabies());
 
+                chain.process(deltaTracker.getRealtimeDeltaTicks());
+            }
+            if(CreatureFeatureClient.PROXY!=null&&CreatureFeatureClient.PROXY.gasLeak>0.0f){
+
+                PostChain chain = CreatureFeatureClient.HAZE;
+                chain.setUniform("GameTime",(Minecraft.getInstance().level.getGameTime()%24000));
+                chain.setUniform("FadeInTest",CreatureFeatureClient.PROXY.gasLeak);
                 chain.process(deltaTracker.getRealtimeDeltaTicks());
             }
             if(CreatureFeatureClient.PROXY!=null&&CreatureFeatureClient.PROXY.eebyDeebyNess>0.0f){

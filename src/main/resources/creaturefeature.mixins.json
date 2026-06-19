@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "nomansland.refmap.json",
   "mixins": [
+    "AbstractContainerMenuMixin",
     "LivingEntityGoopMixin",
     "PlayerMixin"
   ],
@@ -11,7 +12,9 @@
     "CameraMixin",
     "CameraTypeMixin",
     "CFGameRendererMixin",
+    "CFGuiMixin",
     "CFPostChainMixin",
+    "GuiGraphicsMixin",
     "IamActivelyHavingaMigraineMixin"
   ]
 }

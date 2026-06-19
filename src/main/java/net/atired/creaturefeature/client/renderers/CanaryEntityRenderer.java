@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class CanaryEntityRenderer extends MobRenderer<CanaryEntity, CanaryEntityModel<CanaryEntity>> {
@@ -43,6 +44,9 @@ public class CanaryEntityRenderer extends MobRenderer<CanaryEntity, CanaryEntity
         if(CFRenderTypes.AMBUSH_SHADER_INSTANCE.getUniform("Revealness")!=null)
             CFRenderTypes.AMBUSH_SHADER_INSTANCE.getUniform("Revealness").set(1.0f);
         VertexConsumer consumer = buffer.getBuffer(CFRenderTypes.entityAmbushCutout(CANARY_SMOG_LOCATION));
+
+        float attackAnim = entity.attackAnim;
+        float sinused = Mth.sin(attackAnim*3.14f)+1.0f;
         float ud = 0.0f;
         for(int i = entity.posTracker;i>0;i--){
             Vec3 first = new Vec3(0,0,0);
@@ -53,13 +57,13 @@ public class CanaryEntityRenderer extends MobRenderer<CanaryEntity, CanaryEntity
                 first=entity.getPosition(partialTicks);
             }
             float a = (i/((float)entity.posTracker))*0.5f;
-            vertex(posed,consumer, first.x,first.y+0.6f,first.z,ud,0.0f,0,-1,0,packedLight,a);
-            vertex(posed,consumer, first.x,first.y-0.6f,first.z,ud,1.0f,0,-1,0,packedLight,a);
+            vertex(posed,consumer, first.x,first.y+0.6f*sinused,first.z,ud,0.0f,0,-1,0,packedLight,a);
+            vertex(posed,consumer, first.x,first.y-0.6f*sinused,first.z,ud,1.0f,0,-1,0,packedLight,a);
 
             a = ((i-1)/((float)entity.posTracker))*0.5f;
             ud+=(float)first.distanceTo(second)/2.0f;
-            vertex(posed,consumer, second.x,second.y-0.6f,second.z,ud,1.0f,0,-1,0,packedLight,a);
-            vertex(posed,consumer, second.x,second.y+0.6f,second.z,ud,0.0f,0,-1,0,packedLight,a);
+            vertex(posed,consumer, second.x,second.y-0.6f*sinused,second.z,ud,1.0f,0,-1,0,packedLight,a);
+            vertex(posed,consumer, second.x,second.y+0.6f*sinused,second.z,ud,0.0f,0,-1,0,packedLight,a);
         }
         poseStack.popPose();
     }

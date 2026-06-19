@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:crafter"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "A": {
+      "item": "creaturefeature:blighted_brain"
+    }
+  },
+  "pattern": [
+    "BAB",
+    "B#B"
+  ],
+  "result": {
+    "count": 1,
+    "id": "creaturefeature:open_mind"
+  }
+}

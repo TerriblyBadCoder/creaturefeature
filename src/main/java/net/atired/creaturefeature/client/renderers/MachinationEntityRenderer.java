@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class MachinationEntityRenderer extends MobRenderer<MachinationEntity, MachinationEntityModel<MachinationEntity>> {
     private static final ResourceLocation MACHINATION_LOCATION = CreatureFeature.getId("textures/entity/machination.png");
+    private static final ResourceLocation SIGNAL_LOCATION = CreatureFeature.getId("textures/entity/signal.png");
 
     public MachinationEntityRenderer(EntityRendererProvider.Context context) {
         super(context, new MachinationEntityModel<>(context.bakeLayer(MachinationEntityModel.LAYER_LOCATION)), 0.5f);

@@ -5,4 +5,6 @@ public interface PlayerBrainrotAccessor {
     float getBrainrot();
     void setRabies(float rabies);
     float getRabies();
+    void setDelayedDamage(float damage);
+    float getDelayedDamage();
 }

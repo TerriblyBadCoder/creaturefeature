@@ -88,7 +88,7 @@ public class MachinationEntity extends Monster {
         super.defineSynchedData(builder);
     }
     public static AttributeSupplier.Builder createMachinationAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 25.0).add(Attributes.KNOCKBACK_RESISTANCE,0.3).add(Attributes.MOVEMENT_SPEED, 0.33).add(Attributes.ATTACK_DAMAGE,4.0f).add(Attributes.ATTACK_KNOCKBACK,1.6f);
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 25.0).add(Attributes.KNOCKBACK_RESISTANCE,0.3).add(Attributes.ARMOR,20.0).add(Attributes.MOVEMENT_SPEED, 0.33).add(Attributes.ATTACK_DAMAGE,4.0f).add(Attributes.ATTACK_KNOCKBACK,1.6f);
     }
     public class MachinationLeapGoal extends Goal{
         private int timeleft = 30;

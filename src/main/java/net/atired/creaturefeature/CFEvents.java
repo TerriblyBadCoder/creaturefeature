@@ -5,10 +5,7 @@ import net.atired.creaturefeature.entity.*;
 import net.atired.creaturefeature.init.CFBlockInit;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFItemInit;
-import net.atired.creaturefeature.networking.payloads.C2SVelSyncPayload;
-import net.atired.creaturefeature.networking.payloads.DeAmpPayload;
-import net.atired.creaturefeature.networking.payloads.RabiesPayload;
-import net.atired.creaturefeature.networking.payloads.VelSyncPayload;
+import net.atired.creaturefeature.networking.payloads.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -71,6 +68,7 @@ public class CFEvents {
         if(event.getTabKey()==CreativeModeTabs.TOOLS_AND_UTILITIES){
             event.insertBefore(InstrumentItem.create(Items.GOAT_HORN,  BuiltInRegistries.INSTRUMENT.getTag(InstrumentTags.GOAT_HORNS).get().get(0)),CFItemInit.VERTIGO_HORN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.MUSIC_DISC_13.getDefaultInstance(),CFItemInit.NOTHING_DISC.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.BRUSH.getDefaultInstance(),CFItemInit.OPEN_MIND.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             event.insertBefore(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.BOUQUET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.MURKY_PEARL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -108,6 +106,11 @@ public class CFEvents {
                 RabiesPayload.TYPE,
                 RabiesPayload.STREAM_CODEC,
                 RabiesPayload::handleData
+        );
+        registrar.playToClient(
+                GasLeakPayload.TYPE,
+                GasLeakPayload.STREAM_CODEC,
+                GasLeakPayload::handleData
         );
     }
 

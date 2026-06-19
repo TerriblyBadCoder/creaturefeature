@@ -1,15 +1,20 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.accessors.PlayerBrainrotAccessor;
 import net.atired.creaturefeature.init.CFEntityInit;
+import net.atired.creaturefeature.networking.payloads.GasLeakPayload;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -24,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -71,16 +77,22 @@ public class CanaryEntity extends Monster {
 
     @Override
     public void tick() {
+        if(level() instanceof ServerLevel)
+            for(Player player : level().getEntitiesOfClass(Player.class,getBoundingBox().inflate(2.2))){
+                if(player instanceof PlayerBrainrotAccessor accessor&&!player.isCreative()){
+                    accessor.setDelayedDamage(accessor.getDelayedDamage()+0.05f);
+                }
+            }
         if(onGround()&&getDeltaMovement().y<-0.03){
             this.getNavigation().stop();
             this.setDeltaMovement(getDeltaMovement().x,0.1,getDeltaMovement().z);
         }
         if(getTarget()!=null){
-            if(getY()<getTarget().getY()+1){
+            if(getY()<getTarget().getY()+1.2){
                 addDeltaMovement(new Vec3(0,0.02,0));
             }
         }
-        if(true){
+        if(!isNoAi()){
             if(this.posTracker<25){
                 this.positions[this.posTracker]=position();
                 if(level() instanceof ServerLevel level){
@@ -125,9 +137,27 @@ public class CanaryEntity extends Monster {
     protected int calculateFallDamage(float fallDistance, float damageMultiplier) {
         return 0;
     }
-    public static AttributeSupplier.Builder createCanaryAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 30.0).add(Attributes.ATTACK_DAMAGE,6.0).add(Attributes.MOVEMENT_SPEED, 0.31).add(Attributes.MAX_HEALTH,30.0);
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        boolean hurting = super.doHurtTarget(entity);
+        System.out.println("HEHEHE");
+        if(entity instanceof PlayerBrainrotAccessor accessor){
+            System.out.println("WAOW!!!");
+            accessor.setDelayedDamage(accessor.getDelayedDamage()+4.0f);
+        }
+        return hurting;
     }
+
+    public static AttributeSupplier.Builder createCanaryAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 30.0).add(Attributes.ATTACK_DAMAGE,1.0).add(Attributes.MOVEMENT_SPEED, 0.31).add(Attributes.MAX_HEALTH,30.0);
+    }
+
+    @Override
+    public int getCurrentSwingDuration() {
+        return super.getCurrentSwingDuration()*2;
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -190,16 +220,29 @@ public class CanaryEntity extends Monster {
 
             if (this.operation == Operation.MOVE_TO) {
                 if(this.flayer.getTarget()!=null&&this.flayer.isWithinMeleeAttackRange(this.flayer.getTarget())){
-                    this.flayer.getTarget().hurt(this.flayer.damageSources().mobAttack(this.flayer),5.5f);
+                    boolean hurt = this.flayer.getTarget().hurt(this.flayer.damageSources().mobAttack(this.flayer),1.5f);
+                    if(this.flayer.getTarget() instanceof PlayerBrainrotAccessor accessor&&hurt){
+                        this.flayer.setDeltaMovement(this.flayer.getDeltaMovement().scale(-1.4));
+                        this.flayer.swing(InteractionHand.MAIN_HAND);
+                        this.flayer.playSound(SoundEvents.IRON_GOLEM_HURT,1.9f,0.8f);
+
+                        this.flayer.playSound(SoundEvents.ANVIL_LAND,0.2f,0.7f);
+                        accessor.setDelayedDamage(accessor.getDelayedDamage()+4.0f);
+                        if(this.flayer.getTarget() instanceof ServerPlayer player){
+                            GasLeakPayload payload2 = new GasLeakPayload(player.getId(),accessor.getDelayedDamage());
+                            PacketDistributor.sendToPlayer(player,payload2);
+                        }
+                    }
                 }
-                if(this.stallOutPos.distanceTo(this.flayer.getPosition(1))<0.1){
+                if(this.stallOutPos.distanceTo(this.flayer.getPosition(1))<0.2){
                     this.stalloutTimer-=1;
                 }
                 else
-                    this.stalloutTimer=5;
+                    this.stalloutTimer=4;
                 this.stallOutPos=this.flayer.getPosition(1);
                 if(this.stalloutTimer<0){
                     this.operation = Operation.WAIT;
+                    this.flayer.setDeltaMovement(this.flayer.getDeltaMovement().scale(-3));
                     this.flayer.navigation.stop();
 
                 }

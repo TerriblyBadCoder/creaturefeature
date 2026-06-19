@@ -16,7 +16,8 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.Nullable;
 
-public class MindsEntity extends Zombie {
+public class
+MindsEntity extends Zombie {
     public MindsEntityPart[] parts = new MindsEntityPart[1];
     private static final EntityDataAccessor<Float> SPEED_UP= SynchedEntityData.defineId(MindsEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> NO_MIND= SynchedEntityData.defineId(MindsEntity.class, EntityDataSerializers.BOOLEAN);

@@ -90,15 +90,20 @@ public class CanaryEntityModel<T extends CanaryEntity> extends HierarchicalModel
 	@Override
 	public void setupAnim(CanaryEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.head.xRot=headPitch/180.0f*3.14f;
-		this.head.zRot=Mth.cos(ageInTicks/5.0f)/10.0f;
+
+		float attackAnim = entity.getAttackAnim((ageInTicks%1));
+		float sinused = attackAnim*3.14f*2.0f;
+
+		this.head.zRot=Mth.cos(ageInTicks/5.0f)/10.0f+sinused;
+		sinused=Mth.sin(sinused/2.0f);
 		this.root.y=7.0f;
 		int count =0;
 		for(ModelPart part : this.demBones){
 			part.xRot=Mth.sin(ageInTicks/4.0f+count*3.14f)/4.0f;
 			if(count>=2){
-				part.xRot+=0.4f;
+				part.xRot+=0.4f-sinused;
 			}else{
-				part.xRot-=0.4f;
+				part.xRot-=0.4f-sinused;
 			}
 			count+=1;
 		}
@@ -106,9 +111,9 @@ public class CanaryEntityModel<T extends CanaryEntity> extends HierarchicalModel
 		for(ModelPart part : this.demBones2){
 			part.yRot=Mth.sin(ageInTicks/4.0f+count*3.14f)/4.0f;
 			if(count<2){
-				part.yRot+=0.4f;
+				part.yRot+=0.4f-sinused;
 			}else{
-				part.yRot-=0.4f;
+				part.yRot-=0.4f-sinused;
 			}
 			count+=1;
 		}

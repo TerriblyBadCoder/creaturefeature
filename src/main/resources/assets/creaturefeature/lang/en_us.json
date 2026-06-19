@@ -1,6 +1,9 @@
 {
   "desc.creaturefeature.bouquet": "Clones other flowers, if put together.",
+  "desc.creaturefeature.open_mind": "Open your Grid.",
   "desc.creaturefeature.murky": "Does... Nothing.",
+
+  "container.creaturefeature.open_mind": "Open Mind",
 
   "jukebox_song.creaturefeature.nothing": "Tory Fox - egg.ogg",
   "sound.creaturefeature.nothing": "Well, There's not a man here. ",
@@ -25,6 +28,7 @@
   "item.creaturefeature.music_disc_nothing": "Music Disc",
 
   "item.creaturefeature.bouquet": "Living Bouquet",
+  "item.creaturefeature.open_mind": "Open Mind",
   "item.creaturefeature.heavy_axe": "Heavy Axe",
   "item.creaturefeature.blitz_rod": "Blitz Fragment",
   "item.creaturefeature.murky_pearl": "Murky Pearl",
@@ -43,9 +47,12 @@
   "entity.creaturefeature.beauty": "Beauty",
   "entity.creaturefeature.blitz": "Blitz",
   "entity.creaturefeature.fiend": "Fiend",
+  "entity.creaturefeature.fend": "Fend",
+  "entity.creaturefeature.friend": "image_friend",
   "entity.creaturefeature.eeper": "Eeper",
   "entity.creaturefeature.minedflayer": "MinedFlayer",
   "entity.creaturefeature.minds": "Minds",
+  "entity.creaturefeature.cannonball_crab": "Runaway",
   "entity.creaturefeature.nothing": "NoThing",
   "entity.creaturefeature.canary": "Canary",
   "entity.creaturefeature.vertigo": "Vertigo",

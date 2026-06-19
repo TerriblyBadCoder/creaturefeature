@@ -1,10 +1,7 @@
 package net.atired.creaturefeature.init;
 
 import net.atired.creaturefeature.CreatureFeature;
-import net.atired.creaturefeature.items.BouquetItem;
-import net.atired.creaturefeature.items.HeavyAxeItem;
-import net.atired.creaturefeature.items.MurkyPearlItem;
-import net.atired.creaturefeature.items.VertigoHornItem;
+import net.atired.creaturefeature.items.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -81,6 +78,10 @@ public class CFItemInit {
     public static final DeferredItem<Item> MURKY_PEARL = ITEMS.register(
             "murky_pearl",
             ()->new MurkyPearlItem(new Item.Properties())
+    );
+    public static final DeferredItem<Item> OPEN_MIND = ITEMS.register(
+            "open_mind",
+            ()->new OpenMindItem(new Item.Properties().stacksTo(1))
     );
     public static final DeferredItem<Item> VERTIGO_HORN = ITEMS.register(
             "vertigo_horn",

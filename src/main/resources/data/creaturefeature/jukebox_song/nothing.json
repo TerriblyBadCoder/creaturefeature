@@ -3,6 +3,6 @@
   "description": {
     "translate": "jukebox_song.creaturefeature.nothing"
   },
-  "length_in_seconds": 10.0,
+  "length_in_seconds": 16.3,
   "sound_event": "creaturefeature:music_disc.nothing"
 }

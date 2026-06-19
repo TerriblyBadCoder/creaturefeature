@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "creaturefeature:item/closed_mind"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "open": 1
+      },
+      "model": "creaturefeature:item/opener_mind"
+    }
+  ]
+}

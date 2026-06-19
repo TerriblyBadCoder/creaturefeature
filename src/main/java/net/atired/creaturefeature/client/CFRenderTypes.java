@@ -21,6 +21,26 @@ import java.util.function.Function;
 
 @EventBusSubscriber(modid = CreatureFeature.MODID,value = Dist.CLIENT)
 public class CFRenderTypes {
+    public static ShaderInstance FRIEND_SHADER_INSTANCE = null;
+    public static ShaderInstance getFriendShaderInstance(){return FRIEND_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_FRIEND_CUTOUT_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getFriendShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_FRIEND_CUTOUT = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_FRIEND_CUTOUT_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_friend", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+    public static RenderType entityFriendCutout(ResourceLocation location) {
+        return ENTITY_FRIEND_CUTOUT.apply(location);
+    }
     public static ShaderInstance OUTLINED_SHADER_INSTANCE = null;
     public static ShaderInstance getOutlinedShaderInstance(){return OUTLINED_SHADER_INSTANCE;}
     public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_OUTLINED_CUTOUT_SHADER = new RenderStateShard.ShaderStateShard
@@ -43,6 +63,27 @@ public class CFRenderTypes {
     );
     public static RenderType entityOutlinedCutout(ResourceLocation location) {
         return ENTITY_OUTLINED_CUTOUT.apply(location);
+    }
+    public static ShaderInstance FEND_SHADER_INSTANCE = null;
+    public static ShaderInstance getFendShaderInstance(){return FEND_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_FEND_CUTOUT_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getFendShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_FEND_CUTOUT = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_FEND_CUTOUT_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_fend", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+
+    public static RenderType entityFendCutout(ResourceLocation location) {
+        return ENTITY_FEND_CUTOUT.apply(location);
     }
     public static ShaderInstance AMBUSH_SHADER_INSTANCE = null;
     public static ShaderInstance getAmbushShaderInstance(){return AMBUSH_SHADER_INSTANCE;}
@@ -86,5 +127,11 @@ public class CFRenderTypes {
         registerShadersEvent.registerShader(
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_ambush"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{AMBUSH_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_friend"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{FRIEND_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_fend"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{FEND_SHADER_INSTANCE=a;});
     }
 }

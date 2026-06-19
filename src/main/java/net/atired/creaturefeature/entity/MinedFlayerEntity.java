@@ -36,7 +36,7 @@ public class MinedFlayerEntity extends Monster {
     @Override
     public void tick() {
         for(Player player : level().getEntitiesOfClass(Player.class,getBoundingBox().inflate(4.2))){
-            if(player instanceof PlayerBrainrotAccessor accessor){
+            if(player instanceof PlayerBrainrotAccessor accessor&&!player.isCreative()){
                 accessor.setBrainrot(accessor.getBrainrot()+0.1f);
                 selfRot=(float)Math.clamp(selfRot+.05f,0.0,1.0f);
             }

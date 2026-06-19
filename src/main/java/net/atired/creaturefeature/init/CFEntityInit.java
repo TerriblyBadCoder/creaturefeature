@@ -29,7 +29,7 @@ public class CFEntityInit {
                     .build("sinister"));
     public static final Supplier<EntityType<MinedFlayerEntity>> MINEDFLAYER =
             ENTITIES.register("minedflayer", () -> EntityType.Builder.of(MinedFlayerEntity::new, MobCategory.MONSTER)
-                    .sized(1.1f, 1.4f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .sized(1.1f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("minedflayer"));
     public static final Supplier<EntityType<BeautyEntity>> BEAUTY =
             ENTITIES.register("beauty", () -> EntityType.Builder.of(BeautyEntity::new, MobCategory.MONSTER)
@@ -39,6 +39,14 @@ public class CFEntityInit {
             ENTITIES.register("fiend", () -> EntityType.Builder.of(FiendEntity::new, MobCategory.MONSTER)
                     .sized(0.8f,1.85f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("fiend"));
+    public static final Supplier<EntityType<FendEntity>> FEND =
+            ENTITIES.register("fend", () -> EntityType.Builder.of(FendEntity::new, MobCategory.MONSTER)
+                    .sized(0.68f,1.9f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("fend"));
+    public static final Supplier<EntityType<FriendEntity>> FRIEND =
+            ENTITIES.register("friend", () -> EntityType.Builder.of(FriendEntity::new, MobCategory.MONSTER)
+                    .sized(1.9f,1.95f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("friend"));
     public static final Supplier<EntityType<BlitzEntity>> BLITZ =
             ENTITIES.register("blitz", () -> EntityType.Builder.of(BlitzEntity::new, MobCategory.MONSTER)
                     .sized(0.8f, 1.9f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
@@ -63,6 +71,10 @@ public class CFEntityInit {
             ENTITIES.register("vertigo", () -> EntityType.Builder.of(VertigoEntity::new, MobCategory.MONSTER)
                     .sized(0.9f, 0.95f).eyeHeight(1.1F).passengerAttachments(0.3125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("vertigo"));
+    public static final Supplier<EntityType<CannonballCrabEntity>> CANNONBALL_CRAB =
+            ENTITIES.register("cannonball_crab", () -> EntityType.Builder.of(CannonballCrabEntity::new, MobCategory.MONSTER)
+                    .sized(1.13f, 1.95f).eyeHeight(1.1F).passengerAttachments(0.3125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("cannonball_crab"));
     public static final Supplier<EntityType<MurkyPearlEntity>> MURKY_PEARL =
             ENTITIES.register("murky_pearl", () -> EntityType.Builder.<MurkyPearlEntity>of(MurkyPearlEntity::new, MobCategory.MISC)
                     .sized(0.4f, 0.4f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)

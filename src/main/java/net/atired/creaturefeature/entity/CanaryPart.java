@@ -1,8 +1,10 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.accessors.PlayerBrainrotAccessor;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -37,9 +39,16 @@ public class CanaryPart extends Monster {
         }
 
         for(Player player : level().getEntitiesOfClass(Player.class,getBoundingBox().inflate(0.3))){
-            player.hurt(this.getParent().damageSources().mobAttack(this.getParent()),1.5f);
+            if(level() instanceof ServerLevel)
+            {
+                player.hurt(this.getParent().damageSources().mobAttack(this.getParent()),1.5f);
+                if(player instanceof PlayerBrainrotAccessor accessor&&!player.isCreative()){
+                    accessor.setDelayedDamage(accessor.getDelayedDamage()+0.02f);
+                }
+            }
+
             Vec3 other = this.getParent().getPosition(1).scale(-1).add(player.getPosition(1)).multiply(1,0,1).normalize();
-            player.knockback(0.2f,other.x,other.z);
+            player.knockback(0.02f,other.x,other.z);
         }
         super.tick();
 
