@@ -1,16 +1,18 @@
 package net.atired.creaturefeature.entity;
 
 import net.atired.creaturefeature.init.CFEntityInit;
+import net.atired.creaturefeature.init.CFSoundInit;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -21,8 +23,10 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -45,6 +49,9 @@ public class FriendEntity extends Monster {
 
     @Override
     public void tick() {
+        if(this.tickCount>400&&getTarget()==null&&!level().isClientSide()){
+            discard();
+        }
         if(this.tickCount>150&&isDecaying()&&!level().isClientSide()){
             kill();
             setFlattened(2.0f);
@@ -54,7 +61,7 @@ public class FriendEntity extends Monster {
         }
         if(!level().isClientSide()&&getFlattened()<=0&&getTarget()!=null&&chargeDelay--<=0){
             this.chargeDelay=40;
-
+            playSound(CFSoundInit.FRIEND_HURT.value(),1.1f,1.3f+(float)Math.random()/10.0f);
             this.navigation.recomputePath();
             addDeltaMovement(getLookAngle().multiply(1,0,1).normalize().yRot(Math.random()>0.5?-(float)Math.PI/2.0f:(float)Math.PI/2.0f).scale(3));
             if(Math.random()>0.5&&!isDecaying()&&level() instanceof ServerLevel serverLevel){
@@ -96,6 +103,18 @@ public class FriendEntity extends Monster {
             return super.makeBoundingBox().deflate(0.4,0,0.4);
         }
         return super.makeBoundingBox();
+    }
+
+    @Override
+    public boolean save(CompoundTag compound) {
+        compound.putBoolean("is_friend_decaying",isDecaying());
+        return super.save(compound);
+    }
+
+    @Override
+    public void load(CompoundTag compound) {
+        super.load(compound);
+        entityData.set(DECAYING,compound.getBoolean("is_friend_decaying"));
     }
 
     @Override
@@ -152,5 +171,26 @@ public class FriendEntity extends Monster {
         this.goalSelector.addGoal(1, new AvoidEntityGoal(this, Player.class,(a)->{return this.getFlattened()>0.0f;}, 6.0F, 1.0, 1.2, var10007::test));
 
         super.registerGoals();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return CFSoundInit.FRIEND_HURT.value();
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return CFSoundInit.FRIEND.value();
+    }
+
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return CFSoundInit.FRIEND.value();
+    }
+
+    public static boolean checkFriendSpawnRules(EntityType<FriendEntity> friendEntityEntityType, ServerLevelAccessor serverLevelAccessor, MobSpawnType mobSpawnType, BlockPos pos, RandomSource randomSource) {
+        return checkMonsterSpawnRules(friendEntityEntityType,serverLevelAccessor,mobSpawnType,pos,randomSource)&&pos.getY()>126;
     }
 }

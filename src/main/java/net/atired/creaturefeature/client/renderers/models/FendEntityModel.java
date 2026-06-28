@@ -18,6 +18,7 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.armortrim.ArmorTrim;
 
 public class FendEntityModel extends HumanoidModel<FendEntity> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(CreatureFeature.getId("fendsentitymodel"), "main");
@@ -65,7 +66,7 @@ public class FendEntityModel extends HumanoidModel<FendEntity> {
         }
         this.body.z=0f;
         if(shouldRanged){
-            leftArm.yRot=3.14f/2.0f;
+            leftArm.yRot=3.14f/4.0f;
             this.body.xRot-=0.3f;
             this.body.z=4f;
             this.body.y+=1f;

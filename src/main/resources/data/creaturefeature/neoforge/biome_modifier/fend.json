@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_floral",
+  "spawners":
+  {
+    "type": "creaturefeature:fend",
+    "weight": 6,
+    "minCount": 1,
+    "maxCount": 2
+  }
+}

@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,10 +18,71 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 
 import java.io.IOException;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @EventBusSubscriber(modid = CreatureFeature.MODID,value = Dist.CLIENT)
 public class CFRenderTypes {
+    public static ShaderInstance ARMOR_EVIL_SHADER_INSTANCE = null;
+    public static ShaderInstance getRendertypeArmorCutoutEvilCullShader(){return ARMOR_EVIL_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ARMOR_CUTOUT_EVIL_CULL_SHADER = new RenderStateShard.
+            ShaderStateShard(CFRenderTypes::getRendertypeArmorCutoutEvilCullShader);
+
+    public static BiFunction<ResourceLocation,Integer,RenderType> ARMOR_CUTOUT_EVIL_CULL = Util.memoize((p_297924_,typed) -> {
+        return createArmorCutoutEvilCull("armor_cutout_evil_cull", p_297924_, false,typed);
+    });
+    public static ResourceLocation[] TRIM_OVERLAYS = {
+            CreatureFeature.getId("textures/trim_overlays/none.png"),
+            CreatureFeature.getId("textures/trim_overlays/test_0.png"),
+            CreatureFeature.getId("textures/trim_overlays/test_1.png"),
+            CreatureFeature.getId("textures/trim_overlays/test_2.png")} ;
+    private static RenderType createArmorCutoutEvilCull(String name, ResourceLocation id, boolean equalDepthTest,int overlaid) {
+        RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ARMOR_CUTOUT_EVIL_CULL_SHADER)
+                .setTextureState(new RenderStateShard.EmptyTextureStateShard(()->{
+                    TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+                    texturemanager.getTexture(id).setFilter(false, false);
+                    RenderSystem.setShaderTexture(0, id);
+                    RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(TRIM_OVERLAYS[overlaid]).getId());
+                },()->{}))
+                .setTransparencyState(RenderType.NO_TRANSPARENCY)
+                .setCullState(RenderType.NO_CULL)
+                .setLightmapState(RenderType.LIGHTMAP)
+                .setOverlayState(RenderType.OVERLAY)
+                .setLayeringState(RenderType.VIEW_OFFSET_Z_LAYERING)
+                .setDepthTestState(equalDepthTest ? RenderType.EQUAL_DEPTH_TEST : RenderType.LEQUAL_DEPTH_TEST).createCompositeState(true);
+        return RenderType.create(name, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, false, rendertype$compositestate);
+    }
+
+
+
+
+    public static ShaderInstance SILK_SHADER_INSTANCE = null;
+    public static ShaderInstance getSilkShaderInstance(){return SILK_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_SILK_CULL_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getSilkShaderInstance);
+    private static final ResourceLocation SILK =CreatureFeature.getId("textures/entity/silk.png");
+    public static final Function<ResourceLocation, RenderType> ENTITY_SILK_CULL = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_SILK_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.EmptyTextureStateShard(()->{
+                            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+                            texturemanager.getTexture(p_286169_).setFilter(false, false);
+                            RenderSystem.setShaderTexture(0, p_286169_);
+                                RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(SILK).getId());
+                        },()->{}))
+                        .setCullState(RenderType.CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_silk", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+
+    public static RenderType entitySilkCull(ResourceLocation location) {
+        return ENTITY_SILK_CULL.apply(location);
+    }
     public static ShaderInstance FRIEND_SHADER_INSTANCE = null;
     public static ShaderInstance getFriendShaderInstance(){return FRIEND_SHADER_INSTANCE;}
     public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_FRIEND_CUTOUT_SHADER = new RenderStateShard.ShaderStateShard
@@ -32,7 +94,7 @@ public class CFRenderTypes {
                         .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setCullState(RenderType.NO_CULL)
                         .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
                         .setOverlayState(RenderStateShard.OVERLAY)
                         .createCompositeState(true);
                 return RenderType.create("entity_friend", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
@@ -133,5 +195,11 @@ public class CFRenderTypes {
         registerShadersEvent.registerShader(
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_fend"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{FEND_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_silk"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{SILK_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_armor_cutout_evil_cull"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{ARMOR_EVIL_SHADER_INSTANCE=a;});
     }
 }

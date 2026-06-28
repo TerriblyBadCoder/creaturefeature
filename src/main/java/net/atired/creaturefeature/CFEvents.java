@@ -16,11 +16,13 @@ import net.minecraft.tags.InstrumentTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.goat.Goat;
+import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.InstrumentItem;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
@@ -39,6 +41,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class CFEvents {
     @SubscribeEvent // on the mod event bus
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
+
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(CFItemInit.MINDS_EGG.get());
             event.accept(CFItemInit.BEAUTY_EGG.get());
@@ -52,28 +55,44 @@ public class CFEvents {
 
             event.accept(CFItemInit.CANARY_EGG.get());
             event.accept(CFItemInit.VERTIGO_EGG.get());
-            //cannonball crab egg
-            //Yet I egg
-            event.accept(CFItemInit.FIEND_EGG.get());
+            event.accept(CFItemInit.DREAMWEAVER_EGG.get());
+            event.accept(CFItemInit.RUNAWAY_EGG.get());
 
+            event.accept(CFItemInit.FIEND_EGG.get());
+            event.accept(CFItemInit.FEND_EGG.get());
+            event.accept(CFItemInit.FRIEND_EGG.get());
+
+        }
+        if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
+            event.insertAfter(Items.MILK_BUCKET.getDefaultInstance(),CFItemInit.THE_PILL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
         }
         if(event.getTabKey()==CreativeModeTabs.COMBAT){
             event.insertBefore(Items.MACE.getDefaultInstance(),CFItemInit.HEAVY_AXE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
         }
         if(event.getTabKey()==CreativeModeTabs.INGREDIENTS){
+            event.insertBefore(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),CFItemInit.PRIDE_SCROLL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),CFItemInit.TRANS_SCROLL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),CFItemInit.PAN_SCROLL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+
             event.insertBefore(Items.SLIME_BALL.getDefaultInstance(),CFItemInit.MINEDFLAYER_GOOP.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.BREEZE_ROD.getDefaultInstance(),CFItemInit.BLITZ_ROD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.NAUTILUS_SHELL.getDefaultInstance(),CFItemInit.CARAPACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.POPPED_CHORUS_FRUIT.getDefaultInstance(),CFItemInit.DREAM_SILK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.HONEYCOMB.getDefaultInstance(),CFItemInit.ECTOPLASM.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.GUNPOWDER.getDefaultInstance(),CFItemInit.SLEEPING_POWDER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.TOOLS_AND_UTILITIES){
             event.insertBefore(InstrumentItem.create(Items.GOAT_HORN,  BuiltInRegistries.INSTRUMENT.getTag(InstrumentTags.GOAT_HORNS).get().get(0)),CFItemInit.VERTIGO_HORN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.MUSIC_DISC_13.getDefaultInstance(),CFItemInit.NOTHING_DISC.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.BRUSH.getDefaultInstance(),CFItemInit.OPEN_MIND.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.SADDLE.getDefaultInstance(),CFItemInit.DREAM_CATCHER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             event.insertBefore(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.BOUQUET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.MURKY_PEARL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.FUNCTIONAL_BLOCKS){
+            event.insertAfter(Items.SOUL_CAMPFIRE.getDefaultInstance(), CFBlockInit.CARAPACE_BLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.LODESTONE.getDefaultInstance(), CFBlockInit.MINEDFLAYER_JELLY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
@@ -135,8 +154,12 @@ public class CFEvents {
 
         event.register(CFEntityInit.VERTIGO.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, VertigoEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.CANARY.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CanaryEntity::checkCanarySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.CANNONBALL_CRAB.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CannonballCrabEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.DREAMWEAVER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DreamWeaverEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
         event.register(CFEntityInit.FIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FiendEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.FRIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FriendEntity::checkFriendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.FEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FendEntity::checkFendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
     }
     @SubscribeEvent

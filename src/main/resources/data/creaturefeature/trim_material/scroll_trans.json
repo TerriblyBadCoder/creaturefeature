@@ -1,0 +1,9 @@
+{
+  "asset_name": "scroll_trans",
+  "description": {
+    "color": "#EEEEEE",
+    "translate": "trim_material.creaturefeature.scroll_trans"
+  },
+  "ingredient": "creaturefeature:scroll_trans",
+  "item_model_index": -1.0
+}

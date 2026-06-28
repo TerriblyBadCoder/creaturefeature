@@ -1,10 +1,12 @@
 package net.atired.creaturefeature.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
@@ -46,7 +48,9 @@ public class FendEntity extends Monster implements RangedAttackMob {
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[]{FendEntity.class})));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, false));
     }
-
+    public static boolean checkFendSpawnRules(EntityType<FendEntity> fend, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return checkMonsterSpawnRules(fend, level, spawnType, pos, random) && (MobSpawnType.isSpawner(spawnType) || level.canSeeSky(pos.above()));
+    }
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {

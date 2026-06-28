@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "creaturefeature:item/dream_catcher_full"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "full": 1
+      },
+      "model": "creaturefeature:item/dream_catcher_full"
+    }
+  ]
+}

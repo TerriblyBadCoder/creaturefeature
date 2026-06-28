@@ -2,11 +2,21 @@
   "desc.creaturefeature.bouquet": "Clones other flowers, if put together.",
   "desc.creaturefeature.open_mind": "Open your Grid.",
   "desc.creaturefeature.murky": "Does... Nothing.",
-
+  "desc.creaturefeature.thepill": "Resets the Phantom spawning timer.",
+  "desc.creaturefeature.dreamcatcher": "Catches blocks. Saving all but the storage.",
+  "info.creaturefeature.dreamcatcher": "So many thoughts to think... ",
   "container.creaturefeature.open_mind": "Open Mind",
+  "creaturefeature.configuration.remodelfriend": "Remodel Friend",
+
+  "trim_material.creaturefeature.ectoplasm": "Ectoplasm",
+  "trim_material.creaturefeature.scroll_pan": "Pan-scroll",
+  "trim_material.creaturefeature.scroll_trans": "Trans-scroll",
+  "trim_material.creaturefeature.scroll_pride": "Pride-scroll",
+
 
   "jukebox_song.creaturefeature.nothing": "Tory Fox - egg.ogg",
   "sound.creaturefeature.nothing": "Well, There's not a man here. ",
+  "sound.creaturefeature.laughter": "Laugh Track ",
   "effect.creaturefeature.sleepy": "Sleepy",
 
   "item.creaturefeature.machination_spawn_egg": "Machination Spawn Egg",
@@ -21,13 +31,27 @@
 
   "item.creaturefeature.canary_spawn_egg": "Canary Spawn Egg",
   "item.creaturefeature.vertigo_spawn_egg": "Vertigo Spawn Egg",
+  "item.creaturefeature.dreamweaver_spawn_egg": "Dream Weaver Spawn Egg",
+  "item.creaturefeature.runaway_spawn_egg": "Runaway Spawn Egg",
 
   "item.creaturefeature.fiend_spawn_egg": "Fiend Spawn Egg",
+  "item.creaturefeature.fend_spawn_egg": "Fend Spawn Egg",
+  "item.creaturefeature.friend_spawn_egg": "Friend Spawn Egg",
+
+  "item.creaturefeature.the_pill": "The Pill",
+
+  "item.creaturefeature.scroll_pan": "Pan Trim Scroll",
+  "item.creaturefeature.scroll_trans": "Trans Trim Scroll",
+  "item.creaturefeature.scroll_pride": "Pride Trim Scroll",
+  "item.creaturefeature.scroll_eye": "Eye Trim Scroll",
 
   "item.creaturefeature.sleeping_powder": "Sleeping Powder",
   "item.creaturefeature.music_disc_nothing": "Music Disc",
 
+  "item.creaturefeature.carapace": "Carapace",
+  "item.creaturefeature.dream_silk": "Dream Silk",
   "item.creaturefeature.bouquet": "Living Bouquet",
+  "item.creaturefeature.ectoplasm": "Ectoplasm",
   "item.creaturefeature.open_mind": "Open Mind",
   "item.creaturefeature.heavy_axe": "Heavy Axe",
   "item.creaturefeature.blitz_rod": "Blitz Fragment",
@@ -38,6 +62,7 @@
   "item.creaturefeature.blighted_brain": "Blighted Brain",
   "block.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
   "block.creaturefeature.eep": "EEP",
+  "block.creaturefeature.carapace_block": "Carapace Block",
 
   "entity.creaturefeature.eep": "Primed Eep",
   "entity.creaturefeature.kicked_block": "Punted Block",
@@ -53,6 +78,7 @@
   "entity.creaturefeature.minedflayer": "MinedFlayer",
   "entity.creaturefeature.minds": "Minds",
   "entity.creaturefeature.cannonball_crab": "Runaway",
+  "entity.creaturefeature.dreamweaver": "Dream Weaver",
   "entity.creaturefeature.nothing": "NoThing",
   "entity.creaturefeature.canary": "Canary",
   "entity.creaturefeature.vertigo": "Vertigo",

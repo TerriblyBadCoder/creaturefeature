@@ -30,6 +30,16 @@ repositories {
     // Add here additional repositories if required by some of the dependencies below.
 
     maven {
+        url = uri("https://maven.teamabnormals.com/")
+        content {
+            includeGroup("com.teamabnormals")
+        }
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
         url = uri("https://registry.somethingcatchy.net/repository/maven-public/")
         content {
             includeGroup("dev.galena")
@@ -147,6 +157,7 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    implementation("maven.modrinth:blueprint:5JOCYuQM")
 
     implementation(jarJar("dev.galena:hats-neoforge:${galena_hats_version}") {
         version {

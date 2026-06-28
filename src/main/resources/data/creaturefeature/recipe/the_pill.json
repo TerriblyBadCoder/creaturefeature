@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "creaturefeature:carapace"
+    },
+    "Z": {
+      "item": "creaturefeature:sleeping_powder"
+    }
+  },
+  "pattern": [
+    "  #",
+    " Z ",
+    "#  "
+  ],
+  "result": {
+    "count": 4,
+    "id": "creaturefeature:the_pill"
+  }
+}

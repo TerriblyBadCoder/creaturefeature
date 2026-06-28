@@ -25,6 +25,8 @@ import java.util.EnumSet;
 
 public class MachinationEntity extends Monster {
     public int leapCD = 0;
+    private static final EntityDataAccessor<Float> CHARGE= SynchedEntityData.defineId(MachinationEntity.class, EntityDataSerializers.FLOAT);
+
     private static final EntityDataAccessor<Boolean> LEAPING= SynchedEntityData.defineId(MachinationEntity.class, EntityDataSerializers.BOOLEAN);
 
     public MachinationEntity(EntityType<? extends Monster> entityType, Level level) {
@@ -40,7 +42,12 @@ public class MachinationEntity extends Monster {
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, MachinationEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, MachinationEntity.class, true,(target)->{
+            if(target instanceof MachinationEntity machinationEntity){
+                return machinationEntity.getHealth()<(machinationEntity.getMaxHealth()-0.5);
+            }
+            return false;
+        }));
 
         super.registerGoals();
     }
@@ -69,10 +76,18 @@ public class MachinationEntity extends Monster {
         if(this.leapCD>0){
             this.leapCD-=1;
         }
-
-        if(getTarget()!=null&&this.distanceTo(getTarget())<3.5f){
-            this.navigation.moveTo(getTarget(),1.2f);
+        if(getTarget()!=null){
+            setCharge(getCharge()+0.03f);
+            if(getCharge()<=0.02f){
+                this.addDeltaMovement(getLookAngle().multiply(1,0,1).normalize().scale(0.1));
+            }
+            if(this.distanceTo(getTarget())<3.5f){
+                this.navigation.moveTo(getTarget(),1.2f);
+            }
+        }else if(getCharge()>0.01&&level()!=null&&!level().isClientSide()){
+            setCharge(getCharge()*0.7f);
         }
+
         super.tick();
     }
 
@@ -85,10 +100,22 @@ public class MachinationEntity extends Monster {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(LEAPING, false);
+        builder.define(CHARGE, 0.0f);
         super.defineSynchedData(builder);
     }
+    public void setCharge(float charged){
+        entityData.set(CHARGE,charged%1);
+    }
+    public float getCharge(){
+        return entityData.get(CHARGE);
+    }
+    @Override
+    public float getSpeed() {
+        return super.getSpeed()*(0.33f+(float)Math.pow(Math.max(0.0f,getCharge()-0.5f)*2.0f,0.5f)*2.0f);
+    }
+
     public static AttributeSupplier.Builder createMachinationAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 25.0).add(Attributes.KNOCKBACK_RESISTANCE,0.3).add(Attributes.ARMOR,20.0).add(Attributes.MOVEMENT_SPEED, 0.33).add(Attributes.ATTACK_DAMAGE,4.0f).add(Attributes.ATTACK_KNOCKBACK,1.6f);
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 25.0).add(Attributes.KNOCKBACK_RESISTANCE,0.3).add(Attributes.ARMOR,10.0).add(Attributes.MOVEMENT_SPEED, 0.33).add(Attributes.ATTACK_DAMAGE,5.0f).add(Attributes.ATTACK_KNOCKBACK,1.6f);
     }
     public class MachinationLeapGoal extends Goal{
         private int timeleft = 30;

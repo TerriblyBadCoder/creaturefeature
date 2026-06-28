@@ -1,0 +1,9 @@
+{
+  "asset_name": "scroll_pan",
+  "description": {
+    "color": "#faf593",
+    "translate": "trim_material.creaturefeature.scroll_pan"
+  },
+  "ingredient": "creaturefeature:scroll_pan",
+  "item_model_index": -1.0
+}

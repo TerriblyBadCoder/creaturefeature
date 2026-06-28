@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_nether",
+  "spawners":
+  {
+    "type": "creaturefeature:friend",
+    "weight": 3,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}

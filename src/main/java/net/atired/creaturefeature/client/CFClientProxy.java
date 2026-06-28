@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.SequencedMap;
 
@@ -45,6 +46,8 @@ public class CFClientProxy {
             SequencedMap<RenderType,ByteBufferBuilder> buffers = new Object2ObjectLinkedOpenHashMap<>();
             buffers.put(CFRenderTypes.entityFriendCutout(FriendEntityRenderer.CUBE_LOCATION),
                     new ByteBufferBuilder(CFRenderTypes.entityFriendCutout(FriendEntityRenderer.CUBE_LOCATION).bufferSize()));
+            buffers.put(CFRenderTypes.entitySilkCull(FriendEntityRenderer.CUBE_LOCATION),
+                    new ByteBufferBuilder(CFRenderTypes.entitySilkCull(FriendEntityRenderer.CUBE_LOCATION).bufferSize()));
             buffers.put(RenderType.entityTranslucent(FriendEntityRenderer.SMILE_FRIENDLESS_LOCATION),
                     new ByteBufferBuilder(RenderType.entityTranslucent(FriendEntityRenderer.SMILE_FRIENDLESS_LOCATION).bufferSize()));
 

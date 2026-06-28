@@ -13,6 +13,7 @@ import net.atired.creaturefeature.entity.CannonballCrabEntity;
 import net.atired.creaturefeature.init.*;
 import net.atired.creaturefeature.client.renderers.*;
 import net.atired.creaturefeature.client.renderers.models.*;
+import net.atired.creaturefeature.items.DreamCatcherContents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.LayerDefinitions;
@@ -63,6 +64,14 @@ public class CreatureFeatureClient {
                 }
                 return 0;
         });
+        });
+        event.enqueueWork(()->{
+            ItemProperties.register(CFItemInit.DREAM_CATCHER.get(), ResourceLocation.withDefaultNamespace("full"), (p_340947_, p_340948_, p_340949_, p_340950_) -> {
+                if(p_340947_.getOrDefault(CFDataComponentTypeInit.DREAMCATCHER_CONTENTS, DreamCatcherContents.EMPTY).items().iterator().hasNext()){
+                    return 1;
+                }
+                return 0;
+            });
         });
         event.enqueueWork(()->{
             ItemProperties.register(CFItemInit.OPEN_MIND.get(), ResourceLocation.withDefaultNamespace("open"), (p_340947_, p_340948_, p_340949_, p_340950_) -> {
@@ -321,7 +330,11 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(NoThingEntityModel.LAYER_LOCATION, NoThingEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityModel.LAYER_LOCATION, CanaryEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityPartModel.LAYER_LOCATION, CanaryEntityPartModel::createBodyLayer);
+        event.registerLayerDefinition(FiendEntityModel.LAYER_LOCATION, FiendEntityModel::createBodyLayer);
         event.registerLayerDefinition(VertigoEntityModel.LAYER_LOCATION, VertigoEntityModel::createBodyLayer);
+        event.registerLayerDefinition(DreamWeaverEntityModel.LAYER_LOCATION, DreamWeaverEntityModel::createBodyLayer);
+        event.registerLayerDefinition(DreamWeaverEntityModel.INNER_LAYER_LOCATION, ()->{return DreamWeaverEntityModel.createBodyLayer(-0.1f);});
+        event.registerLayerDefinition(DreamWeaverEntityModel.INNERER_LAYER_LOCATION, ()->{return DreamWeaverEntityModel.createBodyLayer(-0.05f);});
         event.registerLayerDefinition(CannonballCrabEntityModel.LAYER_LOCATION, CannonballCrabEntityModel::createBodyLayer);
         event.registerLayerDefinition(FiendEntityModel.LAYER_LOCATION, FiendEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_LOCATION, FendEntityModel::createBodyLayer);
@@ -343,6 +356,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.CANARY_PART.get(), CanaryPartRenderer::new);
         event.registerEntityRenderer(CFEntityInit.VERTIGO.get(), VertigoEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.CANNONBALL_CRAB.get(), CannonballCrabEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.DREAMWEAVER.get(), DreamWeaverEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FIEND.get(), FiendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FRIEND.get(), FriendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);

@@ -1,0 +1,9 @@
+{
+  "asset_name": "scroll_pride",
+  "description": {
+    "color": "#d95763",
+    "translate": "trim_material.creaturefeature.scroll_pride"
+  },
+  "ingredient": "creaturefeature:scroll_pride",
+  "item_model_index": -1.0
+}

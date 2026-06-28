@@ -10,10 +10,7 @@ import net.atired.creaturefeature.accessors.PlayerBrainrotAccessor;
 import net.atired.creaturefeature.client.renderers.FriendEntityRenderer;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.PostChain;
-import net.minecraft.client.renderer.PostPass;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.spongepowered.asm.mixin.Final;
@@ -32,7 +29,6 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
             PostChain[] chains = {CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
             CreatureFeatureClient.RABIES_TARGET.clear(Minecraft.ON_OSX);
             CreatureFeatureClient.RABIES_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-
             if(CreatureFeatureClient.FRIEND instanceof PostChainDepthPassAccessor accessor){
                 for(PostPass pass : accessor.getDemPostPasses()){
                     pass.getEffect().setSampler("FriendSampler",CreatureFeatureClient.FRIEND_TARGET::getColorTextureId);

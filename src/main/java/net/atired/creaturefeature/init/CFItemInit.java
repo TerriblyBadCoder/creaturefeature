@@ -12,6 +12,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -40,6 +41,10 @@ public class CFItemInit {
 
     public static final DeferredItem<Item> FIEND_EGG = ITEMS.register("fiend_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.FIEND.get(),0xf58dfc,0xdf52f2,new  Item.Properties()));
+    public static final DeferredItem<Item> FRIEND_EGG = ITEMS.register("friend_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.FRIEND.get(),0xffffff,0x000000,new  Item.Properties()));
+    public static final DeferredItem<Item> FEND_EGG = ITEMS.register("fend_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.FEND.get(),0xffe873,0xf2a574,new  Item.Properties()));
 
 
 
@@ -47,6 +52,10 @@ public class CFItemInit {
             SpawnEggItem(CFEntityInit.CANARY.get(),0xaab5b3,0x99e550,new  Item.Properties()));
     public static final DeferredItem<Item> VERTIGO_EGG = ITEMS.register("vertigo_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.VERTIGO.get(),0xa97eb6,0x736967,new  Item.Properties()));
+    public static final DeferredItem<Item> RUNAWAY_EGG = ITEMS.register("runaway_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.CANNONBALL_CRAB.get(),0x8a9a71,0x507590,new  Item.Properties()));
+    public static final DeferredItem<Item> DREAMWEAVER_EGG = ITEMS.register("dreamweaver_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.DREAMWEAVER.get(),0x64775d,0x515657,new  Item.Properties()));
 
 
     public static ResourceKey<JukeboxSong> NOTHING = ResourceKey.create(Registries.JUKEBOX_SONG, CreatureFeature.getId("nothing"));
@@ -71,8 +80,31 @@ public class CFItemInit {
             "sleeping_powder",
             ()->new Item(new Item.Properties())
     );
+    public static final DeferredItem<Item> CARAPACE = ITEMS.register(
+            "carapace",
+            ()->new Item(new Item.Properties())
+    );
     public static final DeferredItem<Item> BLITZ_ROD = ITEMS.register(
             "blitz_rod",
+            ()->new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> DREAM_SILK = ITEMS.register(
+            "dream_silk",
+            ()->new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> DREAM_CATCHER = ITEMS.register(
+            "dream_catcher",
+            ()->new SpawnerCaptureItem(new Item.Properties().stacksTo(1).component(CFDataComponentTypeInit.DREAMCATCHER_CONTENTS,DreamCatcherContents.EMPTY))
+    );
+
+    public static final FoodProperties PILL_FOOD = (new FoodProperties.Builder()).nutrition(0).alwaysEdible().saturationModifier(0.01F)
+            .effect(()->{return new MobEffectInstance(CFMobEffectInit.SLEEPY,20,0);}, 1.0f).fast().build();
+    public static final DeferredItem<Item> THE_PILL = ITEMS.register(
+            "the_pill",
+            ()->new ThePillItem(new Item.Properties().food(PILL_FOOD))
+    );
+    public static final DeferredItem<Item> ECTOPLASM = ITEMS.register(
+            "ectoplasm",
             ()->new Item(new Item.Properties())
     );
     public static final DeferredItem<Item> MURKY_PEARL = ITEMS.register(
@@ -86,6 +118,18 @@ public class CFItemInit {
     public static final DeferredItem<Item> VERTIGO_HORN = ITEMS.register(
             "vertigo_horn",
             ()->new VertigoHornItem((new Item.Properties()).stacksTo(1), InstrumentTags.GOAT_HORNS)
+    );
+    public static final DeferredItem<Item> PAN_SCROLL = ITEMS.register(
+            "scroll_pan",
+            ()->new Item(new Item.Properties().stacksTo(8))
+    );
+    public static final DeferredItem<Item> TRANS_SCROLL = ITEMS.register(
+            "scroll_trans",
+            ()->new Item(new Item.Properties().stacksTo(8))
+    );
+    public static final DeferredItem<Item> PRIDE_SCROLL = ITEMS.register(
+            "scroll_pride",
+            ()->new Item(new Item.Properties().stacksTo(8))
     );
     public static final DeferredItem<Item> MINEDFLAYER_GOOP = ITEMS.register(
             "minedflayer_goop",

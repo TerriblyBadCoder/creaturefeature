@@ -1,0 +1,9 @@
+{
+  "asset_name": "ectoplasm",
+  "description": {
+    "color": "#f7a460",
+    "translate": "trim_material.creaturefeature.ectoplasm"
+  },
+  "ingredient": "creaturefeature:ectoplasm",
+  "item_model_index": -1.0
+}

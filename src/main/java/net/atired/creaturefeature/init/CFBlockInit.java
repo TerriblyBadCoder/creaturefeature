@@ -4,9 +4,11 @@ package net.atired.creaturefeature.init;
 import java.util.function.Supplier;
 
 import net.atired.creaturefeature.CreatureFeature;
+import net.atired.creaturefeature.blocks.CarapaceBlock;
 import net.atired.creaturefeature.blocks.EepBlock;
 import net.atired.creaturefeature.blocks.MinedFlayerJellyBlock;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -30,6 +32,8 @@ public class CFBlockInit {
    public static final DeferredBlock<Block> MINEDFLAYER_JELLY = registerBlock("minedflayer_jelly",
             () -> new MinedFlayerJellyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SLIME_BLOCK).friction(1.04F).sound(SoundType.FUNGUS)));
 
+    public static final DeferredBlock<Block> CARAPACE_BLOCK = registerBlock("carapace_block",
+            () -> new CarapaceBlock(new ColorRGBA(0xFF7b775f),BlockBehaviour.Properties.ofFullCopy(Blocks.PACKED_MUD)));
     public static final DeferredBlock<Block> EEP = registerBlock("eep",
             () -> new EepBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TNT)));
 

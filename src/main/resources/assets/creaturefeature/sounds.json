@@ -4,5 +4,17 @@
     "sounds": [
       "creaturefeature:nothing"
     ]
+  },
+  "entity.friend": {
+    "subtitle": "sound.creaturefeature.laughter",
+    "sounds": [
+      "creaturefeature:smiles"
+    ]
+  },
+  "entity.friend_hurt": {
+    "subtitle": "sound.creaturefeature.laughter",
+    "sounds": [
+      "creaturefeature:smiles_hurt"
+    ]
   }
 }

@@ -3,11 +3,15 @@ package net.atired.creaturefeature.client.renderers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.client.CFClientProxy;
 import net.atired.creaturefeature.client.CFRenderTypes;
 import net.atired.creaturefeature.entity.FriendEntity;
+import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -31,7 +35,7 @@ public class FriendEntityRenderer extends EntityRenderer<FriendEntity> {
 
     @Override
     public void render(FriendEntity p_entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        boolean friendless = false;
+        boolean friendless = Config.REMODEL_FRIEND.isTrue();
         float flattened =1.0f;
         if(p_entity.lerpedFriendFlattening>0.0f){
             flattened-=Math.min(p_entity.lerpedFriendFlattening,1.0f)*0.9f;
@@ -40,12 +44,13 @@ public class FriendEntityRenderer extends EntityRenderer<FriendEntity> {
         float scaled = p_entity.isDecaying()?0.66f:1.0f;
         if(scaled<1.0f){
             scaled-=0.5f*(Math.max(0.0f,p_entity.tickCount/20.0f-7.5f));
-            scaled-=0.66f*Math.max(0.0f,1.0f-p_entity.tickCount/10.0f);
         }
+        MultiBufferSource source = (Minecraft.getInstance().options.graphicsMode().get()==GraphicsStatus.FABULOUS?bufferSource:CFClientProxy.getFriendSource());
+        scaled*=1.0f-Math.max(0.0f,1.0f-p_entity.tickCount/10.0f);
         poseStack.scale(scaled,scaled,scaled);
         poseStack.pushPose();
         float timed = (p_entity.tickCount+partialTick)/20.0f;
-        VertexConsumer consumer = CFClientProxy.getFriendSource().getBuffer(RenderType.entityTranslucent(friendless?SMILE_FRIENDLESS_LOCATION:SMILE_LOCATION));
+        VertexConsumer consumer = source.getBuffer(RenderType.entityTranslucent(friendless?SMILE_FRIENDLESS_LOCATION:SMILE_LOCATION));
         Vec3 thisToCam = Minecraft.getInstance().gameRenderer.getMainCamera().getEntity().getPosition(partialTick).subtract(p_entity.getPosition(partialTick));
         double length = thisToCam.length()/5.0d;
         thisToCam=thisToCam.normalize().scale(Math.max(length,2.5));
@@ -81,7 +86,7 @@ public class FriendEntityRenderer extends EntityRenderer<FriendEntity> {
             CFRenderTypes.FRIEND_SHADER_INSTANCE.safeGetUniform("Time").set(timed/2.0f);
         }
         Vec3 delta = p_entity.movementLerped.multiply(2,0,2);
-         consumer = CFClientProxy.getFriendSource().getBuffer(CFRenderTypes.entityFriendCutout(friendless?CUBE_FRIENDLESS_LOCATION:CUBE_LOCATION));
+         consumer = source.getBuffer(CFRenderTypes.entityFriendCutout(friendless?CUBE_FRIENDLESS_LOCATION:CUBE_LOCATION));
          pose = poseStack.last();
         for (int i = 0; i < 4; i++) {
             Vec3 vec3_11 = new Vec3(2,0,0).scale(lowerScaled[i]).yRot(timed-(float)Math.PI/4.0f+i*(float)Math.PI/2.0f);

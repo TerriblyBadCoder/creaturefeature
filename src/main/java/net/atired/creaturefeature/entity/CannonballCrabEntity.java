@@ -44,6 +44,12 @@ public class CannonballCrabEntity extends Monster {
 
     @Override
     public void tick() {
+        if(legPositions[0]==null){
+            for (int i = 0; i < 8; i++) {
+                oldLegPositions[i]=new Vec3(getX(),getY(),getZ());
+                legPositions[i]=new Vec3(getX(),getY(),getZ());
+            }
+        }
         if(this.level()!=null&&this.tickCount%3==0){
             this.lastPos=getPosition(1);
             this.noActionTime=0;

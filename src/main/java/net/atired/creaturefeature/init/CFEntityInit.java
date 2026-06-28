@@ -71,6 +71,10 @@ public class CFEntityInit {
             ENTITIES.register("vertigo", () -> EntityType.Builder.of(VertigoEntity::new, MobCategory.MONSTER)
                     .sized(0.9f, 0.95f).eyeHeight(1.1F).passengerAttachments(0.3125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("vertigo"));
+    public static final Supplier<EntityType<DreamWeaverEntity>> DREAMWEAVER =
+            ENTITIES.register("dreamweaver", () -> EntityType.Builder.of(DreamWeaverEntity::new, MobCategory.MONSTER)
+                    .sized(1.4f, 0.9f).eyeHeight(0.4F).passengerAttachments(0.3125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("dreamweaver"));
     public static final Supplier<EntityType<CannonballCrabEntity>> CANNONBALL_CRAB =
             ENTITIES.register("cannonball_crab", () -> EntityType.Builder.of(CannonballCrabEntity::new, MobCategory.MONSTER)
                     .sized(1.13f, 1.95f).eyeHeight(1.1F).passengerAttachments(0.3125F).ridingOffset(-0.7F).clientTrackingRange(12)
