@@ -1,6 +1,7 @@
 package net.atired.creaturefeature.mixin;
 
 import net.atired.creaturefeature.accessors.PlayerBrainrotAccessor;
+import net.atired.creaturefeature.init.CFAchievements;
 import net.atired.creaturefeature.networking.payloads.GasLeakPayload;
 import net.atired.creaturefeature.networking.payloads.RabiesPayload;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -63,6 +64,7 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerBrainrot
                 if(getDelayedDamage()>0.5f&&this.tickCount%30==0){
                     boolean hurting = hurt(damageSources().magic(),dam);
                     if(hurting){
+                        CFAchievements.GYAS.get().trigger(player);
                         setDelayedDamage(Math.max(0.0f,getDelayedDamage()-dam));
                         GasLeakPayload payload2 = new GasLeakPayload(player.getId(),getDelayedDamage());
                         PacketDistributor.sendToPlayer(player,payload2);
@@ -87,8 +89,8 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerBrainrot
             setYRot(getYRot()+ Mth.sin(this.tickCount/4.0f)*5.0f*getBrainrot());
             if(onGround())
                 move(MoverType.PLAYER,new Vec3(
-                        Mth.sin(this.tickCount/12.0f)*1.5f-Mth.sin((this.tickCount-1)/12.0f)*1.5f,0,
-                        -Mth.cos(this.tickCount/12.0f)*1.5f+Mth.cos((this.tickCount-1)/12.0f)*1.5f));
+                        Mth.sin(this.tickCount/12.0f)*0.1f-Mth.sin((this.tickCount-1)/12.0f)*0.1f,0,
+                        -Mth.cos(this.tickCount/12.0f)*0.1f+Mth.cos((this.tickCount-1)/12.0f)*0.1f));
             setBrainrot(getBrainrot()-0.02f);
         }
     }

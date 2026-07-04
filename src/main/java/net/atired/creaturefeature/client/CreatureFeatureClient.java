@@ -5,6 +5,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.accessors.*;
 import net.atired.creaturefeature.client.particles.*;
@@ -244,17 +245,30 @@ public class CreatureFeatureClient {
     @SubscribeEvent
     public static void clientWorldRenderStage(RenderLevelStageEvent event){
         if(event.getStage()== RenderLevelStageEvent.Stage.AFTER_ENTITIES&&CreatureFeatureClient.FRIEND_TARGET!=null){
-            //FRIEND
-            CreatureFeatureClient.FRIEND_TARGET.clear(Minecraft.ON_OSX);
-            CreatureFeatureClient.FRIEND_TARGET.bindWrite(false);
-            CFClientProxy.getFriendSource().endBatch();
-            CreatureFeatureClient.FRIEND_TARGET.unbindWrite();
-            if(CreatureFeatureClient.FRIEND instanceof PostChainDepthPassAccessor accessor){
-                for(PostPass pass : accessor.getDemPostPasses()){
-                    pass.getEffect().setSampler("FriendDepthSampler",CreatureFeatureClient.FRIEND_TARGET::getDepthTextureId);
+
+                CreatureFeatureClient.FRIEND_TARGET.bindWrite(false);
+                CFClientProxy.getFriendSource().endBatch();
+                CreatureFeatureClient.FRIEND_TARGET.unbindWrite();
+                if(CreatureFeatureClient.FRIEND instanceof PostChainDepthPassAccessor accessor){
+                    for(PostPass pass : accessor.getDemPostPasses()){
+                        pass.getEffect().setSampler("FriendSampler",CreatureFeatureClient.FRIEND_TARGET::getColorTextureId);
+                        pass.getEffect().setSampler("FriendDepthSampler",CreatureFeatureClient.FRIEND_TARGET::getDepthTextureId);
+
+                    }
                 }
-            }
+                PostChain[] chains = {CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
+                CreatureFeatureClient.RABIES_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+
+                //RESET
+                Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+                for(PostChain i : chains){
+                    if(i instanceof PostChainDepthPassAccessor accessor){
+                        accessor.depthEmPostPasses();
+                    }
+                }
+
             Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+
         }
     }
     @SubscribeEvent

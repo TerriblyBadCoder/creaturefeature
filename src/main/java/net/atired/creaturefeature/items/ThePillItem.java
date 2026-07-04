@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.items;
 
+import net.atired.creaturefeature.init.CFAchievements;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -28,6 +29,7 @@ public class ThePillItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if(livingEntity instanceof ServerPlayer player){
+            CFAchievements.PILL.get().trigger(player);
             player.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
         }
         return super.finishUsingItem(stack, level, livingEntity);

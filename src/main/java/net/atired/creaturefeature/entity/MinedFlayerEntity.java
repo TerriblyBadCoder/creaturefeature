@@ -56,7 +56,7 @@ public class MinedFlayerEntity extends Monster {
     }
 
     public static AttributeSupplier.Builder createFlayerAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 20.0).add(Attributes.MOVEMENT_SPEED, 0.26).add(Attributes.MAX_HEALTH,15.0);
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 20.0).add(Attributes.MOVEMENT_SPEED, 0.26).add(Attributes.MAX_HEALTH,1.0);
     }
 
     @Override

@@ -1,14 +1,17 @@
 package net.atired.creaturefeature.items;
 
 import net.atired.creaturefeature.accessors.LivingEntityGoopAccessor;
+import net.atired.creaturefeature.init.CFAchievements;
 import net.atired.creaturefeature.init.CFItemInit;
 import net.atired.creaturefeature.init.CFParticleInit;
 import net.atired.creaturefeature.networking.payloads.DeAmpPayload;
 import net.atired.creaturefeature.networking.payloads.VelSyncPayload;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.phys.Vec3;
@@ -29,7 +32,9 @@ public class HeavyAxeItem extends AxeItem {
             living.move(MoverType.SELF,new Vec3(0,0.09,0));
             if(entity.level() instanceof ServerLevel serverLevel){
                 PacketDistributor.sendToPlayersTrackingEntity(entity,new DeAmpPayload(entity.getId(),true));
-                
+                if(entity instanceof Horse && player instanceof ServerPlayer player1){
+                    CFAchievements.PUNCH_EVERYONE.get().trigger(player1);
+                }
                 accessor.setFallDamageAmped(true);
             }
         }

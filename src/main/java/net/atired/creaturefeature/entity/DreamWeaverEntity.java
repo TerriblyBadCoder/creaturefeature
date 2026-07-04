@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -45,6 +46,9 @@ public class DreamWeaverEntity extends Spider {
         super.tick();
     }
     public LivingEntity getSpawned(int type){
+        if(type==10){
+            return new EnderMan(EntityType.ENDERMAN,level());
+        }
         if(type==0){
             return new Illusioner(EntityType.ILLUSIONER,level());
         };
@@ -82,7 +86,13 @@ public class DreamWeaverEntity extends Spider {
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        entityData.set(SPAWNED_ID,random.nextInt(0,7));
+        int spawnIdDream = random.nextInt(0,7);
+        if(Config.END_DREAMWEAVER.isTrue()){
+            spawnIdDream=6;
+            if(Math.random()>0.5)spawnIdDream=3;
+            if(Math.random()>0.5)spawnIdDream=10;
+        }
+        entityData.set(SPAWNED_ID,spawnIdDream);
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 
@@ -105,7 +115,7 @@ public class DreamWeaverEntity extends Spider {
             setRupturing(1.0f);
             int spawned = entityData.get(SPAWNED_ID);
             int count = 4;
-            if(spawned==0){count=2;}
+            if(spawned==0||spawned==10){count=2;}
             if(spawned==2||spawned==5){count=3;}
             if(spawned==4){count=12;}
             if(spawned==6){count=1;}

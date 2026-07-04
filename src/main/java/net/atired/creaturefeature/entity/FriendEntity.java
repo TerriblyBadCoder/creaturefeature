@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.init.CFAchievements;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFSoundInit;
 import net.minecraft.core.BlockPos;
@@ -8,6 +9,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -124,6 +126,9 @@ public class FriendEntity extends Monster {
         }
         boolean hurting = super.hurt(source, amount);
         if(source.getEntity()!=null&&hurting){
+            if(source.getEntity() instanceof ServerPlayer serverPlayer){
+                CFAchievements.FRIENDLESS.get().trigger(serverPlayer);
+            }
             this.chargeDelay-=20;
             setFlattened(2.0f);
         }

@@ -42,8 +42,7 @@ vec4 sobel(vec2 offsetex) {
         coord.x = clamp(coord.x, 0, 1);
         coord.y = clamp(coord.y, 0, 1);
         vec3 sampleVar = vec3(1,1,1);
-        if(texture(FriendSampler, coord).b>(texture(FriendSampler, coord).r+texture(FriendSampler, coord).g)*40.0&&
-        (texture(FriendDepthSampler,coord).r>=texture(TrueDepthSampler,coord).r||texture(FriendDepthSampler,coord).r==1.0)) {
+        if(texture(FriendSampler, coord).a>0) {
             sampleVar=vec3(0,0,0);
         }
         intensity = (sampleVar.r + sampleVar.g + sampleVar.b);

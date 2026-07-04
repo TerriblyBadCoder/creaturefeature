@@ -89,7 +89,7 @@ public class SpawnerCaptureItem extends Item {
             context.getItemInHand().set(CFDataComponentTypeInit.DREAMCATCHER_CONTENTS, new DreamCatcherContents(List.of(stacked)));
             Vec3 center = context.getClickedPos().getCenter();
             serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,stated),center.x,center.y,center.z,20,0.3,0.3,0.3,0.3);
-            context.getLevel().setBlock(context.getClickedPos(), Blocks.AIR.defaultBlockState(),2);
+            context.getLevel().destroyBlock(context.getClickedPos(),false);
 
             context.getPlayer().swing(context.getHand());
             return InteractionResult.SUCCESS;

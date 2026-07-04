@@ -26,21 +26,7 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
     @Inject(method = "renderLevel",at= @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V",ordinal = 2,shift= At.Shift.BEFORE))
     private void renderDepthCF(DeltaTracker deltaTracker, CallbackInfo ci) {
         if(CreatureFeatureClient.RABIES_TARGET!=null){
-            PostChain[] chains = {CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
-            CreatureFeatureClient.RABIES_TARGET.clear(Minecraft.ON_OSX);
-            CreatureFeatureClient.RABIES_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-            if(CreatureFeatureClient.FRIEND instanceof PostChainDepthPassAccessor accessor){
-                for(PostPass pass : accessor.getDemPostPasses()){
-                    pass.getEffect().setSampler("FriendSampler",CreatureFeatureClient.FRIEND_TARGET::getColorTextureId);
-                }
-            }
-            //RESET
-            Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
-            for(PostChain i : chains){
-                if(i instanceof PostChainDepthPassAccessor accessor){
-                    accessor.depthEmPostPasses();
-                }
-            }
+
         }
 
     }
@@ -82,6 +68,8 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
                 chain.setUniform("FadeInTest",CreatureFeatureClient.PROXY.eebyDeebyNess);
                 chain.process(deltaTracker.getRealtimeDeltaTicks());
             }
+            CreatureFeatureClient.FRIEND_TARGET.clear(Minecraft.ON_OSX);
+            Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
         }
     }
     @Override

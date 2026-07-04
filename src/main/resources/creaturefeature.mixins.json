@@ -2,7 +2,7 @@
   "required": true,
   "package": "net.atired.creaturefeature.mixin",
   "compatibilityLevel": "JAVA_21",
-  "refmap": "nomansland.refmap.json",
+  "refmap": "creaturefeature.refmap.json",
   "mixins": [
     "AbstractBlockMixin",
     "AbstractContainerMenuMixin",
@@ -10,6 +10,7 @@
     "PlayerMixin"
   ],
   "client": [
+    "AdvancementTabMixin",
     "CameraMixin",
     "CameraTypeMixin",
     "CFGameRendererMixin",

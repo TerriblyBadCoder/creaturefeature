@@ -1,0 +1,30 @@
+{
+  "parent": "creaturefeature:sleepy",
+  "criteria": {
+    "0": {
+      "trigger": "creaturefeature:punch_everyone"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "frame": "goal",
+    "description": {
+      "color": "#4a81a8",
+      "translate": "advancement.creaturefeature.horse.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "creaturefeature:heavy_axe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.creaturefeature.horse"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

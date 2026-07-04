@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "0": {
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "creaturefeature:textures/gui/eeper_advancement.png",
+    "description": {
+      "color": "#4a81a8",
+      "translate": "advancement.creaturefeature.root.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "creaturefeature:sleeping_powder"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.creaturefeature.root"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

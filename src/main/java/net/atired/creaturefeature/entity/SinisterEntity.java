@@ -1,9 +1,11 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.init.CFAchievements;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -116,6 +118,11 @@ public class SinisterEntity extends Monster {
                 if(getMirrorBounce()<0.2f)
                     setMirrorBounce(1.0f);
                 return false;
+            }else{
+                if(source.getEntity()!=null&&source.getEntity() instanceof ServerPlayer serverPlayer){
+
+                    CFAchievements.SINISTER.get().trigger(serverPlayer);
+                }
             }
         }
         return super.hurt(source, amount);
