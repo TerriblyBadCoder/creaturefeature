@@ -159,7 +159,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     implementation("maven.modrinth:blueprint:5JOCYuQM")
 
-    implementation(jarJar("dev.galena:hats-neoforge:${galena_hats_version}") {
+    implementation(jarJar("dev.galena:hats-1.21.1-neoforge:${galena_hats_version}") {
         version {
             strictly("[${galena_hats_version},)")
             prefer(galena_hats_version)
