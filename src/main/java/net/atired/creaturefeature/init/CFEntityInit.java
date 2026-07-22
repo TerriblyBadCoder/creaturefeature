@@ -31,6 +31,26 @@ public class CFEntityInit {
             ENTITIES.register("minedflayer", () -> EntityType.Builder.of(MinedFlayerEntity::new, MobCategory.MONSTER)
                     .sized(1.1f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("minedflayer"));
+    public static final Supplier<EntityType<ToadstoolEntity>> TOADSTOOL =
+            ENTITIES.register("toadstool", () -> EntityType.Builder.of(ToadstoolEntity::new, MobCategory.MONSTER)
+                    .sized(1.2f, 0.9f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("toadstool"));
+    public static final Supplier<EntityType<MockingBirdEntity>> MOCKINGBIRD =
+            ENTITIES.register("mockingbird", () -> EntityType.Builder.of(MockingBirdEntity::new, MobCategory.MONSTER)
+                    .sized(0.9f, 2.8f).eyeHeight(2.48F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("mockingbird"));
+    public static final Supplier<EntityType<PathogenesisEntity>> PATHOGEN =
+            ENTITIES.register("pathogen", () -> EntityType.Builder.of(PathogenesisEntity::new, MobCategory.MONSTER)
+                    .sized(0.5f, 1.37f).eyeHeight(1.18F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("pathogen"));
+    public static final Supplier<EntityType<BlossomEntity>> BLOSSOM =
+            ENTITIES.register("blossom", () -> EntityType.Builder.of(BlossomEntity::new, MobCategory.MONSTER)
+                    .sized(EntityType.ZOMBIE.getWidth(), EntityType.ZOMBIE.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("blossom"));
+    public static final Supplier<EntityType<BlossomEntity>> SAINT_SOLIS =
+            ENTITIES.register("saint_solis", () -> EntityType.Builder.of(BlossomEntity::new, MobCategory.MONSTER)
+                    .sized(1.1f, 1.5f).eyeHeight(1.38F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("saint_solis"));
     public static final Supplier<EntityType<BeautyEntity>> BEAUTY =
             ENTITIES.register("beauty", () -> EntityType.Builder.of(BeautyEntity::new, MobCategory.MONSTER)
                     .sized(0.8f,1.9f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
@@ -83,10 +103,18 @@ public class CFEntityInit {
             ENTITIES.register("murky_pearl", () -> EntityType.Builder.<MurkyPearlEntity>of(MurkyPearlEntity::new, MobCategory.MISC)
                     .sized(0.4f, 0.4f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("murky_pearl"));
+    public static final Supplier<EntityType<FeatherEntity>> FEATHER =
+            ENTITIES.register("feather", () -> EntityType.Builder.<FeatherEntity>of(FeatherEntity::new, MobCategory.MISC)
+                    .sized(0.3f, 0.3f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("feather"));
     public static final Supplier<EntityType<KickedBlockEntity>> KICKED_BLOCK =
             ENTITIES.register("kicked_block", () -> EntityType.Builder.<KickedBlockEntity>of(KickedBlockEntity::new, MobCategory.MISC)
                     .sized(0.6f, 0.6f).eyeHeight(0.3f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("kicked_block"));
+    public static final Supplier<EntityType<SpatBlockEntity>> SPAT_BLOCK =
+            ENTITIES.register("spat_block", () -> EntityType.Builder.<SpatBlockEntity>of(SpatBlockEntity::new, MobCategory.MISC)
+                    .sized(0.6f, 0.6f).eyeHeight(0.3f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("spat_block"));
     public static final Supplier<EntityType<PrimedEepEntity>> EEP =
             ENTITIES.register("eep", () -> EntityType.Builder.<PrimedEepEntity>of(PrimedEepEntity::new, MobCategory.MISC)
                     .sized(0.98f, 0.98f).eyeHeight(0.5F).passengerAttachments(0.3125F).ridingOffset(-0.5F).clientTrackingRange(12)

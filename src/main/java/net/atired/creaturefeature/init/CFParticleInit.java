@@ -28,6 +28,10 @@ public class CFParticleInit {
             "crit",
             () -> new SimpleParticleType(false)
     );
+    public static final Supplier<SimpleParticleType> SPARKLE_PARTICLE = PARTICLE_TYPES.register(
+            "sparkle",
+            () -> new SimpleParticleType(false)
+    );
     public static final Supplier<SimpleParticleType> SLEEPY_EXPLODE_PARTICLE = PARTICLE_TYPES.register(
             "sleepy_explode",
             () -> new SimpleParticleType(false)
@@ -42,6 +46,14 @@ public class CFParticleInit {
     );
     public static final Supplier<SimpleParticleType> CLEAVE_PARTICLE = PARTICLE_TYPES.register(
             "cleave",
+            () -> new SimpleParticleType(false)
+    );
+    public static final Supplier<SimpleParticleType> SPORE_PARTICLE = PARTICLE_TYPES.register(
+            "spore",
+            () -> new SimpleParticleType(false)
+    );
+    public static final Supplier<SimpleParticleType> SPIT_PARTICLE = PARTICLE_TYPES.register(
+            "spores_spit",
             () -> new SimpleParticleType(false)
     );
 }

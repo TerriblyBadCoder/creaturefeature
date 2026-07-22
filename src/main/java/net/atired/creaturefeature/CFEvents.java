@@ -127,6 +127,16 @@ public class CFEvents {
                 RabiesPayload::handleData
         );
         registrar.playToClient(
+                ToadstoolRenderPayload.TYPE,
+                ToadstoolRenderPayload.STREAM_CODEC,
+                ToadstoolRenderPayload::handleData
+        );
+        registrar.playToClient(
+                PathogenPayload.TYPE,
+                PathogenPayload.STREAM_CODEC,
+                PathogenPayload::handleData
+        );
+        registrar.playToClient(
                 GasLeakPayload.TYPE,
                 GasLeakPayload.STREAM_CODEC,
                 GasLeakPayload::handleData

@@ -70,6 +70,7 @@
 
   "item.creaturefeature.carapace": "Carapace",
   "item.creaturefeature.dream_silk": "Dream Silk",
+  "item.creaturefeature.bacterium_ball": "Bacterium Ball",
   "item.creaturefeature.bouquet": "Living Bouquet",
   "item.creaturefeature.ectoplasm": "Ectoplasm",
   "item.creaturefeature.open_mind": "Open Mind",
@@ -82,6 +83,7 @@
   "item.creaturefeature.blighted_brain": "Blighted Brain",
   "block.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
   "block.creaturefeature.eep": "EEP",
+  "block.creaturefeature.runic_stone_bricks": "Runic Stone Bricks",
   "block.creaturefeature.carapace_block": "Carapace Block",
 
   "entity.creaturefeature.eep": "Primed Eep",
@@ -94,6 +96,7 @@
   "entity.creaturefeature.fiend": "Fiend",
   "entity.creaturefeature.fend": "Fend",
   "entity.creaturefeature.friend": "image_friend",
+  "entity.creaturefeature.toadstool": "Toadstool",
   "entity.creaturefeature.eeper": "Eeper",
   "entity.creaturefeature.minedflayer": "MinedFlayer",
   "entity.creaturefeature.minds": "Minds",
@@ -102,5 +105,8 @@
   "entity.creaturefeature.nothing": "NoThing",
   "entity.creaturefeature.canary": "Canary",
   "entity.creaturefeature.vertigo": "Vertigo",
-  "entity.creaturefeature.canary_part": "Canary Part"
+  "entity.creaturefeature.pathogen": "Nucleus",
+  "entity.creaturefeature.canary_part": "Canary Part",
+  "entity.creaturefeature.mockingbird": "Mockingbird",
+  "entity.creaturefeature.blossom": "Blossom"
 }

@@ -39,10 +39,30 @@ repositories {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
     }
+    maven { // For Veil
+        name = 'BlameJared Maven (CrT / Bookshelf)'
+        url = 'https://maven.blamejared.com'
+    }
     maven {
         url = uri("https://registry.somethingcatchy.net/repository/maven-public/")
         content {
             includeGroup("dev.galena")
+        }
+    }
+    maven {
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+    exclusiveContent { // Sable
+        forRepository {
+            maven {
+                url = "https://maven.ryanhcode.dev/releases"
+                name = "RyanHCode Maven"
+            }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable")
+            includeGroup("dev.ryanhcode.sable-companion")
         }
     }
 }
@@ -72,7 +92,6 @@ neoForge {
     runs {
         client {
             client()
-
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
@@ -158,7 +177,10 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     implementation("maven.modrinth:blueprint:5JOCYuQM")
+    api "fuzs.forgeconfigapiport:forgeconfigapiport-neoforge:21.1.6"
+    api("dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:${project.sable_companion_version}")
 
+    implementation "maven.modrinth:T9PomCSv:1L6XJqnY"
     implementation(jarJar("dev.galena:hats-neoforge:${galena_hats_version}") {
         version {
             strictly("[${galena_hats_version},)")

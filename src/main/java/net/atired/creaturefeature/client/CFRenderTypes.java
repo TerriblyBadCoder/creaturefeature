@@ -54,6 +54,27 @@ public class CFRenderTypes {
     }
 
 
+    public static ShaderInstance BLOSSOM_SHADER_INSTANCE = null;
+    public static ShaderInstance getBlossomShaderInstance(){return BLOSSOM_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_BLOSSOM_CULL_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getBlossomShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_BLOSSOM_CULL = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_BLOSSOM_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_blossom", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+
+    public static RenderType entityBlossomCull(ResourceLocation location) {
+        return ENTITY_BLOSSOM_CULL.apply(location);
+    }
 
 
     public static ShaderInstance SILK_SHADER_INSTANCE = null;
@@ -201,5 +222,8 @@ public class CFRenderTypes {
         registerShadersEvent.registerShader(
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_armor_cutout_evil_cull"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{ARMOR_EVIL_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_blossom"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{BLOSSOM_SHADER_INSTANCE=a;});
     }
 }

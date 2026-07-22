@@ -77,6 +77,10 @@ public class CreatureFeature {
         event.put(CFEntityInit.FIEND.get(), FiendEntity.createFiendAttributes().build());
         event.put(CFEntityInit.FEND.get(), FendEntity.createFendAttributes().build());
         event.put(CFEntityInit.FRIEND.get(), FriendEntity.createFriendAttributes().build());
+        event.put(CFEntityInit.TOADSTOOL.get(), ToadstoolEntity.createToadstoolAttributes().build());
+        event.put(CFEntityInit.MOCKINGBIRD.get(), MockingBirdEntity.createMockingBirdAttributes().build());
+        event.put(CFEntityInit.PATHOGEN.get(), PathogenesisEntity.createPathogenAttributes().build());
+        event.put(CFEntityInit.BLOSSOM.get(), BlossomEntity.createAttributes().build());
     }
 
 }

@@ -19,6 +19,7 @@ public class CFClientProxy {
     public float eebyDeebyNess = 0.0f;
     public float gasLeak = 0.0f;
     public float wobble = 0.0f;
+    public float bacterial = 0.0f;
     public ItemStack wobblyItem=null;
     public int attachment = 0;
     public float[] colours = {0.0f,0.0f,0.0f,0.0f};
@@ -35,6 +36,20 @@ public class CFClientProxy {
                     new ByteBufferBuilder(CFRenderTypes.entityFendCutout(FEND_LOCATION).bufferSize()));
             FEND_SOURCE=MultiBufferSource.immediateWithBuffers(buffers,new ByteBufferBuilder(256));
             return FEND_SOURCE;
+        }
+    }
+    public static MultiBufferSource.BufferSource SUN_SOURCE = null;
+
+    public static MultiBufferSource.BufferSource getSunSource(){
+        if(SUN_SOURCE!=null){
+            return FRIEND_SOURCE;
+        }else{
+            SequencedMap<RenderType,ByteBufferBuilder> buffers = new Object2ObjectLinkedOpenHashMap<>();
+            buffers.put(RenderType.entityTranslucent(FriendEntityRenderer.SMILE_FRIENDLESS_LOCATION),
+                    new ByteBufferBuilder(RenderType.entityTranslucent(FriendEntityRenderer.SMILE_FRIENDLESS_LOCATION).bufferSize()));
+
+            FRIEND_SOURCE=MultiBufferSource.immediateWithBuffers(buffers,new ByteBufferBuilder(256));
+            return FRIEND_SOURCE;
         }
     }
     public static MultiBufferSource.BufferSource FRIEND_SOURCE = null;

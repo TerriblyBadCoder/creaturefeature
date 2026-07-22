@@ -84,6 +84,10 @@ public class CFItemInit {
             "carapace",
             ()->new Item(new Item.Properties())
     );
+    public static final DeferredItem<Item> BACTERIUM_BALL = ITEMS.register(
+            "bacterium_ball",
+            ()->new BacteriumBallItem(new Item.Properties())
+    );
     public static final DeferredItem<Item> BLITZ_ROD = ITEMS.register(
             "blitz_rod",
             ()->new Item(new Item.Properties())

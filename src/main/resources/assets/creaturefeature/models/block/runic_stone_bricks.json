@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "minecraft:block/chiseled_stone_bricks",
+    "side": "creaturefeature:block/carved_stone_brick",
+    "top": "minecraft:block/chiseled_stone_bricks"
+  }
+}

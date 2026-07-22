@@ -1,19 +1,26 @@
 package net.atired.creaturefeature.mixin;
 
 import net.atired.creaturefeature.accessors.LivingEntityGoopAccessor;
+import net.atired.creaturefeature.entity.PathogenesisEntity;
+import net.atired.creaturefeature.entity.VertigoEntity;
 import net.atired.creaturefeature.init.CFBlockInit;
+import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFParticleInit;
 import net.atired.creaturefeature.networking.payloads.DeAmpPayload;
 import net.atired.creaturefeature.networking.payloads.VelSyncPayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -30,17 +37,50 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityGoopMixin extends Entity implements LivingEntityGoopAccessor {
     @Shadow public abstract boolean isDeadOrDying();
 
+    @Shadow public abstract void heal(float healAmount);
+
+    @Shadow public abstract float getHealth();
+
+    @Shadow public abstract float getMaxHealth();
+
     private float goop = 0.0f;
     private int ampAdd = 0;
+    private float hpNext = 0.0f;
+    private static final EntityDataAccessor<Integer> DELAY = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.INT);
     private boolean amped=false;
     private boolean amped2=false;
 
     public LivingEntityGoopMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
     }
-
+    @Inject(method = "defineSynchedData",at=@At("HEAD"))
+    private void defineSynchedDataCF(SynchedEntityData.Builder builder, CallbackInfo ci) {
+        builder.define(DELAY,0);
+    }
     @Inject(method = "aiStep",at=@At("HEAD"))
     private void evilAssAItickOfDoomLowk(CallbackInfo ci){
+        if(this.getDelay()>0){
+            if(level() instanceof  ServerLevel serverLevel&&(!((Entity)this instanceof Monster)||((Entity)this instanceof Monster monster && (monster.getTarget()!=null||getHealth()<getMaxHealth()))||getDelay()>24)){
+                heal(0.1f);
+                this.entityData.set(DELAY,getDelay()-1);
+            }
+            if(level()!=null&&this.tickCount%4==0)
+                level().addParticle(CFParticleInit.SPARKLE_PARTICLE.get(),getX((Math.random()-0.5f)*2.0f),getY(0.5),getZ((Math.random()-0.5f)*2.0f),0.1,0.1,0.1);
+
+            if(this.getDelay()==4){
+                if(level() instanceof ServerLevel serverLevel&&getBacterial()>2){
+                    PathogenesisEntity entity = new PathogenesisEntity(CFEntityInit.PATHOGEN.get(),serverLevel);
+                    entity.setPos(getPosition(1));
+                    entity.setDeltaMovement((Math.random()-0.5),0.2,(Math.random()-0.5));
+                    entity.setHealth(getBacterial()-2);
+                    serverLevel.addFreshEntity(entity);
+                    this.entityData.set(DELAY,getDelay()-1);
+                    serverLevel.sendParticles(CFParticleInit.SPARKLE_PARTICLE.get(),getX(),getY()+0.4f,getZ(),9,0.3,0.3,0.3,0.1);
+                }
+            }
+        }else{
+            this.hpNext=0.0f;
+        }
         if(getBlockStateOn().getBlock()== CFBlockInit.MINEDFLAYER_JELLY.get()){
             setGoop(getGoop()+0.1f);
         }else if(getGoop()>0.0f){
@@ -93,6 +133,23 @@ public abstract class LivingEntityGoopMixin extends Entity implements LivingEnti
         }
 
     }
+
+    @Override
+    public float getBacterial() {
+        return this.hpNext;
+    }
+
+    @Override
+    public int getDelay() {
+        return entityData.get(DELAY);
+    }
+
+    @Override
+    public void setBacterial(float bacte) {
+        this.hpNext=bacte;
+        this.entityData.set(DELAY,30);
+    }
+
     @Override
     public void setGoop(float goop) {
         this.goop=Math.clamp(goop,0.0f,1.0f);

@@ -7,6 +7,7 @@ import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.blocks.CarapaceBlock;
 import net.atired.creaturefeature.blocks.EepBlock;
 import net.atired.creaturefeature.blocks.MinedFlayerJellyBlock;
+import net.atired.creaturefeature.blocks.RunicStoneBricksBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
@@ -36,6 +37,8 @@ public class CFBlockInit {
             () -> new CarapaceBlock(new ColorRGBA(0xFF7b775f),BlockBehaviour.Properties.ofFullCopy(Blocks.PACKED_MUD)));
     public static final DeferredBlock<Block> EEP = registerBlock("eep",
             () -> new EepBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TNT)));
+    public static final DeferredBlock<Block> RUNIC_STONE_BRICKS = registerBlock("runic_stone_bricks",
+            () -> new RunicStoneBricksBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
 
 }
