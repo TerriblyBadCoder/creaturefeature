@@ -87,9 +87,13 @@ public abstract class AdvancementWidgetMixin {
                 if(CreatureFeatureClient.PROXY.searchingForHim&&(yPos>127.8&&level!=null&&level.dimensionType().respawnAnchorWorks())&&!this.description.get(0).equals('I')){
                     int j = 29 + minecraft.font.width(this.title) +  this.getMaxProgressWidth();
                     this.description = Language.getInstance().getVisualOrder(this.findOptimalLines(ComponentUtils.mergeStyles(Component.literal("I WILL SHOW YOU A GREAT VESTIGE TO THE EAST."), Style.EMPTY.withColor(display.getType().getChatColor())), j));
-
+                    //The eastern winds blow harshly.
+                }else{
+                    //The heated plains await.
                 }
             }else if(!this.description.get(0).equals('W')){
+
+                //Thank you.
                 int j = 29 + minecraft.font.width(this.title) +  this.getMaxProgressWidth();
                 this.description = Language.getInstance().getVisualOrder(this.findOptimalLines(ComponentUtils.mergeStyles(Component.literal("Well, the man thanked you, then he bowed, and left."), Style.EMPTY.withColor(display.getType().getChatColor())), j));
 

@@ -19,6 +19,8 @@ public class PlayerAdvancementsMixin {
     private void  unperform(AdvancementHolder advancement, String criterionKey, CallbackInfoReturnable<Boolean> cir){
         if(advancement.value().requirements().requirements().get(0).get(0).equals("man_test_criteria_name")&&player instanceof PlayerBrainrotAccessor accessor && !accessor.getManCan()){
             player.sendSystemMessage(Component.literal("Well, there was not a            here."));
+
+            //No.
             System.out.println(criterionKey);
             cir.cancel();
         }
