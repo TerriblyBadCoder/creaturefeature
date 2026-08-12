@@ -70,6 +70,12 @@ public class BlossomEntity extends Zombie {
         builder.define(OPENING,0.0f);
         super.defineSynchedData(builder);
     }
+
+    @Override
+    public boolean isBaby() {
+        return false;
+    }
+
     public float getOpening(){
         return entityData.get(OPENING);
     }

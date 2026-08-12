@@ -30,6 +30,18 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
         }
 
     }
+    //
+    @Inject(method = "render",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V",ordinal = 0,shift= At.Shift.BEFORE))
+    private void renderCFDepth(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci){
+        CreatureFeatureClient.SUN_TARGET2.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        if(CreatureFeatureClient.SUN instanceof PostChainDepthPassAccessor accessor2){
+            for(PostPass pass : accessor2.getDemPostPasses()){
+                pass.getEffect().setSampler("DiffuseDepthSampler",CreatureFeatureClient.SUN_TARGET2::getDepthTextureId);
+
+            }
+        }
+    }
+
         @Inject(method = "render",at= @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V",ordinal = 0,shift= At.Shift.BEFORE))
     private void renderCF(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci){
         if(Minecraft.getInstance().levelRenderer!=null&&CreatureFeatureClient.RABIES_TARGET!=null&&Minecraft.getInstance().levelRenderer.getSectionRenderDispatcher()!=null&&
@@ -38,19 +50,21 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
 
             PostChain chain2 = CreatureFeatureClient.FRIEND;
             chain2.process(deltaTracker.getRealtimeDeltaTicks());
+            chain2 = CreatureFeatureClient.SUN;
+            chain2.setUniform("GameTime",(Minecraft.getInstance().level.getGameTime()%24000));
+            chain2.process(deltaTracker.getRealtimeDeltaTicks());
             if(Minecraft.getInstance().player instanceof PlayerBrainrotAccessor accessor1&&
-                    Minecraft.getInstance().player instanceof LivingEntityGoopAccessor accessor2&&(accessor1.getBrainrot()>0.01f||accessor2.getGoop()>0.01f)){
-
+                    Minecraft.getInstance().player instanceof LivingEntityGoopAccessor accessor2&&(accessor1.getBrainrot()>0.01f||accessor2.getGoop()>0.01f||CreatureFeatureClient.PROXY.flayed2>0)){
                 PostChain chain = CreatureFeatureClient.MINEDFLAYER;
                 chain.setUniform("GameTime",(Minecraft.getInstance().level.getGameTime()%24000));
-                chain.setUniform("FadeInTest",Math.max(accessor1.getBrainrot(),Math.clamp(accessor2.getGoop(),0.0f,0.33f)));
+                chain.setUniform("FadeInTest",Math.max(Math.max(accessor1.getBrainrot(),Math.clamp(accessor2.getGoop(),0.0f,0.33f)),Math.min(1.0f,CreatureFeatureClient.PROXY.flayed2*1.1f)));
                 chain.process(deltaTracker.getRealtimeDeltaTicks());
             }
-            if(Minecraft.getInstance().player instanceof PlayerBrainrotAccessor accessor1&&accessor1.getRabies()>0.01f){
+            if(Minecraft.getInstance().player instanceof PlayerBrainrotAccessor accessor1&&(accessor1.getRabies()>0.01f||CreatureFeatureClient.PROXY.rabies2>0)){
 
                 PostChain chain = CreatureFeatureClient.RABIES;
                 chain.setUniform("GameTime",(Minecraft.getInstance().level.getGameTime()%24000));
-                chain.setUniform("FadeInTest",accessor1.getRabies());
+                chain.setUniform("FadeInTest",Math.max(accessor1.getRabies(),Math.min(1.0f,CreatureFeatureClient.PROXY.rabies2*1.1f)));
 
                 chain.process(deltaTracker.getRealtimeDeltaTicks());
             }
@@ -76,6 +90,7 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
                 chain.process(deltaTracker.getRealtimeDeltaTicks());
             }
             CreatureFeatureClient.FRIEND_TARGET.clear(Minecraft.ON_OSX);
+            CreatureFeatureClient.SUN_TARGET.clear(Minecraft.ON_OSX);
             Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
         }
     }

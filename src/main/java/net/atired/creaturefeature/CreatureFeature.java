@@ -3,6 +3,7 @@ package net.atired.creaturefeature;
 import com.teamabnormals.blueprint.core.api.BlueprintTrims;
 import net.atired.creaturefeature.entity.*;
 import net.atired.creaturefeature.init.*;
+import net.atired.creaturefeature.misc.IcoSphere;
 import net.atired.creaturefeature.networking.payloads.VelSyncPayload;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -36,6 +38,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 @Mod(CreatureFeature.MODID)
 public class CreatureFeature {
     public static final String MODID = "creaturefeature";
+    public static IcoSphere ICO = IcoSphere.MakeIcosphere(2);
     public CreatureFeature(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::createEntityAttributes);
@@ -50,7 +53,7 @@ public class CreatureFeature {
         CFDataComponentTypeInit.DATA_COMPONENT_TYPES.register(modEventBus);
         CFItemInit.ITEMS.register(modEventBus);
         CFBlockInit.BLOCKS.register(modEventBus);
-
+        CFBlockEntityInit.BLOCK_ENTITY_TYPES.register(modEventBus);
 
     }
     public static ResourceLocation getId(String string){
@@ -77,10 +80,15 @@ public class CreatureFeature {
         event.put(CFEntityInit.FIEND.get(), FiendEntity.createFiendAttributes().build());
         event.put(CFEntityInit.FEND.get(), FendEntity.createFendAttributes().build());
         event.put(CFEntityInit.FRIEND.get(), FriendEntity.createFriendAttributes().build());
+        if(ModList.get().isLoaded("sable"))
         event.put(CFEntityInit.TOADSTOOL.get(), ToadstoolEntity.createToadstoolAttributes().build());
         event.put(CFEntityInit.MOCKINGBIRD.get(), MockingBirdEntity.createMockingBirdAttributes().build());
         event.put(CFEntityInit.PATHOGEN.get(), PathogenesisEntity.createPathogenAttributes().build());
         event.put(CFEntityInit.BLOSSOM.get(), BlossomEntity.createAttributes().build());
+        event.put(CFEntityInit.SAINT_SOLIS.get(), SaintSolisEntity.createSaintSolisAttributes().build());
+        event.put(CFEntityInit.DETRITUS.get(), DetritusEntity.createDetritusAttributes().build());
+        event.put(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntity.createStainedGlassAttributes().build());
+        event.put(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntity.createCoatOfArmsAttributes().build());
     }
 
 }

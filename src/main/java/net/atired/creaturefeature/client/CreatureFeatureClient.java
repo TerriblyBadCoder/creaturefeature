@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.accessors.*;
 import net.atired.creaturefeature.client.particles.*;
+import net.atired.creaturefeature.client.renderers.blockentity.DoohickeyBlockEntityRenderer;
+import net.atired.creaturefeature.entity.CoatOfArmsEntity;
 import net.atired.creaturefeature.init.*;
 import net.atired.creaturefeature.client.renderers.*;
 import net.atired.creaturefeature.client.renderers.models.*;
@@ -23,6 +25,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.SpyglassItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -30,6 +33,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -81,7 +85,8 @@ public class CreatureFeatureClient {
     public static ResourceLocation SLEEPYEFFECT = CreatureFeature.getId("shaders/post/sleep.json");
     public static ResourceLocation RABIESEFFECT = CreatureFeature.getId("shaders/post/rabies.json");
     public static ResourceLocation HAZEEFFECT = CreatureFeature.getId("shaders/post/haze.json");
-    public static ResourceLocation FRIENDEFFECT = CreatureFeature.getId("shaders/post/friend.json");
+    public static ResourceLocation FRIENDEFFECT = CreatureFeature.getId("shaders/post/friend.json");;
+    public static ResourceLocation SUNEFFECT = CreatureFeature.getId("shaders/post/sun.json");
     public static ResourceLocation BACTEEFFECT = CreatureFeature.getId("shaders/post/bacte.json");
     public static PostChain MINEDFLAYER = null;
     public static PostChain SLEEP = null;
@@ -89,9 +94,12 @@ public class CreatureFeatureClient {
     public static PostChain HAZE = null;
     public static PostChain BACTE = null;
     public static PostChain FRIEND = null;
+    public static PostChain SUN = null;
 
     public static RenderTarget HAZE_TARGET = null;
     public static RenderTarget FRIEND_TARGET = null;
+    public static RenderTarget SUN_TARGET = null;
+    public static RenderTarget SUN_TARGET2 = null;
     public static RenderTarget RABIES_TARGET = null;
     public static CFClientProxy PROXY = new CFClientProxy();
     @SubscribeEvent
@@ -112,6 +120,14 @@ public class CreatureFeatureClient {
             FRIEND.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             FRIEND.addTempTarget("friendlytarget",Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             FRIEND_TARGET=FRIEND.getTempTarget("friendlytarget");
+
+            SUN= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), SUNEFFECT);
+            SUN.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
+            SUN.addTempTarget("suntarget",Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
+            SUN_TARGET=SUN.getTempTarget("suntarget");
+            SUN.addTempTarget("suntarget2",Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
+            SUN_TARGET2=SUN.getTempTarget("suntarget2");
+
             MINEDFLAYER= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), EVIL_ASS_MINEDFLAYEREFFECT);
             MINEDFLAYER.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
         }
@@ -312,7 +328,18 @@ public class CreatureFeatureClient {
 
                     }
                 }
-                PostChain[] chains = {CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
+                Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+                CreatureFeatureClient.SUN_TARGET.bindWrite(false);
+                CFClientProxy.getSunSource().endBatch();
+                CreatureFeatureClient.SUN_TARGET.unbindWrite();
+                if(CreatureFeatureClient.SUN instanceof PostChainDepthPassAccessor accessor){
+                    for(PostPass pass : accessor.getDemPostPasses()){
+                        pass.getEffect().setSampler("SunSampler",CreatureFeatureClient.SUN_TARGET::getColorTextureId);
+                        pass.getEffect().setSampler("SunDepthSampler",CreatureFeatureClient.SUN_TARGET::getDepthTextureId);
+
+                    }
+                }
+                PostChain[] chains = {CreatureFeatureClient.SUN,CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
                 CreatureFeatureClient.RABIES_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
 
                 //RESET
@@ -342,6 +369,7 @@ public class CreatureFeatureClient {
             MINEDFLAYER.resize(SIZED[0],SIZED[1]);
             HAZE.resize(SIZED[0],SIZED[1]);
             FRIEND.resize(SIZED[0],SIZED[1]);
+            SUN.resize(SIZED[0],SIZED[1]);
             BACTE.resize(SIZED[0],SIZED[1]);
         }
         if(HAZE_TARGET==null&&HAZE!=null){
@@ -369,16 +397,22 @@ public class CreatureFeatureClient {
                 PROXY.wobble=0.0f;
             }
         }
+        if(PROXY.rabies2>0.0f){
+            PROXY.rabies2=Math.clamp(PROXY.rabies2-0.04f,0.0f,1.0f);
+        }
+        if(PROXY.flayed2>0.0f){
+            PROXY.flayed2=Math.clamp(PROXY.flayed2-0.04f,0.0f,1.0f);
+        }
         if(Minecraft.getInstance().player!=null&&Minecraft.getInstance().player instanceof LivingEntityGoopAccessor accessor && accessor.getDelay()>0){
             PROXY.bacterial=Mth.lerp(0.3f,PROXY.bacterial,1.0f);
         }else{
-            PROXY.bacterial=Math.max(0.0f,PROXY.bacterial-0.05f);
+            PROXY.bacterial=Math.clamp(PROXY.bacterial-0.05f,0.0f,1.0f);
         }
         if(Minecraft.getInstance().player!=null&&Minecraft.getInstance().player.hasEffect(CFMobEffectInit.SLEEPY)){
             PROXY.eebyDeebyNess=Math.min(1.0f,PROXY.eebyDeebyNess+0.02f);
         }
         else if(PROXY.eebyDeebyNess>0.0f){
-            PROXY.eebyDeebyNess=Math.max(0.0f,PROXY.eebyDeebyNess-0.02f);
+            PROXY.eebyDeebyNess=Math.clamp(PROXY.eebyDeebyNess-0.02f,0.0f,1.0f);
         }
     }
     @SubscribeEvent
@@ -394,12 +428,18 @@ public class CreatureFeatureClient {
         event.registerSpriteSet(CFParticleInit.SPARKLE_PARTICLE.get(), SparkleParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPORE_PARTICLE.get(), SporeParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPIT_PARTICLE.get(), SpitParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.STAR_PARTICLE.get(), StarParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.CASING_PARTICLE.get(), CasingParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.GLASS_SHARD_PARTICLE.get(), GlassParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.GLASS_SHARD_SINISTER_PARTICLE.get(), GlassSinisterParticle.Provider::new);
 
 
     }
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MindsEntityModel.LAYER_LOCATION, MindsEntityModel::createBodyLayer);
+        event.registerLayerDefinition(MindsEntityModel.LAYER_INNER_ARMOUR_LOCATION,()->{return LayerDefinition.create(HumanoidArmorModel.createBodyLayer(LayerDefinitions.INNER_ARMOR_DEFORMATION), 64, 32);});
+        event.registerLayerDefinition(MindsEntityModel.LAYER_ARMOUR_LOCATION, ()->{return LayerDefinition.create(HumanoidArmorModel.createBodyLayer(LayerDefinitions.OUTER_ARMOR_DEFORMATION), 64, 32);});
         event.registerLayerDefinition(MachinationEntityModel.LAYER_LOCATION, MachinationEntityModel::createBodyLayer);
         event.registerLayerDefinition(SinisterEntityModel.LAYER_LOCATION, SinisterEntityModel::createBodyLayer);
         event.registerLayerDefinition(BeautyEntityModel.LAYER_LOCATION, BeautyEntityModel::createBodyLayer);
@@ -409,17 +449,21 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(NoThingEntityModel.LAYER_LOCATION, NoThingEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityModel.LAYER_LOCATION, CanaryEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityPartModel.LAYER_LOCATION, CanaryEntityPartModel::createBodyLayer);
-        event.registerLayerDefinition(FiendEntityModel.LAYER_LOCATION, FiendEntityModel::createBodyLayer);
+        event.registerLayerDefinition(FiendEntityModel.LAYER_LOCATION, ()->{return FiendEntityModel.createBodyLayer(0f);});
+        event.registerLayerDefinition(FiendEntityModel.INNER_LAYER_LOCATION, ()->{return FiendEntityModel.createBodyLayer(-1.05f);});
         event.registerLayerDefinition(VertigoEntityModel.LAYER_LOCATION, VertigoEntityModel::createBodyLayer);
         event.registerLayerDefinition(DreamWeaverEntityModel.LAYER_LOCATION, DreamWeaverEntityModel::createBodyLayer);
         event.registerLayerDefinition(DreamWeaverEntityModel.INNER_LAYER_LOCATION, ()->{return DreamWeaverEntityModel.createBodyLayer(-0.1f);});
         event.registerLayerDefinition(DreamWeaverEntityModel.INNERER_LAYER_LOCATION, ()->{return DreamWeaverEntityModel.createBodyLayer(-0.05f);});
         event.registerLayerDefinition(CannonballCrabEntityModel.LAYER_LOCATION, CannonballCrabEntityModel::createBodyLayer);
-        event.registerLayerDefinition(FiendEntityModel.LAYER_LOCATION, FiendEntityModel::createBodyLayer);
         event.registerLayerDefinition(ToadstoolEntityModel.LAYER_LOCATION, ToadstoolEntityModel::createBodyLayer);
         event.registerLayerDefinition(MockingBirdEntityModel.LAYER_LOCATION, MockingBirdEntityModel::createBodyLayer);
         event.registerLayerDefinition(PathogenEntityModel.LAYER_LOCATION, PathogenEntityModel::createBodyLayer);
         event.registerLayerDefinition(BlossomEntityModel.LAYER_LOCATION, BlossomEntityModel::createBodyLayer);
+        event.registerLayerDefinition(SaintSolisEntityModel.LAYER_LOCATION, SaintSolisEntityModel::createBodyLayer);
+        event.registerLayerDefinition(DetritusEntityModel.LAYER_LOCATION, DetritusEntityModel::createBodyLayer);
+        event.registerLayerDefinition(StainedGlassEntityModel.LAYER_LOCATION, StainedGlassEntityModel::createBodyLayer);
+        event.registerLayerDefinition(CoatOfArmsEntityModel.LAYER_LOCATION, CoatOfArmsEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_LOCATION, FendEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_INNER_ARMOUR_LOCATION,()->{return LayerDefinition.create(HumanoidArmorModel.createBodyLayer(LayerDefinitions.INNER_ARMOR_DEFORMATION), 64, 32);});
         event.registerLayerDefinition(FendEntityModel.LAYER_ARMOUR_LOCATION, ()->{return LayerDefinition.create(HumanoidArmorModel.createBodyLayer(LayerDefinitions.OUTER_ARMOR_DEFORMATION), 64, 32);});
@@ -427,6 +471,8 @@ public class CreatureFeatureClient {
     }
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(CFBlockEntityInit.DOOHICKEY.get(), DoohickeyBlockEntityRenderer::new);
+
         event.registerEntityRenderer(CFEntityInit.MINDS.get(), MindsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MACHINATION.get(), MachinationEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.SINISTER.get(), SinisterEntityRenderer::new);
@@ -442,15 +488,22 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.DREAMWEAVER.get(), DreamWeaverEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FIEND.get(), FiendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FRIEND.get(), FriendEntityRenderer::new);
+        if(ModList.get().isLoaded("sable"))
         event.registerEntityRenderer(CFEntityInit.TOADSTOOL.get(), ToadstoolEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MOCKINGBIRD.get(), MockingBirdEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.PATHOGEN.get(), PathogenEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.BLOSSOM.get(), BlossomEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.SAINT_SOLIS.get(), SaintSolisEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.DETRITUS.get(), DetritusEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEP.get(), EepEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEATHER.get(),  (c)->{return new FeatherEntityRenderer(c,1.0f,false);});
+        event.registerEntityRenderer(CFEntityInit.STAR.get(),  (c)->{return new StarProjEntityRenderer(c,1.0f,false);});
         event.registerEntityRenderer(CFEntityInit.KICKED_BLOCK.get(), KickedBlockEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.SPAT_BLOCK.get(), SpatBlockEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.BULLET.get(), BulletEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MURKY_PEARL.get(), (c)->{return new MurkyPearlEntityRenderer(c,1.0f,false);});
     }
     public static void vertex(PoseStack.Pose pose, VertexConsumer consumer, double x, double y, double z, float u, float v, int normalX, int normalY, int normalZ, int packedLight, float alpha) {

@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "creaturefeature:item/flintlock_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "creaturefeature:item/flintlock_2d"
+    },
+    "ground": {
+      "parent": "creaturefeature:item/flintlock_2d"
+    },
+    "fixed": {
+      "parent": "creaturefeature:item/flintlock_2d"
+    }
+  }
+}

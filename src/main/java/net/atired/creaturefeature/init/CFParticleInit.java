@@ -20,6 +20,18 @@ public class CFParticleInit {
             "leaf",
             () -> new SimpleParticleType(false)
     );
+    public static final Supplier<SimpleParticleType> CASING_PARTICLE = PARTICLE_TYPES.register(
+            "casing",
+            () -> new SimpleParticleType(false)
+    );
+    public static final Supplier<SimpleParticleType> GLASS_SHARD_PARTICLE = PARTICLE_TYPES.register(
+            "glass_shard",
+            () -> new SimpleParticleType(false)
+    );
+    public static final Supplier<SimpleParticleType> GLASS_SHARD_SINISTER_PARTICLE = PARTICLE_TYPES.register(
+            "glass_shard_sinister",
+            () -> new SimpleParticleType(false)
+    );
     public static final Supplier<SimpleParticleType> FLOWER_PARTICLE = PARTICLE_TYPES.register(
             "flower",
             () -> new SimpleParticleType(false)
@@ -50,6 +62,10 @@ public class CFParticleInit {
     );
     public static final Supplier<SimpleParticleType> SPORE_PARTICLE = PARTICLE_TYPES.register(
             "spore",
+            () -> new SimpleParticleType(false)
+    );
+    public static final Supplier<SimpleParticleType> STAR_PARTICLE = PARTICLE_TYPES.register(
+            "star",
             () -> new SimpleParticleType(false)
     );
     public static final Supplier<SimpleParticleType> SPIT_PARTICLE = PARTICLE_TYPES.register(

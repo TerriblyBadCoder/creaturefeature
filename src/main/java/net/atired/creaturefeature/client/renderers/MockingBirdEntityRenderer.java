@@ -19,6 +19,9 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
     private static final ResourceLocation MOCKINGBIRD_LOCATION = CreatureFeature.getId("textures/entity/mockingbird.png");
     private static final ResourceLocation MOCKINGBIRD_WINGS_LOCATION = CreatureFeature.getId("textures/entity/mockingbird_wings.png");
 
+    private static final ResourceLocation MOCKINGBIRD_DT_LOCATION = CreatureFeature.getId("textures/entity/mockingbird_dt.png");
+    private static final ResourceLocation MOCKINGBIRD_WINGS_DT_LOCATION = CreatureFeature.getId("textures/entity/mockingbird_wings_dt.png");
+
     public MockingBirdEntityRenderer(EntityRendererProvider.Context context) {
         super(context, new MockingBirdEntityModel<>(context.bakeLayer(MockingBirdEntityModel.LAYER_LOCATION)), 0.6f);
     }
@@ -35,7 +38,7 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
         float yawEd = -entity.getPreciseBodyRotation(partialTicks)/180.0f*3.14f;
         Vec3 translated = new Vec3(0,0,-0.4).scale(1.0-entity.getWingspan()).yRot(yawEd);
         float mul = 1.0f+ Mth.sin((entity.tickCount+partialTicks)/10.0f)*3.0f*(1.0f+entity.getWingspan()/1.5f)+(entity.getWingspan()-1.0f)*16.0f;
-        float scaled = 0.67f+entity.getWingspan()/3.0f;
+        float scaled = 0.8f+entity.getWingspan()/3.0f;
         int overlay = getOverlayCoords(entity, this.getWhiteOverlayProgress(entity, partialTicks));
         poseStack.pushPose();
         poseStack.translate((float)translated.x ,1.4f,(float)translated.z);
@@ -46,7 +49,7 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
             Vec3 old1 = new Vec3(0.1,1,0).yRot(yawEd);
             Vec3 old2 = new Vec3(0.1,-1,0).yRot(yawEd);
             for (int j = 1; j <= 8; j++) {
-                float sinused = Mth.sin((entity.tickCount+partialTicks)/(4.0f)+j/2.0f)/5.0f*(0.7f+entity.getWingspan()+entity.getFlapping()*2.0f);
+                float sinused = Mth.sin((entity.tickCount+partialTicks)/(4.0f)+j/2.0f)/5.0f*(1.7f+entity.getWingspan()+entity.getFlapping()*1.0f);
                 Vec3 old3 = new Vec3(0.4f*scaled,0,0).yRot(j/23.0f*mul).zRot(sinused).yRot(yawEd).add(old1);
                 Vec3 old4 = new Vec3(0.4f*scaled,0,0).yRot(j/23.0f*mul).zRot(sinused).yRot(yawEd).add(old2);
                 vertex(posed,consumer,old3.x,old3.y,old3.z,(1-(j)/8.0f),0,0,1,0,packedLight,1,overlay);

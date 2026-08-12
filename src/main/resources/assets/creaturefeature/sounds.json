@@ -11,6 +11,24 @@
       "creaturefeature:smiles"
     ]
   },
+  "entity.stained_glass_retreat": {
+    "subtitle": "sound.creaturefeature.stained_glass_retreat",
+    "sounds": [
+      "creaturefeature:stained_glass_rebound"
+    ]
+  },
+  "entity.stained_glass_die": {
+    "subtitle": "sound.creaturefeature.stained_glass_die",
+    "sounds": [
+      "creaturefeature:stained_glass_die"
+    ]
+  },
+  "entity.shot": {
+    "subtitle": "sound.creaturefeature.shot",
+    "sounds": [
+      "creaturefeature:shot"
+    ]
+  },
   "entity.friend_hurt": {
     "subtitle": "sound.creaturefeature.laughter",
     "sounds": [

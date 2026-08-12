@@ -54,6 +54,44 @@ public class CFRenderTypes {
     }
 
 
+    public static ShaderInstance MONOCHROME_SHADER_INSTANCE = null;
+    public static ShaderInstance getMonochromeShaderInstance(){return MONOCHROME_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_MONOCHROME_CULL_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getMonochromeShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_MONOCHROME_CULL = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_MONOCHROME_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_monochrome", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+
+    public static RenderType entityMonochromeCull(ResourceLocation location) {
+        return ENTITY_MONOCHROME_CULL.apply(location);
+    }
+    public static ShaderInstance STAR_SHADER_INSTANCE = null;
+    public static ShaderInstance getStarShaderInstance(){return STAR_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_STAR_CULL_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getStarShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_STAR_CULL = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_STAR_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_star", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
     public static ShaderInstance BLOSSOM_SHADER_INSTANCE = null;
     public static ShaderInstance getBlossomShaderInstance(){return BLOSSOM_SHADER_INSTANCE;}
     public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_BLOSSOM_CULL_SHADER = new RenderStateShard.ShaderStateShard
@@ -72,6 +110,9 @@ public class CFRenderTypes {
             }
     );
 
+    public static RenderType entityStarCull(ResourceLocation location) {
+        return ENTITY_STAR_CULL.apply(location);
+    }
     public static RenderType entityBlossomCull(ResourceLocation location) {
         return ENTITY_BLOSSOM_CULL.apply(location);
     }
@@ -82,15 +123,20 @@ public class CFRenderTypes {
     public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_SILK_CULL_SHADER = new RenderStateShard.ShaderStateShard
             (CFRenderTypes::getSilkShaderInstance);
     private static final ResourceLocation SILK =CreatureFeature.getId("textures/entity/silk.png");
-    public static final Function<ResourceLocation, RenderType> ENTITY_SILK_CULL = Util.memoize(
-            p_286169_ -> {
+    private static final ResourceLocation CRIT =CreatureFeature.getId("textures/entity/crit2.png");
+    public static final BiFunction<ResourceLocation,Boolean, RenderType> ENTITY_SILK_CULL = Util.memoize(
+            (p_286169_,bool) -> {
                 RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_ENTITY_SILK_CULL_SHADER)
                         .setTextureState(new RenderStateShard.EmptyTextureStateShard(()->{
                             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
                             texturemanager.getTexture(p_286169_).setFilter(false, false);
                             RenderSystem.setShaderTexture(0, p_286169_);
+                            if(!bool){
                                 RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(SILK).getId());
+                            }else{
+                                RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(CRIT).getId());
+                            }
                         },()->{}))
                         .setCullState(RenderType.CULL)
                         .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
@@ -102,7 +148,10 @@ public class CFRenderTypes {
     );
 
     public static RenderType entitySilkCull(ResourceLocation location) {
-        return ENTITY_SILK_CULL.apply(location);
+        return ENTITY_SILK_CULL.apply(location,false);
+    }
+    public static RenderType entityCritCull(ResourceLocation location) {
+        return ENTITY_SILK_CULL.apply(location,true);
     }
     public static ShaderInstance FRIEND_SHADER_INSTANCE = null;
     public static ShaderInstance getFriendShaderInstance(){return FRIEND_SHADER_INSTANCE;}
@@ -225,5 +274,11 @@ public class CFRenderTypes {
         registerShadersEvent.registerShader(
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_blossom"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{BLOSSOM_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_star"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{STAR_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_monochrome"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{MONOCHROME_SHADER_INSTANCE=a;});
     }
 }

@@ -1,0 +1,45 @@
+{
+    "parent": "block/block",
+    "render_type": "minecraft:cutout",
+    "display": {
+        "head": {
+            "rotation": [ -180, 0, 0 ],
+            "translation": [ 8.5, 4, 0 ]
+        },
+        "thirdperson_righthand": {
+            "translation": [ 0, 2, 0.5],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        }
+    },
+    "textures": {
+        "texture": "creaturefeature:block/doohickey_0",
+        "texture1": "creaturefeature:block/doohickey_1",
+        "texture2": "creaturefeature:block/doohickey_2",
+        "texture3": "creaturefeature:block/doohickey_3",
+        "particle": "creaturefeature:block/doohickey_2"
+    },
+    "elements": [
+        {   "from": [ 0.01, 15, 0.01 ],
+            "to": [ 15.99, 18, 15.99 ],
+            "faces": {
+                "north": { "uv": [ 0, 12, 16, 15 ],"texture": "#texture1" },
+                "south": { "uv": [ 0, 12, 16, 15 ],"texture": "#texture1" },
+                "west":  { "uv": [ 0, 12, 16, 15 ],"texture": "#texture1" },
+                "east":  { "uv": [ 0, 12, 16, 15 ],"texture": "#texture1" },
+                "down": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture3" },
+                "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture2" }
+            }
+        },
+        {   "from": [ 2, 0, 2 ],
+            "to": [ 14, 16, 14 ],
+            "faces": {
+                "north": { "uv": [ 0, 0, 12, 16 ],"texture": "#texture" },
+                "south": { "uv": [ 0, 0, 12, 16 ],"texture": "#texture" },
+                "west":  { "uv": [ 0, 0, 12, 16 ],"texture": "#texture" },
+                "east":  { "uv": [ 0, 0, 12, 16 ],"texture": "#texture" },
+                "down": { "uv": [ 0, 0, 12, 12 ], "texture": "#texture1" },
+                "up": { "uv": [ 0, 0, 12, 12 ], "texture": "#texture1" }
+            }
+        }
+    ]
+}

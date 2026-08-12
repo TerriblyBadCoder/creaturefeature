@@ -27,11 +27,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -39,6 +41,13 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = CreatureFeature.MODID)
 public class CFEvents {
+
+    @SubscribeEvent
+    public static void onFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
+        if (event.getItemStack().is(CFItemInit.SOLAR_SHARD.get())) {
+            event.setBurnTime(1600*8);
+        }
+    }
     @SubscribeEvent // on the mod event bus
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
 
@@ -62,11 +71,23 @@ public class CFEvents {
             event.accept(CFItemInit.FEND_EGG.get());
             event.accept(CFItemInit.FRIEND_EGG.get());
 
+            if(ModList.get().isLoaded("sable"))
+            event.accept(CFItemInit.TOADSTOOL_EGG.get());
+            event.accept(CFItemInit.MOCKINGBIRD_EGG.get());
+            event.accept(CFItemInit.PATHOGEN_EGG.get());
+            event.accept(CFItemInit.BLOSSOM_EGG.get());
+            event.accept(CFItemInit.SAINT_SOLIS_EGG.get());
+
+            event.accept(CFItemInit.DETRITUS_EGG.get());
+            event.accept(CFItemInit.STAINED_GLASS_EGG.get());
+            event.accept(CFItemInit.COAT_OF_ARMS_EGG.get());
+
         }
         if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
             event.insertAfter(Items.MILK_BUCKET.getDefaultInstance(),CFItemInit.THE_PILL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
         }
         if(event.getTabKey()==CreativeModeTabs.COMBAT){
+            event.insertBefore(Items.BOW.getDefaultInstance(),CFItemInit.FLINTLOCK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
             event.insertBefore(Items.MACE.getDefaultInstance(),CFItemInit.HEAVY_AXE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
         }
         if(event.getTabKey()==CreativeModeTabs.INGREDIENTS){
@@ -80,6 +101,8 @@ public class CFEvents {
             event.insertBefore(Items.NAUTILUS_SHELL.getDefaultInstance(),CFItemInit.CARAPACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.POPPED_CHORUS_FRUIT.getDefaultInstance(),CFItemInit.DREAM_SILK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.HONEYCOMB.getDefaultInstance(),CFItemInit.ECTOPLASM.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GHAST_TEAR.getDefaultInstance(),CFItemInit.THINGAMABOB.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.BONE.getDefaultInstance(),CFItemInit.LIVING_GLASS_SHARDS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.GUNPOWDER.getDefaultInstance(),CFItemInit.SLEEPING_POWDER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.TOOLS_AND_UTILITIES){
@@ -96,6 +119,7 @@ public class CFEvents {
             event.insertBefore(Items.LODESTONE.getDefaultInstance(), CFBlockInit.MINEDFLAYER_JELLY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
+            event.insertBefore(Items.SPIDER_EYE.getDefaultInstance(), CFItemInit.VERTIGO_CHUNK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.ROTTEN_FLESH.getDefaultInstance(), CFItemInit.BLIGHTED_BRAIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.REDSTONE_BLOCKS){
@@ -170,6 +194,9 @@ public class CFEvents {
         event.register(CFEntityInit.FIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FiendEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.FRIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FriendEntity::checkFriendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.FEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FendEntity::checkFendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+
+
+        event.register(CFEntityInit.DETRITUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DetritusEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
     }
     @SubscribeEvent

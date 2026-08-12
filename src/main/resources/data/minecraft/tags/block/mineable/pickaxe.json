@@ -1,0 +1,5 @@
+{
+  "replace": false,
+  "values": ["creaturefeature:runic_stone_bricks",
+    "creaturefeature:doohickey"]
+}

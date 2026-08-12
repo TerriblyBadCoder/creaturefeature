@@ -1,7 +1,10 @@
 package net.atired.creaturefeature.entity;
 
 import net.atired.creaturefeature.init.CFEntityInit;
+import net.atired.creaturefeature.init.CFItemInit;
+import net.atired.creaturefeature.init.CFParticleInit;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -22,6 +25,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
@@ -31,6 +35,9 @@ import java.util.EnumSet;
 
 public class FiendEntity extends Monster {
     public int kickDelay = 80;
+    public int shotDelay = 160;
+    public int shotCount=0;
+    private static final EntityDataAccessor<Float> CRIT = SynchedEntityData.defineId(FiendEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> KICK = SynchedEntityData.defineId(FiendEntity.class, EntityDataSerializers.FLOAT);
 
     public FiendEntity(EntityType<? extends Monster> entityType, Level level) {
@@ -78,15 +85,23 @@ public class FiendEntity extends Monster {
     public float getKick() {
         return entityData.get(KICK);
     }
+    public void setCrit(float spin) {
+        entityData.set(CRIT,Math.clamp(spin,0.0f,1.0f));
+    }
+    public float getCrit() {
+        return entityData.get(CRIT);
+    }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(KICK,0.0f);
+        builder.define(CRIT,0.0f);
         super.defineSynchedData(builder);
     }
 
     @Override
     public void tick() {
+        super.tick();
         if(level().isClientSide()&&getKick()>=0.9f&&getBlockStateOn()!=null){
             for (int i = 0; i < 32; i++) {
                 Vec3 dir = getViewVector(1).multiply(1,0,1).normalize().yRot((float)Math.random()-0.5f).add(0,Math.random()/6.0f,0).multiply(500,1,500);
@@ -99,10 +114,49 @@ public class FiendEntity extends Monster {
             setKick(getKick()-0.1f);
 
         }
-        if(this.getTarget()!=null&&this.position().distanceTo(this.getTarget().getPosition(1))>1.23){
-            this.kickDelay-=1;
+        if(level() instanceof ServerLevel serverLevel&&getCrit()>0.0f){
+            setCrit(getCrit()-0.01f);
+            if(getCrit()<0.5f&&(int)(getCrit()*100f)%3==0&&getCrit()>0.4f){
+                BulletEntity bulletEntity=new BulletEntity(CFEntityInit.BULLET.get(),serverLevel);
+                bulletEntity.ownerUsual=this;
+                serverLevel.addFreshEntity(bulletEntity);
+                Vec3 dir = new Vec3(0,0,1).yRot(-yHeadRot/180f*3.14f).scale(0.8).add(0,1.6,0).add(getPosition(1));
+                bulletEntity.setPos(dir.add((Math.random()-0.5)/16f,(Math.random()-0.5)/16f,(Math.random()-0.5)/16f));
+                bulletEntity.setYRot(yHeadRot);
+                bulletEntity.setXRot(getXRot());
+                serverLevel.sendParticles(CFParticleInit.CASING_PARTICLE.get(),bulletEntity.getX(),bulletEntity.getY(),bulletEntity.getZ(),1,0,0,0,0.2);
+
+            }
+            if(getTarget()!=null)
+                lookAt(getTarget(),30,30);
+            if(getCrit()<0.35f){
+                Vec3 dir = getViewVector(1).multiply(1,0,1).normalize().scale(0.8).add(0,1.45,0).add(getPosition(1));
+                setCrit(0f);
+                this.kickDelay=2;
+                this.shotDelay=3;
+                this.shotCount+=1;
+                if(this.shotCount==3){
+                    this.shotCount=0;
+                    this.shotDelay=200;
+                }
+
+                serverLevel.sendParticles(CFParticleInit.CASING_PARTICLE.get(),dir.x,dir.y,dir.z,4,0,0,0,0.2);
+                serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, CFItemInit.FLINTLOCK.toStack()),dir.x,dir.y,dir.z,14,0,0,0,0.4);
+                serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, CFItemInit.FLINTLOCK.toStack()),dir.x,dir.y,dir.z,14,0,0,0,0.2);
+            }
+            return;
         }
-        super.tick();
+        if(this.getTarget()!=null){
+            if(Math.random()>0.4&&this.kickDelay>3&&this.shotDelay<0&&Math.abs(getY()-getTarget().getY())<0.1&&getCrit()<0.02f){
+                setCrit(0.6f);
+                this.navigation.stop();
+                this.stopInPlace();
+            }
+            if(this.position().distanceTo(this.getTarget().getPosition(1))>1.23){
+                this.kickDelay-=1;
+                this.shotDelay-=1;
+            }
+        }
     }
 
     @Override
@@ -115,6 +169,12 @@ public class FiendEntity extends Monster {
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.EVOKER_DEATH;
+    }
+
+    @Override
+    public float getSpeed() {
+        if(getCrit()>0)return 0;
+        return super.getSpeed();
     }
 
     @Override

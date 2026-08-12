@@ -150,7 +150,7 @@ public class IcoSphere {
 
                     if (true) {
                         sphere.pos.add(currentVertCount, (sphere.pos.get(first).add(sphere.pos.get(second))).scale(0.5f));
-                        sphere.uvs.add(currentVertCount, (sphere.uvs.get(first).add(sphere.uvs.get(second))).mul(0.5f));
+                        sphere.uvs.add(currentVertCount, (sphere.uvs.get(first).add(sphere.uvs.get(second),new Vector2f())).mul(0.5f,new Vector2f()));
                         midpoints[e] = currentVertCount;
                         currentVertCount += 1;
                     }

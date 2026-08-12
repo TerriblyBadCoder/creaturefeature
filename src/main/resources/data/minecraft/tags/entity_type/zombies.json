@@ -1,4 +1,4 @@
 {
   "replace": false,
-  "values": ["creaturefeature:minds"]
+  "values": ["creaturefeature:minds","creaturefeature:blossom","creaturefeature:detritus"]
 }

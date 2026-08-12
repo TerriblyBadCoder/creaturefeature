@@ -2,6 +2,7 @@ package net.atired.creaturefeature.init;
 
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.items.*;
+import net.atired.creaturefeature.misc.SableCarrier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -20,7 +22,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class CFItemInit {
     public static final DeferredRegister.Items ITEMS =DeferredRegister.createItems(CreatureFeature.MODID);
     public static final DeferredItem<Item> MINDS_EGG = ITEMS.register("minds_spawn_egg", ()->new
-            SpawnEggItem(CFEntityInit.MINDS.get(),0x6a2a51,0xd17989,new  Item.Properties()));
+            SpawnEggItem(CFEntityInit.MINDS.get(),0xd17989,0x923a70,new  Item.Properties()));
     public static final DeferredItem<Item> SINISTER_EGG = ITEMS.register("sinister_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.SINISTER.get(),0xffffff,0xf1e49f,new  Item.Properties()));
     public static final DeferredItem<Item> MACHINATION_EGG = ITEMS.register("machination_spawn_egg", ()->new
@@ -57,6 +59,31 @@ public class CFItemInit {
     public static final DeferredItem<Item> DREAMWEAVER_EGG = ITEMS.register("dreamweaver_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.DREAMWEAVER.get(),0x64775d,0x515657,new  Item.Properties()));
 
+    public static DeferredItem<Item> TOADSTOOL_EGG;
+    static {
+        TOADSTOOL_EGG=null;
+        if(ModList.get().isLoaded("sable")) {
+            SableCarrier.initEgg();
+        }
+    }
+    public static final DeferredItem<Item> MOCKINGBIRD_EGG = ITEMS.register("mockingbird_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.MOCKINGBIRD.get(),0xefefc3,0x9ae1d7,new  Item.Properties()));
+    public static final DeferredItem<Item> PATHOGEN_EGG = ITEMS.register("pathogen_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.PATHOGEN.get(),0xd8e7c3,0x4ca150,new  Item.Properties()));
+    public static final DeferredItem<Item> BLOSSOM_EGG = ITEMS.register("blossom_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.BLOSSOM.get(),0x67e081,0x729e65,new  Item.Properties()));
+    public static final DeferredItem<Item> SAINT_SOLIS_EGG = ITEMS.register("saint_solis_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.SAINT_SOLIS.get(),0xeb9e5a,0xdb4b4b,new  Item.Properties()));
+    public static final DeferredItem<Item> DETRITUS_EGG = ITEMS.register("detritus_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.DETRITUS.get(),0xcb67ad,0x7d6a42,new  Item.Properties()));
+    public static final DeferredItem<Item> STAINED_GLASS_EGG = ITEMS.register("stained_glass_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.STAINED_GLASS.get(),0x9f96b6,0x45467f,new  Item.Properties()));
+    public static final DeferredItem<Item> COAT_OF_ARMS_EGG = ITEMS.register("coat_of_arms_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.COATOFARMS.get(),0xff8591,0x70433d,new  Item.Properties()));
+
+
+
+
 
     public static ResourceKey<JukeboxSong> NOTHING = ResourceKey.create(Registries.JUKEBOX_SONG, CreatureFeature.getId("nothing"));
     public static final DeferredItem<Item> NOTHING_DISC = ITEMS.register(
@@ -76,17 +103,36 @@ public class CFItemInit {
             "blighted_brain",
             ()->new Item(new Item.Properties().food(BLIGHTED_BRAIN_FOOD))
     );
+    public static final FoodProperties VERTIGO_FOOD = (new FoodProperties.Builder()).nutrition(5).saturationModifier(0.3F)
+            .effect(new MobEffectInstance(MobEffects.HUNGER, 100, 0), 0.4F).build();
+
+    public static final DeferredItem<Item> VERTIGO_CHUNK = ITEMS.register(
+            "vertigo_chunk",
+            ()->new Item(new Item.Properties().food(VERTIGO_FOOD))
+    );
     public static final DeferredItem<Item> SLEEPING_POWDER = ITEMS.register(
             "sleeping_powder",
             ()->new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> LIVING_GLASS_SHARDS = ITEMS.register(
+            "living_glass_shards",
+            ()->new LivingGlassItem(new Item.Properties())
     );
     public static final DeferredItem<Item> CARAPACE = ITEMS.register(
             "carapace",
             ()->new Item(new Item.Properties())
     );
+    public static final DeferredItem<Item> THINGAMABOB = ITEMS.register(
+            "thingamabob",
+            ()->new Item(new Item.Properties())
+    );
     public static final DeferredItem<Item> BACTERIUM_BALL = ITEMS.register(
             "bacterium_ball",
             ()->new BacteriumBallItem(new Item.Properties())
+    );
+    public static final DeferredItem<Item> FLINTLOCK = ITEMS.register(
+            "flintlock",
+            ()->new FlintlockItem(new Item.Properties().durability(4).stacksTo(1))
     );
     public static final DeferredItem<Item> BLITZ_ROD = ITEMS.register(
             "blitz_rod",
@@ -95,6 +141,10 @@ public class CFItemInit {
     public static final DeferredItem<Item> DREAM_SILK = ITEMS.register(
             "dream_silk",
             ()->new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> SOLAR_SHARD = ITEMS.register(
+            "solar_shard",
+            ()->new SolarShardItem(new Item.Properties())
     );
     public static final DeferredItem<Item> DREAM_CATCHER = ITEMS.register(
             "dream_catcher",

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "creaturefeature:thingamabob"
+    }
+  },
+  "pattern": [
+    " A ",
+    " # ",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "creaturefeature:doohickey"
+  }
+}

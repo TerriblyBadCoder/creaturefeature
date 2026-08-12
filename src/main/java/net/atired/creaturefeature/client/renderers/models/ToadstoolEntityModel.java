@@ -69,13 +69,26 @@ public class ToadstoolEntityModel<T extends ToadstoolEntity> extends Hierarchica
 		this.left_leg.xRot=Mth.sin(limbSwing)*limbSwingAmount*2.2f;
 		this.right_leg.xRot=-Mth.sin(limbSwing)*limbSwingAmount*2.2f;
 
-		this.left_arm.xRot=-Mth.sin(limbSwing)*limbSwingAmount*1.6f;
+		float i = entity.attackAnim;
+		float sinused = Mth.sin(i*3.14f)*1.6f;
+		this.left_arm.xRot=-Mth.sin(limbSwing)*limbSwingAmount*1.6f+sinused;
 		this.left_arm.xRot+=Mth.sin(ageInTicks/8.0f)/2.0f;
 		this.left_arm.zRot=Mth.cos(ageInTicks/8.0f)/2.0f;
 
-		this.right_arm.xRot=Mth.sin(limbSwing)*limbSwingAmount*1.6f;
+		this.right_arm.xRot=Mth.sin(limbSwing)*limbSwingAmount*1.6f+sinused;
 		this.right_arm.xRot-=Mth.sin(ageInTicks/8.0f)/2.0f;
 		this.right_arm.zRot=-Mth.cos(ageInTicks/8.0f)/2.0f;
+		this.left_arm.z=entity.lerpedonFours*-5f;
+		this.right_arm.z=entity.lerpedonFours*-5f;
+		this.left_arm.y=entity.lerpedonFours*1f-2.3F;
+		this.right_arm.y=entity.lerpedonFours*1f-2.3F;
+		if(entity.lerpedonFours>0f){
+			float unLerp = 1.0f-entity.lerpedonFours;
+			this.left_arm.zRot*=unLerp;
+			this.left_arm.xRot=Mth.lerp(entity.lerpedonFours,this.left_arm.xRot,3.14f-Mth.sin(limbSwing)*limbSwingAmount*2f);
+			this.right_arm.zRot*=unLerp;
+			this.right_arm.xRot=Mth.lerp(entity.lerpedonFours,this.right_arm.xRot,3.14f+Mth.sin(limbSwing)*limbSwingAmount*2f);
+		}
 		this.head.xRot-=Mth.sin(ageInTicks/9.0f)/7.0f;
 		this.head.zRot=-Mth.cos(ageInTicks/9.0f)/7.0f;
 	}

@@ -2,10 +2,13 @@ package net.atired.creaturefeature.init;
 
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.entity.*;
+import net.atired.creaturefeature.misc.SableCarrier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -31,10 +34,13 @@ public class CFEntityInit {
             ENTITIES.register("minedflayer", () -> EntityType.Builder.of(MinedFlayerEntity::new, MobCategory.MONSTER)
                     .sized(1.1f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("minedflayer"));
-    public static final Supplier<EntityType<ToadstoolEntity>> TOADSTOOL =
-            ENTITIES.register("toadstool", () -> EntityType.Builder.of(ToadstoolEntity::new, MobCategory.MONSTER)
-                    .sized(1.2f, 0.9f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
-                    .build("toadstool"));
+    public static Supplier<EntityType<ToadstoolEntity>> TOADSTOOL;
+    static {
+        TOADSTOOL=null;
+        if(ModList.get().isLoaded("sable")){
+            SableCarrier.initEntity();
+        }
+    }
     public static final Supplier<EntityType<MockingBirdEntity>> MOCKINGBIRD =
             ENTITIES.register("mockingbird", () -> EntityType.Builder.of(MockingBirdEntity::new, MobCategory.MONSTER)
                     .sized(0.9f, 2.8f).eyeHeight(2.48F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
@@ -47,10 +53,22 @@ public class CFEntityInit {
             ENTITIES.register("blossom", () -> EntityType.Builder.of(BlossomEntity::new, MobCategory.MONSTER)
                     .sized(EntityType.ZOMBIE.getWidth(), EntityType.ZOMBIE.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("blossom"));
-    public static final Supplier<EntityType<BlossomEntity>> SAINT_SOLIS =
-            ENTITIES.register("saint_solis", () -> EntityType.Builder.of(BlossomEntity::new, MobCategory.MONSTER)
+    public static final Supplier<EntityType<SaintSolisEntity>> SAINT_SOLIS =
+            ENTITIES.register("saint_solis", () -> EntityType.Builder.of(SaintSolisEntity::new, MobCategory.MONSTER)
                     .sized(1.1f, 1.5f).eyeHeight(1.38F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("saint_solis"));
+    public static final Supplier<EntityType<DetritusEntity>> DETRITUS =
+            ENTITIES.register("detritus", () -> EntityType.Builder.of(DetritusEntity::new, MobCategory.MONSTER)
+                    .sized(EntityType.ZOMBIE.getWidth(), EntityType.ZOMBIE.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("detritus"));
+    public static final Supplier<EntityType<StainedGlassEntity>> STAINED_GLASS =
+            ENTITIES.register("stained_glass", () -> EntityType.Builder.of(StainedGlassEntity::new, MobCategory.MONSTER)
+                    .sized(0.9f, 0.9f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("stained_glass"));
+    public static final Supplier<EntityType<CoatOfArmsEntity>> COATOFARMS =
+            ENTITIES.register("coat_of_arms", () -> EntityType.Builder.of(CoatOfArmsEntity::new, MobCategory.MONSTER)
+                    .sized(0.9f, 1.9f).eyeHeight(1.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("coat_of_arms"));
     public static final Supplier<EntityType<BeautyEntity>> BEAUTY =
             ENTITIES.register("beauty", () -> EntityType.Builder.of(BeautyEntity::new, MobCategory.MONSTER)
                     .sized(0.8f,1.9f).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
@@ -107,6 +125,14 @@ public class CFEntityInit {
             ENTITIES.register("feather", () -> EntityType.Builder.<FeatherEntity>of(FeatherEntity::new, MobCategory.MISC)
                     .sized(0.3f, 0.3f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("feather"));
+    public static final Supplier<EntityType<StarProjEntity>> STAR =
+            ENTITIES.register("star", () -> EntityType.Builder.<StarProjEntity>of(StarProjEntity::new, MobCategory.MISC)
+                    .sized(0.3f, 0.3f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("star"));
+    public static final Supplier<EntityType<BulletEntity>> BULLET =
+            ENTITIES.register("bullet", () -> EntityType.Builder.<BulletEntity>of(BulletEntity::new, MobCategory.MISC)
+                    .sized(0.1f, 0.2f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("bullet"));
     public static final Supplier<EntityType<KickedBlockEntity>> KICKED_BLOCK =
             ENTITIES.register("kicked_block", () -> EntityType.Builder.<KickedBlockEntity>of(KickedBlockEntity::new, MobCategory.MISC)
                     .sized(0.6f, 0.6f).eyeHeight(0.3f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)

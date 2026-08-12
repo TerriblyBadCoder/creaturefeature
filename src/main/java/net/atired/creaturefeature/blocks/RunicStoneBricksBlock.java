@@ -11,10 +11,12 @@ import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.atired.creaturefeature.entity.ToadstoolEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -52,6 +54,27 @@ public class RunicStoneBricksBlock extends Block implements BlockWithSubLevelCol
 //            level.updateNeighborsAt(pos, oldState.getBlock());
 //        }
 //    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        boolean has1SingularChiseled=true;
+        boolean hasNoChiseled=true;
+        boolean hasOther=false;
+        for(Direction dir : Direction.values()){
+            BlockPos pos2 = pos.relative(dir);
+            if(!level.getBlockState(pos2).isEmpty()&&level.getBlockState(pos2).getBlock()== Blocks.CHISELED_STONE_BRICKS){
+                if(!hasNoChiseled)has1SingularChiseled=false;
+                hasNoChiseled=false;
+            }
+            else if(!level.getBlockState(pos2).isEmpty()&&!level.getBlockState(pos2).isAir()){
+                hasOther=true;
+            }
+        }
+        if(hasOther||hasNoChiseled||!has1SingularChiseled){
+            level.destroyBlock(pos,false);
+        }
+        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+    }
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {

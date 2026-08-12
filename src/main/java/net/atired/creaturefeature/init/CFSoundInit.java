@@ -14,6 +14,21 @@ public class CFSoundInit {
             // Takes in the registry name
             SoundEvent::createVariableRangeEvent
     );
+    public static final Holder<SoundEvent> SHOT = SOUND_EVENTS.register(
+            "entity.shot",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
+    public static final Holder<SoundEvent> SG_RETREAT = SOUND_EVENTS.register(
+            "entity.stained_glass_retreat",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
+    public static final Holder<SoundEvent> SG_DIE = SOUND_EVENTS.register(
+            "entity.stained_glass_die",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
     public static final Holder<SoundEvent> FRIEND = SOUND_EVENTS.register(
             "entity.friend",
             // Takes in the registry name

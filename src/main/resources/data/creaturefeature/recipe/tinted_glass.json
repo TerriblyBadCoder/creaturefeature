@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "creaturefeature:living_glass_shards"
+    },
+    {
+      "item": "creaturefeature:living_glass_shards"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "minecraft:tinted_glass"
+  }
+}

@@ -22,6 +22,7 @@ import java.util.Objects;
 public class FiendEntityModel<T extends FiendEntity> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(CreatureFeature.getId("fiendentitymodel"), "main");
+	public static final ModelLayerLocation INNER_LAYER_LOCATION = new ModelLayerLocation(CreatureFeature.getId("fiendentitymodel"), "inner");
 	private final ModelPart root;
 	private final ModelPart right_leg;
 	private final ModelPart left_leg;
@@ -42,24 +43,24 @@ public class FiendEntityModel<T extends FiendEntity> extends HierarchicalModel<T
 		this.horns = this.head.getChild("horns");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	public static LayerDefinition createBodyLayer(float grow) {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(26, 16).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 14.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 11.0F, 0.0F));
+		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(26, 16).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 14.0F, 4.0F, new CubeDeformation(4.0F*grow, 14.0F*grow, 4.0F*grow)), PartPose.offset(-2.0F, 11.0F, 0.0F));
 
-		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(26, 16).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 14.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 11.0F, 0.0F));
+		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(26, 16).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 14.0F, 4.0F, new CubeDeformation(4.0F*grow, 14.0F*grow, 4.0F*grow)).mirror(false), PartPose.offset(2.0F, 11.0F, 0.0F));
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4.5F, -14.0F, -2.0F, 9.0F, 14.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.1F, 10.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4.5F, -14.0F, -2.0F, 9.0F, 14.0F, 4.0F, new CubeDeformation(9.0F*grow, 13.0F*grow, 4.0F*grow)), PartPose.offset(-0.1F, 10.0F, 0.0F));
 
-		PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(16, 34).addBox(-2.9F, -1.0F, -2.0F, 3.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.6F, -12.0F, 0.0F));
+		PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(16, 34).addBox(-2.9F, -1.0F, -2.0F, 3.0F, 13.0F, 4.0F, new CubeDeformation(3.0F*grow, 13.0F*grow, 4.0F*grow)), PartPose.offset(-4.6F, -12.0F, 0.0F));
 
-		PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(16, 34).mirror().addBox(-0.1F, -1.0F, -2.0F, 3.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.6F, -12.0F, 0.0F));
+		PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(16, 34).mirror().addBox(-0.1F, -1.0F, -2.0F, 3.0F, 13.0F, 4.0F, new CubeDeformation(3.0F*grow, 13.0F*grow, 4.0F*grow)).mirror(false), PartPose.offset(4.6F, -12.0F, 0.0F));
 
-		PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, -3.0F, -6.0F, 12.0F, 4.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(0.1F, -15.0F, 0.0F));
+		PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, -3.0F, -6.0F, 12.0F, 4.0F, 12.0F, new CubeDeformation(12.0F*grow, 4.0F*grow, 12.0F*grow)), PartPose.offset(0.1F, -15.0F, 0.0F));
 
-		PartDefinition horns = head.addOrReplaceChild("horns", CubeListBuilder.create().texOffs(0, 34).addBox(-10.0F, -11.5F, -2.0F, 4.0F, 13.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 34).mirror().addBox(6.0F, -11.5F, -2.0F, 4.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, -0.5F, 0.0F));
+		PartDefinition horns = head.addOrReplaceChild("horns", CubeListBuilder.create().texOffs(0, 34).addBox(-10.0F, -11.5F, -2.0F, 4.0F, 13.0F, 4.0F, new CubeDeformation(4.0F*grow, 13.0F*grow, 4.0F*grow))
+				.texOffs(0, 34).mirror().addBox(6.0F, -11.5F, -2.0F, 4.0F, 13.0F, 4.0F, new CubeDeformation(4.0F*grow, 13.0F*grow, 4.0F*grow)).mirror(false), PartPose.offset(0.0F, -0.5F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
@@ -85,6 +86,19 @@ public class FiendEntityModel<T extends FiendEntity> extends HierarchicalModel<T
 		}
 		this.head.xRot=headPitch/180.0f*3.14f+Mth.cos(ageInTicks/5.0f)/24.0f-limbSwingAmount/2.0f;
 		this.body.xRot=limbSwingAmount/2.0f+Mth.sin(ageInTicks/6.0f)/32.0f;
+		this.left_arm.yRot=0;
+		this.right_arm.yRot=0;
+		if(entity.getCrit()>0){
+			float critted = Math.min(1f,(entity.getCrit()-0.1f)*10f);
+			this.body.xRot-=critted*0.5f;
+			this.head.xRot+=critted*0.5f;
+			this.left_arm.xRot*=0.1f;
+			this.right_arm.xRot*=0.1f;
+			this.left_arm.xRot-=critted*1f;
+			this.right_arm.xRot-=critted*1f;
+			this.left_arm.yRot=critted*0.6f;
+			this.right_arm.yRot=-critted*0.6f;
+		}
 	}
 
 

@@ -1,7 +1,9 @@
 {
   "desc.creaturefeature.bouquet": "Clones other flowers, if put together.",
+  "desc.creaturefeature.living_glass": "Cleanses 1 of the target's effects, then shatters.",
   "desc.creaturefeature.open_mind": "Open your Grid.",
   "desc.creaturefeature.murky": "Does... Nothing.",
+  "desc.creaturefeature.solar": "Obtained from the collision of Stars.",
   "desc.creaturefeature.thepill": "Resets the Phantom spawning timer.",
   "desc.creaturefeature.dreamcatcher": "Catches blocks. Saving all but the storage.",
   "info.creaturefeature.dreamcatcher": "So many thoughts to think... ",
@@ -37,6 +39,9 @@
   "jukebox_song.creaturefeature.nothing": "Tory Fox - egg.ogg",
   "sound.creaturefeature.nothing": "Well, There's not a man here. ",
   "sound.creaturefeature.laughter": "Laugh Track ",
+  "sound.creaturefeature.stained_glass_retreat": "Stained Glass Rebounds",
+  "sound.creaturefeature.stained_glass_die": "Stained Glass Shatters",
+  "sound.creaturefeature.shot": "Flintlockshot...",
   "effect.creaturefeature.sleepy": "Sleepy",
 
   "item.creaturefeature.machination_spawn_egg": "Machination Spawn Egg",
@@ -58,6 +63,16 @@
   "item.creaturefeature.fend_spawn_egg": "Fend Spawn Egg",
   "item.creaturefeature.friend_spawn_egg": "Friend Spawn Egg",
 
+
+  "item.creaturefeature.toadstool_spawn_egg": "Toadstool Spawn Egg",
+  "item.creaturefeature.mockingbird_spawn_egg": "Mockingbird Spawn Egg",
+  "item.creaturefeature.pathogen_spawn_egg": "Pathogen Spawn Egg",
+  "item.creaturefeature.blossom_spawn_egg": "Blossom Spawn Egg",
+  "item.creaturefeature.saint_solis_spawn_egg": "Saint Solis Spawn Egg",
+  "item.creaturefeature.detritus_spawn_egg": "Detritus Spawn Egg",
+  "item.creaturefeature.stained_glass_spawn_egg": "Stained Glass Spawn Egg",
+  "item.creaturefeature.coat_of_arms_spawn_egg": "Coat Of Arms Spawn Egg",
+
   "item.creaturefeature.the_pill": "The Pill",
 
   "item.creaturefeature.scroll_pan": "Pan Trim Scroll",
@@ -66,13 +81,18 @@
   "item.creaturefeature.scroll_eye": "Eye Trim Scroll",
 
   "item.creaturefeature.sleeping_powder": "Sleeping Powder",
+  "item.creaturefeature.living_glass_shards": "Living Shards",
   "item.creaturefeature.music_disc_nothing": "Music Disc",
 
   "item.creaturefeature.carapace": "Carapace",
+  "item.creaturefeature.flintlock": "Flimsy Flintlock",
   "item.creaturefeature.dream_silk": "Dream Silk",
   "item.creaturefeature.bacterium_ball": "Bacterium Ball",
   "item.creaturefeature.bouquet": "Living Bouquet",
   "item.creaturefeature.ectoplasm": "Ectoplasm",
+  "item.creaturefeature.solar_shard": "Solar Shard",
+  "item.creaturefeature.thingamabob": "Thingamabob",
+  "item.creaturefeature.vertigo_chunk": "Mystery Meat",
   "item.creaturefeature.open_mind": "Open Mind",
   "item.creaturefeature.heavy_axe": "Heavy Axe",
   "item.creaturefeature.blitz_rod": "Blitz Fragment",
@@ -81,17 +101,26 @@
   "item.creaturefeature.minedflayer_goop": "Minedflayer Goop",
   "item.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
   "item.creaturefeature.blighted_brain": "Blighted Brain",
+
+
   "block.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
   "block.creaturefeature.eep": "EEP",
-  "block.creaturefeature.runic_stone_bricks": "Runic Stone Bricks",
+  "block.creaturefeature.runic_stone_bricks": "Runic Stone Bricks... ? Huh",
   "block.creaturefeature.carapace_block": "Carapace Block",
+  "block.creaturefeature.doohickey": "Doohickey",
 
   "entity.creaturefeature.eep": "Primed Eep",
   "entity.creaturefeature.kicked_block": "Punted Block",
+  "entity.creaturefeature.star": "Star",
+  "entity.creaturefeature.bullet": "Bullet",
+  "entity.creaturefeature.feather": "Feather",
   "entity.creaturefeature.murky_pearl": "Murky Pearl",
+  "entity.creaturefeature.coat_of_arms": "Coat of Arms",
   "entity.creaturefeature.sinister": "Sinister",
   "entity.creaturefeature.machination": "Machination",
   "entity.creaturefeature.beauty": "Beauty",
+  "entity.creaturefeature.detritus": "Detritus",
+  "entity.creaturefeature.stained_glass": "Stained Glass",
   "entity.creaturefeature.blitz": "Blitz",
   "entity.creaturefeature.fiend": "Fiend",
   "entity.creaturefeature.fend": "Fend",
@@ -108,5 +137,6 @@
   "entity.creaturefeature.pathogen": "Nucleus",
   "entity.creaturefeature.canary_part": "Canary Part",
   "entity.creaturefeature.mockingbird": "Mockingbird",
-  "entity.creaturefeature.blossom": "Blossom"
+  "entity.creaturefeature.blossom": "Blossom",
+  "entity.creaturefeature.saint_solis": "Saint Solis"
 }

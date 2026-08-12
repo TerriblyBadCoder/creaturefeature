@@ -13,10 +13,14 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 
 public class MindsEntityModel<T extends MindsEntity> extends AbstractZombieModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(CreatureFeature.getId("mindsentitymodel"), "main");
+	public static final ModelLayerLocation LAYER_ARMOUR_LOCATION = new ModelLayerLocation(CreatureFeature.getId("mindsentitymodel"), "outer_armor");
+	public static final ModelLayerLocation LAYER_INNER_ARMOUR_LOCATION = new ModelLayerLocation(CreatureFeature.getId("mindsentitymodel"), "inner_armor");
+
 	private final ModelPart right_leg;
 	private final ModelPart right_arm;
 	private final ModelPart left_arm;
@@ -35,9 +39,14 @@ public class MindsEntityModel<T extends MindsEntity> extends AbstractZombieModel
 		this.left_leg = root.getChild("left_leg");
 		this.body = root.getChild("body");
 		this.head = root.getChild("head");
-		this.mind = this.head.getChild("mind");
+		if(this.head.hasChild("mind")){
+			this.numberstorage = root.getChild("numberstorage");
+			this.mind = this.head.getChild("mind");
+		}else{
+			this.mind=this.head;
+			this.numberstorage = this.head;
+		}
 		this.hat = root.getChild("hat");
-		this.numberstorage = root.getChild("numberstorage");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -73,13 +82,22 @@ public class MindsEntityModel<T extends MindsEntity> extends AbstractZombieModel
 		headPitch/=4.0f;
 		super.setupAnim(entity,limbSwing,limbSwingAmount,ageInTicks,netHeadYaw,headPitch);
 		float mult = (float)Math.pow(entity.getSpeedUp()*0.9f,0.5f)+0.2f;
+		float mindMult=0f;
+		if(entity.hasNoMind()){
+			mult=1.1f;
+			mindMult=1f;
+		}
 		float mult2=(float)Math.pow(entity.getSpeedUp(),0.5f);
-		this.head.yRot=(float)(Math.sin(ageInTicks/1.0f)/20.0f*mult2);
-		this.head.xRot+=-mult2/2.5f;
+		this.head.yRot=(float)(Math.sin(ageInTicks/1.0f)/20.0f*mult2)+ Mth.sin(ageInTicks)/16f*mindMult;
+		this.head.xRot+=-mult2/2.5f+ Mth.cos(ageInTicks)/16f*mindMult+mindMult/1.8f;
+		this.body.xRot+=mindMult/7f;
+		this.body.z=-2*mindMult;
+		this.head.z=-1*mindMult;
 		float minmult = Math.min(mult2*7.0f,1.0f)*0.6f;
-		this.left_arm.yRot+=minmult;
-		this.right_arm.yRot-=minmult;
-		this.right_arm.xRot-=minmult/2.0f;
+		this.left_arm.yRot+=minmult+ Mth.cos(ageInTicks/1f)/30f*mindMult;
+		this.right_arm.yRot-=minmult+ Mth.sin(ageInTicks/1f)/30f*mindMult;
+		this.right_arm.xRot-=minmult/2.0f+ Mth.sin(ageInTicks/1f)/30f*mindMult-mindMult;
+		this.left_arm.xRot+=Mth.cos(ageInTicks/1f)/30f*mindMult+mindMult;
 		mult-=0.2f;
 		mult*=1.5f;
 		mult+=0.2f;

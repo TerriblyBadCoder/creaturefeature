@@ -25,7 +25,9 @@ public class FeatherEntityRenderer extends EntityRenderer<FeatherEntity> {
     private static final float MIN_CAMERA_DISTANCE_SQUARED = 12.25F;
     private static final ResourceLocation BLANK_LOCATION = CreatureFeature.getId("textures/entity/feather_trail.png");
     private static final ResourceLocation FEATHER_LOCATION = CreatureFeature.getId("textures/entity/feather.png");
-
+    private static final ResourceLocation FEATHER1_LOCATION = CreatureFeature.getId("textures/entity/feather_hue0.png");
+    private static final ResourceLocation FEATHER2_LOCATION = CreatureFeature.getId("textures/entity/feather_hue1.png");
+    private static final ResourceLocation[] FEATHERS = {FEATHER1_LOCATION,FEATHER_LOCATION,FEATHER2_LOCATION};
     private final ItemRenderer itemRenderer;
     private final float scale;
     private final boolean fullBright;
@@ -47,7 +49,7 @@ public class FeatherEntityRenderer extends EntityRenderer<FeatherEntity> {
             float scaled = 1.0f-Mth.clamp(20.0f-entity.tickCount/10.0f,0,1);
             poseStack.scale(this.scale, this.scale, this.scale);
             poseStack.mulPose(new Quaternionf().rotationZYX(0,entity.lastYaw,entity.lastPitch));
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(FEATHER_LOCATION));
+            VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(FEATHERS[(entity.getId()%3)]));
             PoseStack.Pose posed = poseStack.last();
             vertex(posed,consumer,0.5,0,0.5,0,0,0,0,1,packedLight,1);
             vertex(posed,consumer,0.5,0,-0.5,0,1,0,0,1,packedLight,1);
