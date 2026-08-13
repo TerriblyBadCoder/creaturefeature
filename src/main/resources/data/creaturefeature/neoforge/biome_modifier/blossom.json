@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_jungle",
+  "spawners":
+  {
+    "type": "creaturefeature:blossom",
+    "weight": 30,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

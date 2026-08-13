@@ -9,10 +9,13 @@
   "info.creaturefeature.dreamcatcher": "So many thoughts to think... ",
   "container.creaturefeature.open_mind": "Open Mind",
   "creaturefeature.configuration.remodelfriend": "Remodel Friend",
+  "creaturefeature.configuration.remodelmb": "Remodel Mockingbird",
   "creaturefeature.configuration.endreamweaver": "End Dreamweavers",
   "creaturefeature.configuration.depth": "Depth Vista Compat Test",
 
 
+  "advancement.creaturefeature.roots": "Found.",
+  "advancement.creaturefeature.roots.desc": "I WILL SHOW YOU A GREAT VESTIGE TO THE EAST.",
   "advancement.creaturefeature.root": "Creature Feature.",
   "advancement.creaturefeature.root.desc": "Featuring. The Creatures.",
   "advancement.creaturefeature.friendless": "Friendless",

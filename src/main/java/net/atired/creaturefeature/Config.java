@@ -20,12 +20,17 @@ public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
     private static final ModConfigSpec.Builder BUILDER2 = new ModConfigSpec.Builder();
     public static final ModConfigSpec.BooleanValue REMODEL_FRIEND;
+    public static final ModConfigSpec.BooleanValue REMODEL_MB;
     public static final ModConfigSpec.BooleanValue END_DREAMWEAVER;
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         REMODEL_FRIEND = builder
                 .comment("Shove FRIEND into a woodchipper.")
                 .define("remodelfriend", false);
+
+        REMODEL_MB = builder
+                .comment("Pressure wash the Mockingbird.")
+                .define("remodelmb", false);
 
         SPEC = builder.build();
         builder = new ModConfigSpec.Builder();

@@ -5,7 +5,9 @@ import net.atired.creaturefeature.entity.*;
 import net.atired.creaturefeature.init.CFBlockInit;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFItemInit;
+import net.atired.creaturefeature.misc.SableCarrier;
 import net.atired.creaturefeature.networking.payloads.*;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -195,8 +197,15 @@ public class CFEvents {
         event.register(CFEntityInit.FRIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FriendEntity::checkFriendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.FEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FendEntity::checkFendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
-
-        event.register(CFEntityInit.DETRITUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DetritusEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        if(ModList.get().isLoaded("sable")){
+            SableCarrier.initspawn(event);
+        }
+        event.register(CFEntityInit.BLOSSOM.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlossomEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.DETRITUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DetritusEntity::checkDetritusSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.SAINT_SOLIS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SaintSolisEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.COATOFARMS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CoatOfArmsEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.STAINED_GLASS.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ((entityType, serverLevelAccessor, mobSpawnType, blockPos, randomSource) -> {return Monster.isDarkEnoughToSpawn(serverLevelAccessor, blockPos, randomSource)&&blockPos.getY()>0&&Math.random()>0.4&&serverLevelAccessor.getHeight(Heightmap.Types.MOTION_BLOCKING,blockPos.getX(),blockPos.getZ())+6>blockPos.getY();}), RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.MOCKINGBIRD.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MockingBirdEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
     }
     @SubscribeEvent

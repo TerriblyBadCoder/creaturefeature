@@ -4,7 +4,7 @@
   "spawners":
   {
     "type": "creaturefeature:fend",
-    "weight": 14,
+    "weight": 16,
     "minCount": 3,
     "maxCount": 3
   }

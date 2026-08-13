@@ -2,6 +2,7 @@ package net.atired.creaturefeature.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.client.CFRenderTypes;
 import net.atired.creaturefeature.entity.FeatherEntity;
@@ -24,6 +25,7 @@ import org.joml.Quaternionf;
 public class FeatherEntityRenderer extends EntityRenderer<FeatherEntity> {
     private static final float MIN_CAMERA_DISTANCE_SQUARED = 12.25F;
     private static final ResourceLocation BLANK_LOCATION = CreatureFeature.getId("textures/entity/feather_trail.png");
+    private static final ResourceLocation BLANK_LOCATION_DB = CreatureFeature.getId("textures/entity/feather_trail_dt.png");
     private static final ResourceLocation FEATHER_LOCATION = CreatureFeature.getId("textures/entity/feather.png");
     private static final ResourceLocation FEATHER1_LOCATION = CreatureFeature.getId("textures/entity/feather_hue0.png");
     private static final ResourceLocation FEATHER2_LOCATION = CreatureFeature.getId("textures/entity/feather_hue1.png");
@@ -49,7 +51,7 @@ public class FeatherEntityRenderer extends EntityRenderer<FeatherEntity> {
             float scaled = 1.0f-Mth.clamp(20.0f-entity.tickCount/10.0f,0,1);
             poseStack.scale(this.scale, this.scale, this.scale);
             poseStack.mulPose(new Quaternionf().rotationZYX(0,entity.lastYaw,entity.lastPitch));
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(FEATHERS[(entity.getId()%3)]));
+            VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(Config.REMODEL_MB.get()?FEATHER_LOCATION:FEATHERS[(entity.getId()%3)]));
             PoseStack.Pose posed = poseStack.last();
             vertex(posed,consumer,0.5,0,0.5,0,0,0,0,1,packedLight,1);
             vertex(posed,consumer,0.5,0,-0.5,0,1,0,0,1,packedLight,1);
@@ -67,7 +69,7 @@ public class FeatherEntityRenderer extends EntityRenderer<FeatherEntity> {
         PoseStack.Pose posed = poseStack.last();
         if(CFRenderTypes.AMBUSH_SHADER_INSTANCE.getUniform("Revealness")!=null)
             CFRenderTypes.AMBUSH_SHADER_INSTANCE.getUniform("Revealness").set(1.0f);
-        VertexConsumer consumer = buffer.getBuffer(CFRenderTypes.entityAmbushCutout(BLANK_LOCATION));
+        VertexConsumer consumer = buffer.getBuffer(CFRenderTypes.entityAmbushCutout(Config.REMODEL_MB.get()?BLANK_LOCATION_DB:BLANK_LOCATION));
         float ud = 0.0f;
         float evilTickCount = Math.clamp((entity.tickCount+partialTicks-1)/8.0f,0.0f,1.0f);
         for (int j = 0; j < 2; j++) {

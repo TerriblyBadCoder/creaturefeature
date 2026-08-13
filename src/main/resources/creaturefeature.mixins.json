@@ -12,6 +12,7 @@
   ],
   "client": [
     "AdvancementTabMixin",
+    "AdvancementWidgetMixin",
     "CameraMixin",
     "CameraTypeMixin",
     "CFGameRendererMixin",

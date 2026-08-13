@@ -1,0 +1,34 @@
+{
+  "parent": "creaturefeature:root",
+  "criteria": {
+    "man_test_criteria_name": {
+      "trigger": "creaturefeature:nobody"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "color": "#4a81a8",
+      "translate": "advancement.creaturefeature.roots.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:oak_sapling"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.creaturefeature.roots"
+    }
+  },
+  "rewards": {
+    "loot": [
+      "creaturefeature:entities/one_egg"
+    ]
+  },
+  "requirements": [
+    [
+      "man_test_criteria_name"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

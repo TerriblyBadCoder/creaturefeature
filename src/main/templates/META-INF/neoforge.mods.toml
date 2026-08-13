@@ -46,8 +46,9 @@ authors="AtiredDev, Team Galena"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Adds 10 Hostile creatures all around the world,
-Four in the end, Five in the overworld, One in the nether.
+Adds 23 Hostile creatures all around the world.
+O, So much to feature.
+O, So many creatures.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.

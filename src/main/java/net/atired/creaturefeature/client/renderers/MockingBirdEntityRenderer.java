@@ -2,6 +2,7 @@ package net.atired.creaturefeature.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.client.CFRenderTypes;
 import net.atired.creaturefeature.client.renderers.models.MockingBirdEntityModel;
@@ -28,7 +29,7 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
 
     @Override
     public ResourceLocation getTextureLocation(MockingBirdEntity machinationEntity) {
-        return MOCKINGBIRD_LOCATION;
+        return Config.REMODEL_MB.get()?MOCKINGBIRD_DT_LOCATION:MOCKINGBIRD_LOCATION;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
         poseStack.translate((float)translated.x ,1.4f,(float)translated.z);
         Vec3 pos = entity.getPosition(partialTicks);
         PoseStack.Pose posed = poseStack.last();
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(MOCKINGBIRD_WINGS_LOCATION));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(Config.REMODEL_MB.get()?MOCKINGBIRD_WINGS_DT_LOCATION:MOCKINGBIRD_WINGS_LOCATION));
         for (int i = 0; i < 2; i++) {
             Vec3 old1 = new Vec3(0.1,1,0).yRot(yawEd);
             Vec3 old2 = new Vec3(0.1,-1,0).yRot(yawEd);

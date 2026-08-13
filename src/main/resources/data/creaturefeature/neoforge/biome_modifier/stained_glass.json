@@ -1,10 +1,10 @@
 {
   "type": "neoforge:add_spawns",
-  "biomes": "minecraft:nether_wastes",
+  "biomes": "#c:is_desert",
   "spawners":
   {
-    "type": "creaturefeature:fiend",
-    "weight": 8,
+    "type": "creaturefeature:stained_glass",
+    "weight": 4,
     "minCount": 1,
     "maxCount": 1
   }
