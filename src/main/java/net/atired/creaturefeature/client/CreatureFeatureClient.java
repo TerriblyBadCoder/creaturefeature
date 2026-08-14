@@ -356,7 +356,10 @@ public class CreatureFeatureClient {
     }
     @SubscribeEvent
     public static void clientTickEvent(ClientTickEvent.Pre post) throws IOException {
-        if(SIZED[0]!=Minecraft.getInstance().getWindow().getWidth()&&HAZE!=null){
+        if((SIZED[0]!=Minecraft.getInstance().getWindow().getWidth()||
+            SIZED[1]!=Minecraft.getInstance().getWindow().getHeight())&&
+            HAZE!=null){
+            
             SIZED[0]=Minecraft.getInstance().getWindow().getWidth();
             SIZED[1]=Minecraft.getInstance().getWindow().getHeight();
             if(RABIES_TARGET!=null)
