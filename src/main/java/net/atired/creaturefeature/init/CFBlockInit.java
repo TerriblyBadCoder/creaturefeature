@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.blocks.*;
+import net.atired.creaturefeature.items.DoohickeyBlockItem;
 import net.atired.creaturefeature.misc.SableCarrier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.ColorRGBA;
@@ -25,6 +26,15 @@ public class CFBlockInit {
         registerBlockItem(name, toReturn);
         return toReturn;
     }
+    public static <T extends Block> DeferredBlock<T> registerDoohickeyBlock(String name, Supplier<T> block) {
+        DeferredBlock<T> toReturn = BLOCKS.register(name,block);
+        registerDoohickeyBlockItem(name, toReturn);
+        return toReturn;
+    }
+    private static <T extends Block> DeferredItem<Item> registerDoohickeyBlockItem(String name, DeferredBlock<T> block)
+    {
+        return CFItemInit.ITEMS.register(name, () -> new DoohickeyBlockItem(block.get(),new Item.Properties()));
+    }
     private static <T extends Block> DeferredItem<Item> registerBlockItem(String name, DeferredBlock<T> block)
     {
         return CFItemInit.ITEMS.register(name, () -> new BlockItem(block.get(),new Item.Properties()));
@@ -44,7 +54,7 @@ public class CFBlockInit {
             SableCarrier.initBlock();
         }
     }
-    public static final DeferredBlock<Block> DOOHICKEY = registerBlock("doohickey",
+    public static final DeferredBlock<Block> DOOHICKEY = registerDoohickeyBlock("doohickey",
             () -> new DoohickeyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK).noOcclusion()));
 
 }

@@ -241,7 +241,7 @@ public class StainedGlassEntity extends Monster {
                     if (this.willCollide(vec3, Mth.ceil(d))) {
                         bounce(i);
                         if(this.glass.chargeCD<15){
-                            this.glass.setDeltaMovement(this.glass.getDeltaMovement().scale(0.6).add(vec3.scale(this.speedModifier)));
+                            this.glass.setDeltaMovement(this.glass.getDeltaMovement().scale(0.52).add(vec3.scale(this.speedModifier)));
                         }
                     } else {
 

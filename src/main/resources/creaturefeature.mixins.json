@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractBlockMixin",
     "AbstractContainerMenuMixin",
+    "PlayerAdvancementsMixin",
     "LivingEntityGoopMixin",
     "MonsterEntityMixin",
     "PlayerMixin"

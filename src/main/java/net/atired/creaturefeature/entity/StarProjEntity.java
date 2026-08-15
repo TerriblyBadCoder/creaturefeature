@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFParticleInit;
 import net.minecraft.core.particles.ParticleTypes;
@@ -75,7 +76,7 @@ public class StarProjEntity extends ThrowableItemProjectile {
             }
         }
         if(tickCount<30&&toHurt!=null){
-            this.setDeltaMovement(getDeltaMovement().lerp(this.toHurt.getPosition(1).add(0,1.6,0).subtract(this.getPosition(1)).normalize().scale(1.9),0.065f));
+            this.setDeltaMovement(getDeltaMovement().lerp(this.toHurt.getPosition(1).add(0,1.6,0).subtract(this.getPosition(1)).normalize().scale(1.9), Config.SAINT.isTrue()?0.035f:0.065f));
         }
         if(this.isAged())this.tickCount=Math.max(47,this.tickCount);
         if(this.tickCount>53){

@@ -85,10 +85,12 @@ public class CreatureFeatureClient {
     public static ResourceLocation SLEEPYEFFECT = CreatureFeature.getId("shaders/post/sleep.json");
     public static ResourceLocation RABIESEFFECT = CreatureFeature.getId("shaders/post/rabies.json");
     public static ResourceLocation HAZEEFFECT = CreatureFeature.getId("shaders/post/haze.json");
-    public static ResourceLocation FRIENDEFFECT = CreatureFeature.getId("shaders/post/friend.json");;
+    public static ResourceLocation FRIENDEFFECT = CreatureFeature.getId("shaders/post/friend.json");
     public static ResourceLocation SUNEFFECT = CreatureFeature.getId("shaders/post/sun.json");
     public static ResourceLocation BACTEEFFECT = CreatureFeature.getId("shaders/post/bacte.json");
+    public static ResourceLocation MANEFFECT = CreatureFeature.getId("shaders/post/man.json");
     public static PostChain MINEDFLAYER = null;
+    public static PostChain MAN = null;
     public static PostChain SLEEP = null;
     public static PostChain RABIES = null;
     public static PostChain HAZE = null;
@@ -116,6 +118,8 @@ public class CreatureFeatureClient {
             HAZE.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             BACTE= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), BACTEEFFECT);
             BACTE.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
+            MAN= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), MANEFFECT);
+            MAN.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             FRIEND= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), FRIENDEFFECT);
             FRIEND.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             FRIEND.addTempTarget("friendlytarget",Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
@@ -339,7 +343,7 @@ public class CreatureFeatureClient {
 
                     }
                 }
-                PostChain[] chains = {CreatureFeatureClient.SUN,CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP};
+                PostChain[] chains = {CreatureFeatureClient.SUN,CreatureFeatureClient.FRIEND,CreatureFeatureClient.MINEDFLAYER,CreatureFeatureClient.HAZE,CreatureFeatureClient.RABIES,CreatureFeatureClient.SLEEP,CreatureFeatureClient.MAN};
                 CreatureFeatureClient.RABIES_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
 
                 //RESET
@@ -356,7 +360,9 @@ public class CreatureFeatureClient {
     }
     @SubscribeEvent
     public static void clientTickEvent(ClientTickEvent.Pre post) throws IOException {
-        if(SIZED[0]!=Minecraft.getInstance().getWindow().getWidth()&&HAZE!=null){
+        if((SIZED[0]!=Minecraft.getInstance().getWindow().getWidth()||
+                SIZED[1]!=Minecraft.getInstance().getWindow().getHeight())&&
+                HAZE!=null){
             SIZED[0]=Minecraft.getInstance().getWindow().getWidth();
             SIZED[1]=Minecraft.getInstance().getWindow().getHeight();
             if(RABIES_TARGET!=null)
@@ -366,6 +372,7 @@ public class CreatureFeatureClient {
             }
             RABIES.resize(SIZED[0],SIZED[1]);
             SLEEP.resize(SIZED[0],SIZED[1]);
+            MAN.resize(SIZED[0],SIZED[1]);
             MINEDFLAYER.resize(SIZED[0],SIZED[1]);
             HAZE.resize(SIZED[0],SIZED[1]);
             FRIEND.resize(SIZED[0],SIZED[1]);
@@ -413,6 +420,9 @@ public class CreatureFeatureClient {
         }
         else if(PROXY.eebyDeebyNess>0.0f){
             PROXY.eebyDeebyNess=Math.clamp(PROXY.eebyDeebyNess-0.02f,0.0f,1.0f);
+        }
+        if(PROXY.manShader>0.0f){
+            PROXY.manShader=Math.clamp(PROXY.manShader-0.002f,0.0f,1.0f);
         }
     }
     @SubscribeEvent

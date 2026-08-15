@@ -13,6 +13,9 @@ import dev.ryanhcode.sable.companion.math.BoundingBox3i;
 import dev.ryanhcode.sable.companion.math.JOMLConversion;
 import dev.ryanhcode.sable.companion.math.Pose3d;
 import dev.ryanhcode.sable.network.packets.tcp.ServerboundPunchSubLevelPacket;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+
 import dev.ryanhcode.sable.sublevel.ClientSubLevel;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import dev.ryanhcode.sable.sublevel.SubLevel;
@@ -22,7 +25,6 @@ import dev.ryanhcode.sable.util.LevelAccelerator;
 import net.atired.creaturefeature.init.CFBlockInit;
 import net.atired.creaturefeature.networking.payloads.ToadstoolRenderPayload;
 import net.atired.creaturefeature.networking.payloads.VelSyncPayload;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -52,15 +54,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.OnlyIns;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.util.List;
-
 public class ToadstoolEntity extends Monster {
     public ServerSubLevel myCube = null;
-    public ClientSubLevel myClientCube = null;
+    public SubLevel myClientCube = null;
     public boolean hasMadeCube=false;
     public int freshTickCount = 0;
     public float lerpedonFours=1f;
@@ -118,7 +122,7 @@ public class ToadstoolEntity extends Monster {
 
     @Override
     public void tick() {
-        if(myClientCube!=null&&!myClientCube.isRemoved()&&tickCount>2&&level() instanceof ClientLevel clientLevel){
+        if(myClientCube!=null&&!myClientCube.isRemoved()&&tickCount>2&&level()!=null&&level().isClientSide()){
             Level other = myClientCube.getLevel();
             BlockPos pos = myClientCube.getPlot().getCenterBlock();
             for (int z = -3; z < 4; z++) {
@@ -126,7 +130,7 @@ public class ToadstoolEntity extends Monster {
                     for (int x = -3; x < 4; x++) {
                         if(!other.getBlockState(pos.offset(x,y,z)).isEmpty()){
                             Vec3 center = pos.offset(x,y,z).getCenter();
-                                clientLevel.addParticle(ParticleTypes.WITCH,center.x+(Math.random()-0.5)*1.1,center.y+(Math.random()-0.5)*1.1,center.z+(Math.random()-0.5)*1.1,0,0.9,0);
+                                level().addParticle(ParticleTypes.WITCH,center.x+(Math.random()-0.5)*1.1,center.y+(Math.random()-0.5)*1.1,center.z+(Math.random()-0.5)*1.1,0,0.9,0);
 
 
                         }
@@ -219,7 +223,7 @@ public class ToadstoolEntity extends Monster {
             }
         }
         super.tick();
-        if(myCube==null&&this.freshTickCount>0&&position().y>-61&&level() instanceof ServerLevel serverLevel&&!hasMadeCube){
+        if(myCube==null&&this.freshTickCount>0&&position().y<251&&position().y>-61&&level() instanceof ServerLevel serverLevel&&!hasMadeCube){
             if(tempXChunk!=-19971234&&this.freshTickCount<70){
                 myCube=(ServerSubLevel)Sable.HELPER.getContaining(serverLevel,new ChunkPos(tempXChunk,tempZChunk));
                 if(myCube!=null)hasMadeCube=true;

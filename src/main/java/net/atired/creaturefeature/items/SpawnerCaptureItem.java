@@ -41,7 +41,7 @@ public class SpawnerCaptureItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        return Component.literal("Dreamcatcher");
+        return Component.translatable("item.creaturefeature.dreamcatcher");
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SpawnerCaptureItem extends Item {
     public InteractionResult useOn(UseOnContext context) {
         DreamCatcherContents contents = context.getItemInHand().getOrDefault(CFDataComponentTypeInit.DREAMCATCHER_CONTENTS, DreamCatcherContents.EMPTY);
         BlockPos pos = context.getClickedPos().offset(context.getClickedFace().getNormal());
-        if(contents.items().iterator().hasNext()&&context.getLevel().isEmptyBlock(pos)){
+        if(contents.items().iterator().hasNext()&&(context.getLevel().isEmptyBlock(pos)||context.getLevel().getBlockState(pos).canBeReplaced())){
             ItemStack itemStack = contents.items().iterator().next();
             BlockItem item = (BlockItem)itemStack.getItem();
             BlockState state = item.getBlock().defaultBlockState();
@@ -75,6 +75,7 @@ public class SpawnerCaptureItem extends Item {
                 return InteractionResult.FAIL;
             }
             ItemStack stacked = stated.getBlock().asItem().getDefaultInstance();
+            if(stacked.isEmpty()||stacked.getItem()==Items.AIR)return InteractionResult.FAIL;
             context.getLevel().playSound(null,context.getClickedPos(), stated.getBlock().getSoundType(stated,context.getLevel(),context.getClickedPos(),null).getBreakSound(), SoundSource.PLAYERS,1.2f,0.8f);
             context.getLevel().playSound(null,context.getClickedPos(), SoundEvents.SLIME_SQUISH, SoundSource.PLAYERS,1.1f,0.6f);
             if(context.getLevel().getBlockEntity(context.getClickedPos()) instanceof BlockEntity spawnerBlockEntity){

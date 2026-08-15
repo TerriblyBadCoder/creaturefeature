@@ -15,25 +15,38 @@ import net.minecraft.world.phys.Vec3;
 
 public class BulletEntity extends Entity {
     public LivingEntity ownerUsual = null;
+    public float length=40f;
+
     public BulletEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
     }
-
     @Override
     public void tick() {
+        if (tickCount == 0&&level()!=null) {
+            float customPitch = -getXRot();
+            float customYaw = -getYRot();
+            Vec3 godir = new Vec3(0, 0, 1).xRot(customPitch / 180 * 3.14f).yRot(customYaw / 180.0f * 3.14f).scale(24);
+
+            HitResult result = level().clip(new ClipContext(getPosition(1).add(0,0.1,0), getPosition(1).add(0,0.1,0).add(godir), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+            this.length=(float)result.getLocation().distanceTo(this.getPosition(1).add(0,0.1,0));
+        }
         super.tick();
         if(level() instanceof ServerLevel serverLevel){
             if(tickCount==1){
                 playSound(CFSoundInit.SHOT.value(),0.8f,0.6f+(float)Math.random()/2f);
                 float customPitch = -getXRot();
                 float customYaw = -getYRot();
-                Vec3 godir = new Vec3(0,0,1).xRot(customPitch/180*3.14f).yRot(customYaw/180.0f*3.14f).scale(12);
+                Vec3 godir2 = new Vec3(0, 0, 1).xRot(customPitch / 180 * 3.14f).yRot(customYaw / 180.0f * 3.14f).scale(24);
+
+                HitResult result = level().clip(new ClipContext(getPosition(1).add(0,0.1,0), getPosition(1).add(0,0.1,0).add(godir2), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                this.length=(float)result.getLocation().distanceTo(this.getPosition(1).add(0,0.1,0));
+                Vec3 godir = new Vec3(0,0,1).xRot(customPitch/180*3.14f).yRot(customYaw/180.0f*3.14f).scale(this.length/2f);
 
                 float yawCos = (float) Math.cos(customYaw/180*3.14f);
                 float yawSin = (float) Math.sin(customYaw/180*3.14f);
                 float pitchCos = (float) Math.cos(customPitch/180*3.14f);
                 float pitchSin = (float) Math.sin(customPitch/180*3.14f);
-                for(Entity other : serverLevel.getEntitiesOfClass(Entity.class,getBoundingBox().inflate(24),Entity::isAlive)){
+                for(Entity other : serverLevel.getEntitiesOfClass(Entity.class,getBoundingBox().inflate(this.length),Entity::isAlive)){
                     if(other==this||this.ownerUsual==other){
                         continue;
                     }
@@ -46,7 +59,7 @@ public class BulletEntity extends Entity {
                     double y2 = y1 * pitchCos - z1 * pitchSin;
                     double z2 = y1 * pitchSin + z1 * pitchCos;
                     double x2 = x1;
-                    if((Math.abs(x2) <=0.6) && (Math.abs(y2) <= 0.1+other.getBbHeight()/2) && (Math.abs(z2) <= 12)){
+                    if((Math.abs(x2) <=0.6) && (Math.abs(y2) <= 0.1+other.getBbHeight()/2) && (Math.abs(z2) <=this.length/2f)){
                         other.hurt(damageSources().mobProjectile(this,ownerUsual),2.5f);
                         if(other instanceof LivingEntity i&&this.hasLineOfSight(i)){
                             i.hurtTime=0;

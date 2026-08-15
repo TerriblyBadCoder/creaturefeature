@@ -4,7 +4,7 @@
   "spawners":
   {
     "type": "creaturefeature:mockingbird",
-    "weight": 18,
+    "weight": 22,
     "minCount": 1,
     "maxCount": 2
   }

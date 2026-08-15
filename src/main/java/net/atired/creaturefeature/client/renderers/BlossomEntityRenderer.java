@@ -30,12 +30,22 @@ public class BlossomEntityRenderer extends HumanoidMobRenderer<BlossomEntity, Bl
     @Override
     public void render(BlossomEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-        if(entity.isDeadOrDying())return;
+
         float pied = (float)Math.PI;
         float opening = entity.getOpening();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(BLOSSOM_LEAF_LOCATION));
         for (int i = 0; i < 6; i++) {
             poseStack.pushPose();
+            float zRot = 0f;
+            if (entity.deathTime > 0) {
+                float f = ((float)entity.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
+                f = Mth.sqrt(f);
+                if (f > 1.0F) {
+                    f = 1.0F;
+                }
+                zRot=f * this.getFlipDegrees(entity)/90f*3.14f;
+                setupRotations(entity,poseStack,0,entityYaw,partialTicks,1f);
+            }
             poseStack.translate(0.0f,1.6f,0);
             poseStack.mulPose(new Quaternionf().rotationZYX(0,-entity.getYHeadRot()/180.0f*3.14f,0.2f+entity.getViewXRot(partialTicks)/180.0f/4.0f*3.14f));
             poseStack.translate(0.0f,0,0.1f);
@@ -59,6 +69,8 @@ public class BlossomEntityRenderer extends HumanoidMobRenderer<BlossomEntity, Bl
             }
             poseStack.popPose();
         }
+        if(entity.isDeadOrDying())return;
+
         consumer = buffer.getBuffer(CFRenderTypes.entityBlossomCull(SPORES_LOCATION));
         for (int i = 0; i < 4; i++) {
             poseStack.pushPose();

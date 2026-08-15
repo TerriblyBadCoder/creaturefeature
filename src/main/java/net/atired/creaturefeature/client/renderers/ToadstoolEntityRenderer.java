@@ -3,6 +3,7 @@ package net.atired.creaturefeature.client.renderers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.ryanhcode.sable.network.packets.tcp.ServerboundPunchSubLevelPacket;
+import dev.ryanhcode.sable.sublevel.ClientSubLevel;
 import dev.ryanhcode.sable.sublevel.render.SubLevelRenderer;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.client.CFRenderTypes;
@@ -63,16 +64,16 @@ public class ToadstoolEntityRenderer extends MobRenderer<ToadstoolEntity, Toadst
     }
     @Override
     public void render(ToadstoolEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        if(entity.myClientCube!=null&&!entity.myClientCube.isRemoved()){
+        if(entity.myClientCube!=null&&!entity.myClientCube.isRemoved()&&entity.myClientCube instanceof ClientSubLevel clientCube){
             poseStack.pushPose();
-            Vector3dc posCube = entity.myClientCube.renderPose(partialTicks).position();
+            Vector3dc posCube = clientCube.renderPose(partialTicks).position();
             Vec3 transpos = entity.getPosition(partialTicks).scale(-1).add(posCube.x(),posCube.y(),posCube.z());
-            Vector3d dirCube = entity.myClientCube.renderPose(partialTicks).orientation().getEulerAnglesYXZ(new Vector3d());
+            Vector3d dirCube = clientCube.renderPose(partialTicks).orientation().getEulerAnglesYXZ(new Vector3d());
             poseStack.translate(transpos.x,transpos.y,transpos.z);
 
             poseStack.mulPose(new Quaternionf().rotationYXZ((float) dirCube.y(),(float)dirCube.x(),(float)dirCube.z()));
             renderBoxes(poseStack,buffer);
-            Vector3dc sizedCube = entity.myClientCube.renderPose(partialTicks).scale().mul(entity.myClientCube.boundingBox().size(),new Vector3d(1,1,1));
+            Vector3dc sizedCube = clientCube.renderPose(partialTicks).scale().mul(clientCube.boundingBox().size(),new Vector3d(1,1,1));
 
             poseStack.popPose();
             for (int i = 0; i < 2; i++) {
@@ -83,9 +84,9 @@ public class ToadstoolEntityRenderer extends MobRenderer<ToadstoolEntity, Toadst
                 offset/=80.0f;
                 if(CFRenderTypes.AMBUSH_SHADER_INSTANCE.getUniform("Revealness")!=null)
                     CFRenderTypes.AMBUSH_SHADER_INSTANCE.getUniform("Revealness").set(1.0f);
-                Vector3dc position = entity.myClientCube.renderPose(partialTicks).position();
-                Vector3d dir = entity.myClientCube.renderPose(partialTicks).orientation().getEulerAnglesYXZ(new Vector3d());
-                dir=entity.myClientCube.renderPose(partialTicks).transformNormal(new Vector3d(0,1,0)).mul(entity.myClientCube.boundingBox().height()/2.0f-0.8f);
+                Vector3dc position = clientCube.renderPose(partialTicks).position();
+                Vector3d dir = clientCube.renderPose(partialTicks).orientation().getEulerAnglesYXZ(new Vector3d());
+                dir=clientCube.renderPose(partialTicks).transformNormal(new Vector3d(0,1,0)).mul(clientCube.boundingBox().height()/2.0f-0.8f);
                 Vector3d offSet = new Vector3d(dir.x,0,dir.z).normalize().mul(0.3).rotateY(3.14f/2.0f+i*3.14f/2f);
                 Vec3 pos = new Vec3(
                         position.x()+dir.x(),

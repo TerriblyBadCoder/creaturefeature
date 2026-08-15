@@ -29,19 +29,36 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
 
     @Override
     public ResourceLocation getTextureLocation(MockingBirdEntity machinationEntity) {
+        if(!Config.SPEC.isLoaded()){
+            return MOCKINGBIRD_LOCATION;
+        }
         return Config.REMODEL_MB.get()?MOCKINGBIRD_DT_LOCATION:MOCKINGBIRD_LOCATION;
     }
 
     @Override
     public void render(MockingBirdEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-        if(entity.isDeadOrDying())return;
+
+        if(!Config.SPEC.isLoaded()){
+            return;
+        }
         float yawEd = -entity.getPreciseBodyRotation(partialTicks)/180.0f*3.14f;
         Vec3 translated = new Vec3(0,0,-0.4).scale(1.0-entity.getWingspan()).yRot(yawEd);
         float mul = 1.0f+ Mth.sin((entity.tickCount+partialTicks)/10.0f)*3.0f*(1.0f+entity.getWingspan()/1.5f)+(entity.getWingspan()-1.0f)*16.0f;
         float scaled = 0.8f+entity.getWingspan()/3.0f;
         int overlay = getOverlayCoords(entity, this.getWhiteOverlayProgress(entity, partialTicks));
         poseStack.pushPose();
+        float zRot = 0f;
+        if (entity.deathTime > 0) {
+            float f = ((float)entity.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
+            f = Mth.sqrt(f);
+            if (f > 1.0F) {
+                f = 1.0F;
+            }
+            zRot=f * this.getFlipDegrees(entity)/90f*3.14f;
+            setupRotations(entity,poseStack,0,entityYaw,partialTicks,1f);
+            yawEd=3.14f;
+        }
         poseStack.translate((float)translated.x ,1.4f,(float)translated.z);
         Vec3 pos = entity.getPosition(partialTicks);
         PoseStack.Pose posed = poseStack.last();

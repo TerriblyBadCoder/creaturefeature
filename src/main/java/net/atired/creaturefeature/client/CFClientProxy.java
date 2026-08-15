@@ -21,9 +21,11 @@ import static net.atired.creaturefeature.client.renderers.StarProjEntityRenderer
 public class CFClientProxy {
     public float eebyDeebyNess = 0.0f;
     public float flayed2 = 0.0f;
+    public boolean searchingForHim=false;
     public float rabies2 = 0.0f;
     public float gasLeak = 0.0f;
     public float wobble = 0.0f;
+    public float manShader = 0.0f;
     public float bacterial = 0.0f;
     public ItemStack wobblyItem=null;
     public int attachment = 0;

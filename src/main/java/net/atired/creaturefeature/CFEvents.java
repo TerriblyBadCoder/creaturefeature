@@ -117,6 +117,7 @@ public class CFEvents {
             event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.MURKY_PEARL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.FUNCTIONAL_BLOCKS){
+            event.insertAfter(Items.JUKEBOX.getDefaultInstance(), CFBlockInit.DOOHICKEY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.SOUL_CAMPFIRE.getDefaultInstance(), CFBlockInit.CARAPACE_BLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.LODESTONE.getDefaultInstance(), CFBlockInit.MINEDFLAYER_JELLY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
@@ -147,16 +148,19 @@ public class CFEvents {
                 C2SVelSyncPayload.STREAM_CODEC,
                 C2SVelSyncPayload::handleData
         );
+        registrar.playToServer(
+                C2SManPayload.TYPE,
+                C2SManPayload.STREAM_CODEC,
+                C2SManPayload::handleData
+        );
         registrar.playToClient(
                 RabiesPayload.TYPE,
                 RabiesPayload.STREAM_CODEC,
                 RabiesPayload::handleData
         );
-        registrar.playToClient(
-                ToadstoolRenderPayload.TYPE,
-                ToadstoolRenderPayload.STREAM_CODEC,
-                ToadstoolRenderPayload::handleData
-        );
+
+        if(ModList.get().isLoaded("sable"))
+            SableCarrier.initEvent(registrar);
         registrar.playToClient(
                 PathogenPayload.TYPE,
                 PathogenPayload.STREAM_CODEC,

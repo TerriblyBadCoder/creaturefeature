@@ -1,24 +1,12 @@
 #version 150
 
-#moj_import <minecraft:fog.glsl>
-
-uniform sampler2D Sampler0;
-
-uniform vec4 ColorModulator;
-uniform float FogStart;
-uniform float FogEnd;
+uniform sampler2D DiffuseSampler;
+in vec2 texCoord;
 uniform float GameTime;
-uniform float Revealness;
-uniform vec4 FogColor;
-uniform vec2 ScreenSize;
-uniform mat4 ProjMat;
-
-in float vertexDistance;
-in vec4 vertexColor;
-in vec4 lightMapColor;
-in vec4 overlayColor;
-in vec2 texCoord0;
-
+uniform sampler2D DiffuseDepthSampler;
+uniform sampler2D TrueDepthSampler;
+uniform float FadeInTest;
+uniform mat4x4 ProjMat;
 
 out vec4 fragColor;
 
@@ -92,45 +80,43 @@ float cnoise(vec3 P){
     float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
     return 2.2 * n_xyz;
 }
-void main() {
+float near = 0.1;
+float far = 100.0;
+float LinearizeDepth(float depth)
+{
+    float z = depth * 2.0f - 1.0f;
+    return (near * far) / (far + near - z * (far - near));
+}
+void main(){
 
-    vec2 sized = vec2(textureSize(Sampler0,0));
+    vec2 fracted = texCoord;
+    fracted.x -= fract(fracted.x*160.0)/160.0;
+    fracted.y -= fract(fracted.y*90.0)/90.0;
+    vec2 texEvil = fracted+vec2(
+    sin(fracted.y*3.14*8.0+GameTime/20.0)/100.0*FadeInTest,
+    cos(fracted.x*3.14*8.0+GameTime/100.0)/120.0*FadeInTest);
+    vec2 texCopied = texCoord*(1.0-FadeInTest)+texEvil*FadeInTest;
+    vec4 diffuseColor = texture(DiffuseSampler, texCopied);
+    float depth = LinearizeDepth(texture(TrueDepthSampler, texCopied).r);
+    float dist = length(vec3(1., (2.*texCopied - 1.) * vec2(1600/900,1.) * tan(radians(90 / 2.))) * depth);
+    fragColor = diffuseColor;
+    vec2 dirForNoise = fracted-vec2(0.5,0.5);
+    dirForNoise=normalize(dirForNoise)*4.0+dirForNoise*0.4f;
 
-    vec2 fracted = texCoord0;
-    fracted.x-=fract(fracted.x*sized.x)/sized.x;
-    fracted.y-=fract(fracted.y*sized.y)/sized.y;
-    fracted.x+=0.5f/sized.x;
-    fracted.y+=0.5f/sized.y;
-    fracted.x+=sin(fracted.y*6.28*1.0+GameTime*9000.0)/6.0*(1.0-fracted.y);
-    vec4 color = texture(Sampler0, fracted);
 
-    float noisy = abs(cnoise(vec3(fracted*sized/2.0f,0)/8.0+vec3(Revealness,GameTime*1600.0,0.0)));
-    float noisy2 = abs(cnoise(vec3(fracted*sized/2.0f,900)/8.0+vec3(Revealness,GameTime*1600.0,0.0)));
-    color *= ColorModulator;
-    vec3 verCol2 = vertexColor.rgb;
-    verCol2.r-=fract(verCol2.r*12.0f)/12.0f;
-    verCol2.g-=fract(verCol2.g*12.0f)/12.0f;
-    verCol2.b-=fract(verCol2.b*12.0f)/12.0f;
-    color.a *= vertexColor.a;
-    color.rgb*=ColorModulator.a;
-    color.rgb = mix(overlayColor.rgb, color.rgb, overlayColor.a);
 
-    if (color.a < 0.14) {
-        discard;
-    }
-    if((min(color.a*1.1,1.0))*2.<=noisy+1){
-        color.rgb*=0.8;
-        color.yz*=0.8;
-        if((min(color.a*1.1,1.0))*2.<=noisy+0.7){
-            color.rgb*=0.6f;
-
-            if((min(color.a*1.1,1.0))*2.<=noisy+0.5){
-                discard;
-            }
+    fragColor.y*=1.0f-FadeInTest*0.4f;
+    fragColor.x-=fract(fragColor.x*4.0f)/4.0f*FadeInTest;
+    fragColor.y-=fract(fragColor.y*4.0f)/4.0f*FadeInTest;
+    fragColor.z-=fract(fragColor.z*4.0f)/4.0f*FadeInTest;
+    float noise = FadeInTest*((abs(cnoise(vec3(dirForNoise*0.7+vec2(0,GameTime/70.0f+20.0),0))*0.5)+0.5)*pow(length(fracted-vec2(0.5,0.5)),2.0)*2.0);
+    float noise2 = FadeInTest*((abs(cnoise(vec3(dirForNoise+vec2(0,GameTime/50.0f+1000.0),0))*0.6)+0.5)*pow(length(fracted-vec2(0.5,0.5)),2.0)*2.0);
+    if(noise>0.1||noise2>0.2){
+        if(noise2<0.2)
+            fragColor.rgb=vec3(0.87,0.12,0.25);
+        else{
+            fragColor.rgb=vec3(0.62,0.0,0.5);
         }
     }
-    color.a = 1.0f;
-
-    color.rgb*=ColorModulator.rgb*verCol2.rgb;
-    fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
+    fragColor.a=1.0f;
 }

@@ -4,6 +4,7 @@
   "desc.creaturefeature.open_mind": "Open your Grid.",
   "desc.creaturefeature.murky": "Does... Nothing.",
   "desc.creaturefeature.solar": "Obtained from the collision of Stars.",
+  "desc.creaturefeature.doohickey": "May proliferate certain visual effects when provided with a related item.",
   "desc.creaturefeature.thepill": "Resets the Phantom spawning timer.",
   "desc.creaturefeature.dreamcatcher": "Catches blocks. Saving all but the storage.",
   "info.creaturefeature.dreamcatcher": "So many thoughts to think... ",
@@ -11,11 +12,13 @@
   "creaturefeature.configuration.remodelfriend": "Remodel Friend",
   "creaturefeature.configuration.remodelmb": "Remodel Mockingbird",
   "creaturefeature.configuration.endreamweaver": "End Dreamweavers",
+  "creaturefeature.configuration.pathogen": "Pathogen spawning rework",
+  "creaturefeature.configuration.saint_solis": "Slow down Stars",
   "creaturefeature.configuration.depth": "Depth Vista Compat Test",
 
 
   "advancement.creaturefeature.roots": "Found.",
-  "advancement.creaturefeature.roots.desc": "I WILL SHOW YOU A GREAT VESTIGE TO THE EAST.",
+  "advancement.creaturefeature.roots.desc": "MEET AGAIN ABOVE THE HEATED PLAINS.",
   "advancement.creaturefeature.root": "Creature Feature.",
   "advancement.creaturefeature.root.desc": "Featuring. The Creatures.",
   "advancement.creaturefeature.friendless": "Friendless",
@@ -44,6 +47,7 @@
   "sound.creaturefeature.laughter": "Laugh Track ",
   "sound.creaturefeature.stained_glass_retreat": "Stained Glass Rebounds",
   "sound.creaturefeature.stained_glass_die": "Stained Glass Shatters",
+  "sound.creaturefeature.coa_hurt": "Coat of Arms tears away.",
   "sound.creaturefeature.shot": "Flintlockshot...",
   "effect.creaturefeature.sleepy": "Sleepy",
 
@@ -104,7 +108,7 @@
   "item.creaturefeature.minedflayer_goop": "Minedflayer Goop",
   "item.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
   "item.creaturefeature.blighted_brain": "Blighted Brain",
-
+  "item.creaturefeature.dreamcatcher": "Dreamcatcher",
 
   "block.creaturefeature.minedflayer_jelly": "Minedflayer Jelly",
   "block.creaturefeature.eep": "EEP",

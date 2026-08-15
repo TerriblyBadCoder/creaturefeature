@@ -24,6 +24,7 @@ import org.joml.Vector3f;
 
 public class FendEntityRenderer extends HumanoidMobRenderer<FendEntity, FendEntityModel> {
     private static final ResourceLocation FEND_LOCATION = CreatureFeature.getId("textures/entity/fend.png");
+    private static final ResourceLocation FEND_DEEP_LOCATION = CreatureFeature.getId("textures/entity/fend_deep.png");
 
     public FendEntityRenderer(EntityRendererProvider.Context context) {
         super(context, new FendEntityModel(context.bakeLayer(FendEntityModel.LAYER_LOCATION)), 0.0f);
@@ -56,6 +57,9 @@ public class FendEntityRenderer extends HumanoidMobRenderer<FendEntity, FendEnti
 
     @Override
     public ResourceLocation getTextureLocation(FendEntity fendEntity) {
+        if(fendEntity.isDeep()){
+            return FEND_DEEP_LOCATION;
+        }
         return FEND_LOCATION;
     }
 

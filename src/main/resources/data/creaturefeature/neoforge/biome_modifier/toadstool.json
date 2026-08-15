@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sable"
+    }
+  ],
   "type": "neoforge:add_spawns",
   "biomes": "#c:is_plains",
   "spawners":

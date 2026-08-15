@@ -3,13 +3,16 @@ package net.atired.creaturefeature.entity;
 import net.atired.creaturefeature.client.renderers.BulletEntityRenderer;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFParticleInit;
+import net.atired.creaturefeature.init.CFSoundInit;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -46,6 +49,16 @@ public class CoatOfArmsEntity extends Monster {
 
         if(getOpening()>0.6)return;
         super.setYHeadRot(rotation);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return CFSoundInit.COA_HURT.value();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return CFSoundInit.COA_HURT.value();
     }
 
     @Override

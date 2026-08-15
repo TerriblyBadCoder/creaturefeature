@@ -6,6 +6,8 @@ import net.atired.creaturefeature.entity.ToadstoolEntity;
 import net.atired.creaturefeature.init.CFBlockInit;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFItemInit;
+import net.atired.creaturefeature.networking.payloads.ToadstoolRenderPayload;
+import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class SableCarrier {
     public static void initBlock(){
@@ -24,6 +27,13 @@ public class SableCarrier {
     public static void initspawn(RegisterSpawnPlacementsEvent event){
         event.register(CFEntityInit.TOADSTOOL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ToadstoolEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
+    }
+    public static void initEvent(PayloadRegistrar registrar){
+        registrar.playToClient(
+                ToadstoolRenderPayload.TYPE,
+                ToadstoolRenderPayload.STREAM_CODEC,
+                ToadstoolRenderPayload::handleData
+        );
     }
     public static void initEgg(){
         CFItemInit.TOADSTOOL_EGG= CFItemInit.ITEMS.register("toadstool_spawn_egg", ()->new

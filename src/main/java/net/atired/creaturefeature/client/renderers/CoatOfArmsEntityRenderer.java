@@ -2,6 +2,7 @@ package net.atired.creaturefeature.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.client.CFRenderTypes;
 import net.atired.creaturefeature.client.renderers.models.CoatOfArmsEntityModel;
@@ -41,7 +42,6 @@ public class CoatOfArmsEntityRenderer extends MobRenderer<CoatOfArmsEntity, Coat
     @Override
     public void render(CoatOfArmsEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-        if(entity.isDeadOrDying())return;
         float yawEd = -entity.getPreciseBodyRotation(partialTicks)/180.0f*3.14f;
         Vec3 translated = new Vec3(0,0,-0.00).yRot(yawEd);
         float mulTheOther=entity.getOpening()*1.2f;
@@ -50,6 +50,17 @@ public class CoatOfArmsEntityRenderer extends MobRenderer<CoatOfArmsEntity, Coat
         float aged = (entity.tickCount+partialTicks)/9.0f;
         int overlay = getOverlayCoords(entity, this.getWhiteOverlayProgress(entity, partialTicks));
         poseStack.pushPose();
+        float zRot = 0f;
+        if (entity.deathTime > 0) {
+            float f = ((float)entity.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
+            f = Mth.sqrt(f);
+            if (f > 1.0F) {
+                f = 1.0F;
+            }
+            zRot=f * this.getFlipDegrees(entity)/90f*3.14f;
+            setupRotations(entity,poseStack,0,entityYaw,partialTicks,1f);
+            yawEd=3.14f;
+        }
         poseStack.translate((float)translated.x ,1.4f,(float)translated.z);
         Vec3 pos = entity.getPosition(partialTicks);
         PoseStack.Pose posed = poseStack.last();
@@ -67,7 +78,7 @@ public class CoatOfArmsEntityRenderer extends MobRenderer<CoatOfArmsEntity, Coat
                 sc2= (float) Math.pow(sc2,3.0);
                 if(sc2>0.2){
                     poseStack.pushPose();
-                    poseStack.mulPose(new Quaternionf().rotationXYZ(0f,yawEd+3.14f,0f));
+                    poseStack.mulPose(new Quaternionf().rotationXYZ(0f,yawEd+3.14f,0));
                     poseStack.translate(Mth.sin(aged*2.0f+i*1.256f*4.f)/8.0f,Mth.cos(aged+i*1.256f/2f)/1.6f+0.1f,-sc2/2.0f);
                     poseStack.scale(sc2,1,1);
 

@@ -17,6 +17,12 @@
       "creaturefeature:stained_glass_rebound"
     ]
   },
+  "entity.coa_hurt": {
+    "subtitle": "sound.creaturefeature.coa_hurt",
+    "sounds": [
+      "creaturefeature:coa_tear"
+    ]
+  },
   "entity.stained_glass_die": {
     "subtitle": "sound.creaturefeature.stained_glass_die",
     "sounds": [

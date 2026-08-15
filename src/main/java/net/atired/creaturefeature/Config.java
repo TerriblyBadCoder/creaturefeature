@@ -22,6 +22,8 @@ public class Config {
     public static final ModConfigSpec.BooleanValue REMODEL_FRIEND;
     public static final ModConfigSpec.BooleanValue REMODEL_MB;
     public static final ModConfigSpec.BooleanValue END_DREAMWEAVER;
+    public static final ModConfigSpec.BooleanValue PATHOGEN;
+    public static final ModConfigSpec.BooleanValue SAINT;
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         REMODEL_FRIEND = builder
@@ -37,6 +39,12 @@ public class Config {
         END_DREAMWEAVER = builder
                 .comment("Dreamweavers only spawn Nothings, Endermen and themselves.")
                 .define("endreamweaver", false);
+        PATHOGEN = builder
+                .comment("Pathogen only spawns in temperate overworld biomes.")
+                .define("pathogen", false);
+        SAINT = builder
+                .comment("Weakens the rotation of Saint Solis' Stars")
+                .define("pathogen", false);
 
         SPEC2 = builder.build();
     }

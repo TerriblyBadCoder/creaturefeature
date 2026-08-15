@@ -81,9 +81,7 @@ public abstract class LivingEntityGoopMixin extends Entity implements LivingEnti
         }else{
             this.hpNext=0.0f;
         }
-        if(getBlockStateOn().getBlock()== CFBlockInit.MINEDFLAYER_JELLY.get()){
-            setGoop(getGoop()+0.1f);
-        }else if(getGoop()>0.0f){
+        if(getGoop()>0){
             setGoop(getGoop()-0.05f);
         }
         LivingEntity entity = (LivingEntity)(Object)this;

@@ -1,6 +1,7 @@
 package net.atired.creaturefeature.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -32,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 public class FendEntity extends Monster implements RangedAttackMob {
     public int chargeCd = 80;
     private static final EntityDataAccessor<Float> LUNGE= SynchedEntityData.defineId(FendEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> DEEP= SynchedEntityData.defineId(FendEntity.class, EntityDataSerializers.BOOLEAN);
 
     public FendEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
@@ -48,6 +50,9 @@ public class FendEntity extends Monster implements RangedAttackMob {
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[]{FendEntity.class})));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, false));
     }
+    public boolean isDeep(){
+        return entityData.get(DEEP);
+    }
     public static boolean checkFendSpawnRules(EntityType<FendEntity> fend, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return checkMonsterSpawnRules(fend, level, spawnType, pos, random) && (MobSpawnType.isSpawner(spawnType) || level.canSeeSky(pos.above()));
     }
@@ -56,6 +61,9 @@ public class FendEntity extends Monster implements RangedAttackMob {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         if (this.random.nextFloat()>0.7 && this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+        }
+        if(getY()<20){
+            this.entityData.set(DEEP,true);
         }
         if (this.random.nextFloat()>0.7 && this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
             this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
@@ -82,6 +90,7 @@ public class FendEntity extends Monster implements RangedAttackMob {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(DEEP,false);
         builder.define(LUNGE,0.0f);
     }
     public void setLunge(float lunge){
@@ -199,6 +208,18 @@ public class FendEntity extends Monster implements RangedAttackMob {
     }
     protected AbstractArrow getArrow(ItemStack arrow, float velocity, @javax.annotation.Nullable ItemStack weapon) {
         return ProjectileUtil.getMobArrow(this, arrow, velocity, weapon);
+    }
+
+    @Override
+    public void load(CompoundTag compound) {
+        this.entityData.set(DEEP,compound.getBoolean("is_cf_deep"));
+        super.load(compound);
+    }
+
+    @Override
+    public boolean save(CompoundTag compound) {
+        compound.putBoolean("is_cf_deep",isDeep());
+        return super.save(compound);
     }
 
     public boolean canFireProjectileWeapon(ProjectileWeaponItem projectileWeapon) {
