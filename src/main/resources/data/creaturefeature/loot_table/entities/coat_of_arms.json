@@ -56,7 +56,7 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "minecraft:leather"
+          "name": "creaturefeature:coat_scraps"
         }
       ],
       "rolls": 1.0

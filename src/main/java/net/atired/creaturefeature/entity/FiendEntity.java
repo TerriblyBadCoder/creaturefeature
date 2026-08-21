@@ -1,8 +1,10 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFItemInit;
 import net.atired.creaturefeature.init.CFParticleInit;
+import net.atired.creaturefeature.init.CFSoundInit;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -154,21 +156,29 @@ public class FiendEntity extends Monster {
             }
             if(this.position().distanceTo(this.getTarget().getPosition(1))>1.23){
                 this.kickDelay-=1;
-                this.shotDelay-=1;
+                if(Config.FIEND_FOLIO_RELOADED.isTrue())
+                    this.shotDelay-=1;
             }
         }
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.EVOKER_HURT;
+        return  CFSoundInit.FIEND_HURT.value();
     }
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+        Entity entity = damageSource.getEntity();
+        if (entity != this && entity instanceof FiendEntity skeleton) {
+            this.spawnAtLocation(CFItemInit.NEW_AGE_NEVERMORE_DISC.get());
+        }
 
+    }
 
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.EVOKER_DEATH;
+        return CFSoundInit.FIEND_DIE.value();
     }
 
     @Override

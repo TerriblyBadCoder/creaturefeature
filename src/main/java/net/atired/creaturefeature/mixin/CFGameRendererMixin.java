@@ -89,6 +89,13 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
                 chain.setUniform("FadeInTest",CreatureFeatureClient.PROXY.manShader);
                 chain.process(deltaTracker.getRealtimeDeltaTicks());
             }
+            if(CreatureFeatureClient.PROXY!=null&&(CreatureFeatureClient.PROXY.fiendish>0.0f||CreatureFeatureClient.PROXY.fiendish2>0)){
+
+                PostChain chain = CreatureFeatureClient.FIEND;
+                chain.setUniform("GameTime",(Minecraft.getInstance().level.getGameTime()%24000));
+                chain.setUniform("FadeInTest",Math.max(CreatureFeatureClient.PROXY.fiendish,Math.min(1.0f,CreatureFeatureClient.PROXY.fiendish2*1.1f)));
+                chain.process(deltaTracker.getRealtimeDeltaTicks());
+            }
             if(CreatureFeatureClient.PROXY!=null&&CreatureFeatureClient.PROXY.eebyDeebyNess>0.0f){
 
                 PostChain chain = CreatureFeatureClient.SLEEP;

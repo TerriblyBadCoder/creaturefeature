@@ -16,6 +16,10 @@ public class CFParticleInit {
             "sleepy",
             () -> new SimpleParticleType(false)
     );
+    public static final Supplier<SimpleParticleType> CRIT_TEXT_PARTICLE = PARTICLE_TYPES.register(
+            "crit_text",
+            () -> new SimpleParticleType(false)
+    );
     public static final Supplier<SimpleParticleType> LEAF_PARTICLE = PARTICLE_TYPES.register(
             "leaf",
             () -> new SimpleParticleType(false)
@@ -38,6 +42,10 @@ public class CFParticleInit {
     );
     public static final Supplier<SimpleParticleType> CRIT_PARTICLE = PARTICLE_TYPES.register(
             "crit",
+            () -> new SimpleParticleType(false)
+    );
+    public static final Supplier<SimpleParticleType> CRIT_VER_PARTICLE = PARTICLE_TYPES.register(
+            "crit_ver",
             () -> new SimpleParticleType(false)
     );
     public static final Supplier<SimpleParticleType> SPARKLE_PARTICLE = PARTICLE_TYPES.register(

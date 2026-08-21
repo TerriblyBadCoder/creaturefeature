@@ -2,6 +2,7 @@ package net.atired.creaturefeature.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.client.CFClientProxy;
 import net.atired.creaturefeature.client.CFRenderTypes;
@@ -43,7 +44,7 @@ public class SaintSolisEntityRenderer extends MobRenderer<SaintSolisEntity, Sain
         Vec3 dir = new Vec3(0,0,-0.1).yRot(-entity.getPreciseBodyRotation(partialTicks)/180.0f*3.14f);
         poseStack.translate(dir.x,1.25,dir.z);
         Vector2f divisor = new Vector2f(3.0f,3.0f);
-        VertexConsumer consumer = CFClientProxy.getSunSource().getBuffer(RenderType.entityTranslucent(SUN_LOCATION));
+        VertexConsumer consumer = (Config.FIX_SAS.isTrue()?buffer:CFClientProxy.getSunSource()).getBuffer(RenderType.entityTranslucent(SUN_LOCATION));
         IcoSphere sphere = CreatureFeature.ICO;
         float gotten = entity.getOpening();
         float timed = (entity.tickCount+partialTicks+entity.getId()*5.0f)/20.0f;

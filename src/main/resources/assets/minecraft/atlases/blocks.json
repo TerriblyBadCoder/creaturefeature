@@ -7,7 +7,8 @@
         "scroll_trans": "creaturefeature:trims/color_palettes/scroll_tr",
         "scroll_pan": "creaturefeature:trims/color_palettes/scroll_pan",
         "scroll_pride": "creaturefeature:trims/color_palettes/scroll_pride",
-        "ectoplasm": "creaturefeature:trims/color_palettes/ectoplasm"
+        "ectoplasm": "creaturefeature:trims/color_palettes/ectoplasm",
+        "scroll_bi": "creaturefeature:trims/color_palettes/scroll_bi"
       },
       "textures": [
         "minecraft:trims/items/helmet_trim",

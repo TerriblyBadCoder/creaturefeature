@@ -89,10 +89,12 @@ public class CFEvents {
             event.insertAfter(Items.MILK_BUCKET.getDefaultInstance(),CFItemInit.THE_PILL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
         }
         if(event.getTabKey()==CreativeModeTabs.COMBAT){
+            event.insertAfter(Items.ARROW.getDefaultInstance(),CFItemInit.VITRIC_ARROW.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
             event.insertBefore(Items.BOW.getDefaultInstance(),CFItemInit.FLINTLOCK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
             event.insertBefore(Items.MACE.getDefaultInstance(),CFItemInit.HEAVY_AXE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
         }
         if(event.getTabKey()==CreativeModeTabs.INGREDIENTS){
+            event.insertBefore(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),CFItemInit.BI_SCROLL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),CFItemInit.PRIDE_SCROLL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),CFItemInit.TRANS_SCROLL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),CFItemInit.PAN_SCROLL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -102,19 +104,47 @@ public class CFEvents {
             event.insertAfter(Items.BREEZE_ROD.getDefaultInstance(),CFItemInit.BLITZ_ROD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.NAUTILUS_SHELL.getDefaultInstance(),CFItemInit.CARAPACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.POPPED_CHORUS_FRUIT.getDefaultInstance(),CFItemInit.DREAM_SILK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.HONEYCOMB.getDefaultInstance(),CFItemInit.DOWN_FEATHER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.HONEYCOMB.getDefaultInstance(),CFItemInit.ECTOPLASM.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.GHAST_TEAR.getDefaultInstance(),CFItemInit.THINGAMABOB.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GHAST_TEAR.getDefaultInstance(),CFItemInit.FIENDISH_ESSENCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.LEATHER.getDefaultInstance(),CFItemInit.COAT_SCRAPS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.BONE.getDefaultInstance(),CFItemInit.LIVING_GLASS_SHARDS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.GUNPOWDER.getDefaultInstance(),CFItemInit.SLEEPING_POWDER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.TOOLS_AND_UTILITIES){
             event.insertBefore(InstrumentItem.create(Items.GOAT_HORN,  BuiltInRegistries.INSTRUMENT.getTag(InstrumentTags.GOAT_HORNS).get().get(0)),CFItemInit.VERTIGO_HORN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.MUSIC_DISC_13.getDefaultInstance(),CFItemInit.NOTHING_DISC.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.MUSIC_DISC_MALL.getDefaultInstance(),CFItemInit.NEW_AGE_NEVERMORE_DISC.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.BRUSH.getDefaultInstance(),CFItemInit.OPEN_MIND.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.SADDLE.getDefaultInstance(),CFItemInit.DREAM_CATCHER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.SADDLE.getDefaultInstance(),CFItemInit.BACTERIUM_BALL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
             event.insertBefore(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.BOUQUET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.SOLAR_SHARD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.MURKY_PEARL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }if(event.getTabKey()==CreativeModeTabs.BUILDING_BLOCKS) {
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.MURKY_PEARL_BLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.MURKY_PEARL_TILES.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.MURKY_PEARL_TILE_STAIRS.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.DOWN_FEATHERS.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.DOWN_FEATHERS_CARPET.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.MOSAIC_DOWN_FEATHERS.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.MOSAIC_DOWN_FEATHERS_CARPET.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.FIENDISH_TILES.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.BLIND_FIENDISH_TILES.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.CARAPACE_BLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.CARAPACE_BRICKS.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertBefore(Items.GOLD_BLOCK.getDefaultInstance(), CFBlockInit.CARAPACE_BRICK_STAIRS.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.PURPUR_BLOCK.getDefaultInstance(), CFBlockInit.DREAM_SILK_SPOOL.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.PURPUR_BLOCK.getDefaultInstance(), CFBlockInit.SOLAR_BLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.PURPUR_BLOCK.getDefaultInstance(), CFBlockInit.SOLAR_BRICKS.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.PACKED_MUD.getDefaultInstance(), CFBlockInit.WALLPAPER.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
         }
         if(event.getTabKey()==CreativeModeTabs.FUNCTIONAL_BLOCKS){
             event.insertAfter(Items.JUKEBOX.getDefaultInstance(), CFBlockInit.DOOHICKEY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -122,6 +152,8 @@ public class CFEvents {
             event.insertBefore(Items.LODESTONE.getDefaultInstance(), CFBlockInit.MINEDFLAYER_JELLY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
+            event.insertBefore(Items.CAKE.getDefaultInstance(), CFItemInit.FIENDISH_SODA.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
             event.insertBefore(Items.SPIDER_EYE.getDefaultInstance(), CFItemInit.VERTIGO_CHUNK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.ROTTEN_FLESH.getDefaultInstance(), CFItemInit.BLIGHTED_BRAIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
@@ -165,6 +197,11 @@ public class CFEvents {
                 PathogenPayload.TYPE,
                 PathogenPayload.STREAM_CODEC,
                 PathogenPayload::handleData
+        );
+        registrar.playToClient(
+                SquashedPayload.TYPE,
+                SquashedPayload.STREAM_CODEC,
+                SquashedPayload::handleData
         );
         registrar.playToClient(
                 GasLeakPayload.TYPE,

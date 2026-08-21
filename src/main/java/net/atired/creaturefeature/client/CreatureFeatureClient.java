@@ -13,6 +13,7 @@ import net.atired.creaturefeature.client.renderers.*;
 import net.atired.creaturefeature.client.renderers.models.*;
 import net.atired.creaturefeature.items.DreamCatcherContents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -22,12 +23,17 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpyglassItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.JukeboxBlock;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -42,6 +48,7 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.joml.Quaternionf;
 
+import java.awt.*;
 import java.io.IOException;
 
 // This class will not load on dedicated servers. Accessing client side code from here is safe.
@@ -86,6 +93,7 @@ public class CreatureFeatureClient {
     public static ResourceLocation RABIESEFFECT = CreatureFeature.getId("shaders/post/rabies.json");
     public static ResourceLocation HAZEEFFECT = CreatureFeature.getId("shaders/post/haze.json");
     public static ResourceLocation FRIENDEFFECT = CreatureFeature.getId("shaders/post/friend.json");
+    public static ResourceLocation FIENDEFFECT = CreatureFeature.getId("shaders/post/fiend.json");
     public static ResourceLocation SUNEFFECT = CreatureFeature.getId("shaders/post/sun.json");
     public static ResourceLocation BACTEEFFECT = CreatureFeature.getId("shaders/post/bacte.json");
     public static ResourceLocation MANEFFECT = CreatureFeature.getId("shaders/post/man.json");
@@ -96,6 +104,7 @@ public class CreatureFeatureClient {
     public static PostChain HAZE = null;
     public static PostChain BACTE = null;
     public static PostChain FRIEND = null;
+    public static PostChain FIEND = null;
     public static PostChain SUN = null;
 
     public static RenderTarget HAZE_TARGET = null;
@@ -120,6 +129,8 @@ public class CreatureFeatureClient {
             BACTE.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             MAN= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), MANEFFECT);
             MAN.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
+            FIEND= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), FIENDEFFECT);
+            FIEND.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             FRIEND= new PostChain(Minecraft.getInstance().getTextureManager(), accessor.creaturefeature$myPrecious(), Minecraft.getInstance().getMainRenderTarget(), FRIENDEFFECT);
             FRIEND.resize(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
             FRIEND.addTempTarget("friendlytarget",Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight());
@@ -144,7 +155,16 @@ public class CreatureFeatureClient {
 
     @SubscribeEvent
     static void renderModelEvent(RenderLivingEvent.Pre event) {
+        if(event.getEntity() instanceof LivingEntityGoopAccessor accessor&&accessor.getSquashed()>0f){
+            if(SHOULD[1]){
+                event.getPoseStack().popPose();
+            }
+            float squash = Math.min(0.8f,accessor.getSquashed()*2f-event.getPartialTick()/20.0f);
+            event.getPoseStack().pushPose();
+            event.getPoseStack().scale(1f+squash,1f-squash,1f+squash);
 
+            SHOULD[1]=true;
+        }
         if(!event.getEntity().isDeadOrDying()&&event.getEntity() instanceof LivingEntityGoopAccessor accessor&&accessor.isFallDamageAmped()){
 
             if(SHOULD[0]){
@@ -192,10 +212,109 @@ public class CreatureFeatureClient {
         if(event.getEntity() instanceof LivingEntityGoopAccessor accessor && accessor.getDelay()>1){
         }
     }
-    private static boolean[] SHOULD = {false};
+    private static boolean[] SHOULD = {false,false};
     private static float[] COLOURS = {1,1,1,1};
+    private static int[] FEATHER_COLS = {0xefefc3,0xc3efc7,0xefc3c7,0x81cdd8,0x9a9ee1,0xaae19a};
+    @SubscribeEvent
+    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((a,b) -> {
+                if (b >= 0 && b <= 1)
+                    return FEATHER_COLS[b * 3 + 1];
+                else {
+                    return 0xFFFFFFFF;
+                }
+        }, CFBlockInit.MOSAIC_DOWN_FEATHERS.get(),CFBlockInit.MOSAIC_DOWN_FEATHERS_CARPET.get());
+        event.register((a,b) -> {
+            if (b >= 0 && b <= 1)
+                return FEATHER_COLS[b * 3];
+            else {
+                return 0xFFFFFFFF;
+            }
+        }, CFBlockInit.DOWN_FEATHERS_CARPET.get(),CFBlockInit.DOWN_FEATHERS.get());
+    }
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((blockState, blockAndTintGetter, blockPos, tintIndex) -> {
+
+            if(blockPos==null){
+                if(tintIndex>=0&&tintIndex<=1)
+                    return FEATHER_COLS[tintIndex*3+1];
+                else{
+                    return 0xFFFFFFFF;
+                }
+            }
+
+                if(tintIndex==1){
+                    int col1 =  FEATHER_COLS[Math.abs(blockPos.getY()/2+blockPos.getX())%3+3];
+                    return col1;
+                }else if(tintIndex==0){
+                    int col1 =  FEATHER_COLS[Math.abs(blockPos.getY()/2+blockPos.getZ())%3];
+                    return col1;
+                }
+
+
+            if(tintIndex>=0&&tintIndex<=1)
+                return FEATHER_COLS[tintIndex*3+1];
+            else{
+                return 0xFFFFFFFF;
+            }
+        }, CFBlockInit.MOSAIC_DOWN_FEATHERS.get(),CFBlockInit.MOSAIC_DOWN_FEATHERS_CARPET.get());
+        event.register((blockState, blockAndTintGetter, blockPos, tintIndex) -> {
+            if(blockPos==null){
+                if(tintIndex>=0&&tintIndex<=1)
+                    return FEATHER_COLS[tintIndex*3];
+                else{
+                    return 0xFFFFFFFF;
+                }
+            }
+                if(tintIndex==1){
+                    float full=Math.abs(blockPos.getY()/7f+blockPos.getX()*0.4f-blockPos.getZ()*0.2f);
+                    int inted = (int)(full-full%1);
+                    full = full%1;
+                    int col1 =  FEATHER_COLS[(inted%3)+3];
+                    int r = (col1 >> 16) & 255;
+                    int g = (col1 >> 8) & 255;
+                    int b = (col1) & 255;
+                    int col2 =  FEATHER_COLS[((inted+1)%3)+3];
+
+                    int r2 = (col2 >> 16) & 255;
+                    int g2 = (col2 >> 8) & 255;
+                    int b2 = (col2) & 255;
+                    return new Color(Mth.lerpInt(full,r,r2),Mth.lerpInt(full,g,g2),Mth.lerpInt(full,b,b2),255).getRGB();
+                }else if(tintIndex==0){
+                    float full=Math.abs(blockPos.getY()/7f+blockPos.getZ()*0.4f+blockPos.getX()*0.2f);
+                    int inted = (int)(full-full%1);
+                    full = full%1;
+                    int col1 =  FEATHER_COLS[(inted%3)];
+                    int r = (col1 >> 16) & 255;
+                    int g = (col1 >> 8) & 255;
+                    int b = (col1) & 255;
+                    int col2 =  FEATHER_COLS[((inted+1)%3)];
+
+                    int r2 = (col2 >> 16) & 255;
+                    int g2 = (col2 >> 8) & 255;
+                    int b2 = (col2) & 255;
+                    return new Color(Mth.lerpInt(full,r,r2),Mth.lerpInt(full,g,g2),Mth.lerpInt(full,b,b2),255).getRGB();
+                }
+
+
+            if(tintIndex>=0&&tintIndex<=1)
+                return FEATHER_COLS[tintIndex*3];
+            else{
+                return 0xFFFFFFFF;
+            }
+        }, CFBlockInit.DOWN_FEATHERS.get(),CFBlockInit.DOWN_FEATHERS_CARPET.get());
+    }
     @SubscribeEvent
     static void postRenderEntity(RenderLivingEvent.Post event) {
+        if(SHOULD[1]&&event.getEntity() instanceof LivingEntityGoopAccessor accessor&&accessor.getSquashed()>0f){
+
+
+            SHOULD[1]=false;
+            event.getPoseStack().popPose();
+
+
+        }
         if(SHOULD[0]&&event.getEntity() instanceof LivingEntityGoopAccessor accessor&&accessor.isFallDamageAmped()&&!event.getEntity().isDeadOrDying()){
 
 
@@ -316,7 +435,7 @@ public class CreatureFeatureClient {
         }
 
     }
-    public static int[] SIZED = {0,0};
+    public static int[] SIZED = {160,90};
     private static final ResourceLocation CANARY_SMOG_LOCATION = CreatureFeature.getId("textures/entity/canary_smog_bg.png");
     @SubscribeEvent
     public static void clientWorldRenderStage(RenderLevelStageEvent event){
@@ -376,6 +495,7 @@ public class CreatureFeatureClient {
             MINEDFLAYER.resize(SIZED[0],SIZED[1]);
             HAZE.resize(SIZED[0],SIZED[1]);
             FRIEND.resize(SIZED[0],SIZED[1]);
+            FIEND.resize(SIZED[0],SIZED[1]);
             SUN.resize(SIZED[0],SIZED[1]);
             BACTE.resize(SIZED[0],SIZED[1]);
         }
@@ -404,8 +524,19 @@ public class CreatureFeatureClient {
                 PROXY.wobble=0.0f;
             }
         }
+
+        if(PROXY.nan_title>0.0f){
+            PROXY.nan_title=Math.clamp(PROXY.nan_title-0.015f,0.0f,1.0f);
+            if(Minecraft.getInstance().player!=null&&PROXY.nan_title>0.9f){
+                Minecraft.getInstance().player.displayClientMessage(Component.empty(),true);
+            }
+        }
+
         if(PROXY.rabies2>0.0f){
             PROXY.rabies2=Math.clamp(PROXY.rabies2-0.04f,0.0f,1.0f);
+        }
+        if(PROXY.fiendish2>0.0f){
+            PROXY.fiendish2=Math.clamp(PROXY.fiendish2-0.04f,0.0f,1.0f);
         }
         if(PROXY.flayed2>0.0f){
             PROXY.flayed2=Math.clamp(PROXY.flayed2-0.04f,0.0f,1.0f);
@@ -414,6 +545,12 @@ public class CreatureFeatureClient {
             PROXY.bacterial=Mth.lerp(0.3f,PROXY.bacterial,1.0f);
         }else{
             PROXY.bacterial=Math.clamp(PROXY.bacterial-0.05f,0.0f,1.0f);
+        }
+        if(Minecraft.getInstance().player!=null&&Minecraft.getInstance().player.hasEffect(CFMobEffectInit.FIENDISH)){
+            PROXY.fiendish=Math.min(1.0f,PROXY.fiendish+0.02f);
+        }
+        else if(PROXY.fiendish>0.0f){
+            PROXY.fiendish=Math.clamp(PROXY.fiendish-0.06f,0.0f,1.0f);
         }
         if(Minecraft.getInstance().player!=null&&Minecraft.getInstance().player.hasEffect(CFMobEffectInit.SLEEPY)){
             PROXY.eebyDeebyNess=Math.min(1.0f,PROXY.eebyDeebyNess+0.02f);
@@ -435,6 +572,8 @@ public class CreatureFeatureClient {
         event.registerSpriteSet(CFParticleInit.CLEAVE_PARTICLE.get(), RotatedVertigoHornParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.FLOWER_PARTICLE.get(), FlowerParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CRIT_PARTICLE.get(), CritParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.CRIT_TEXT_PARTICLE.get(), CritTextParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.CRIT_VER_PARTICLE.get(), CritVerParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPARKLE_PARTICLE.get(), SparkleParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPORE_PARTICLE.get(), SporeParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPIT_PARTICLE.get(), SpitParticle.Provider::new);
@@ -509,6 +648,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEP.get(), EepEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.VITRIC_ARROW.get(),  (c)->{return new VitricArrowEntityRenderer(c);});
         event.registerEntityRenderer(CFEntityInit.FEATHER.get(),  (c)->{return new FeatherEntityRenderer(c,1.0f,false);});
         event.registerEntityRenderer(CFEntityInit.STAR.get(),  (c)->{return new StarProjEntityRenderer(c,1.0f,false);});
         event.registerEntityRenderer(CFEntityInit.KICKED_BLOCK.get(), KickedBlockEntityRenderer::new);

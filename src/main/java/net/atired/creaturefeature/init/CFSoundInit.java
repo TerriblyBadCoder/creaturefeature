@@ -14,6 +14,32 @@ public class CFSoundInit {
             // Takes in the registry name
             SoundEvent::createVariableRangeEvent
     );
+    public static final Holder<SoundEvent> NEW_AGE_NEVERMORE = SOUND_EVENTS.register(
+            "music_disc.newagenevermore",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
+    public static final Holder<SoundEvent> SINISTER_HURT = SOUND_EVENTS.register(
+            "entity.sinister_hurt",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
+    public static final Holder<SoundEvent> SINISTER_DIE = SOUND_EVENTS.register(
+            "entity.sinister_die",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
+    //SOURCED FROM FIEND FOLIO REHEATED!!! PLAY IT IT'S FUCKING AWESOME
+    public static final Holder<SoundEvent> FIEND_HURT = SOUND_EVENTS.register(
+            "entity.fiend_hurt",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
+    public static final Holder<SoundEvent> FIEND_DIE = SOUND_EVENTS.register(
+            "entity.fiend_die",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
     public static final Holder<SoundEvent> SHOT = SOUND_EVENTS.register(
             "entity.shot",
             // Takes in the registry name

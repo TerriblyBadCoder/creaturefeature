@@ -125,6 +125,10 @@ public class CFEntityInit {
             ENTITIES.register("feather", () -> EntityType.Builder.<FeatherEntity>of(FeatherEntity::new, MobCategory.MISC)
                     .sized(0.3f, 0.3f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("feather"));
+    public static final Supplier<EntityType<VitricArrowEntity>> VITRIC_ARROW =
+            ENTITIES.register("vitric_arrow", () -> EntityType.Builder.<VitricArrowEntity>of(VitricArrowEntity::new, MobCategory.MISC)
+                    .sized(0.3f, 0.3f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("vitric_arrow"));
     public static final Supplier<EntityType<StarProjEntity>> STAR =
             ENTITIES.register("star", () -> EntityType.Builder.<StarProjEntity>of(StarProjEntity::new, MobCategory.MISC)
                     .sized(0.3f, 0.3f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)

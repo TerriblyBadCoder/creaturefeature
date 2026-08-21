@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "creaturefeature:mosaic_down_feathers_carpet"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "creaturefeature:blocks/mosaic_down_feathers_carpet"
+}

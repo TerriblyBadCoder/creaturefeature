@@ -181,6 +181,10 @@
   "sound.creaturefeature.stained_glass_die": "Витраж разбивается",
   "sound.creaturefeature.coa_hurt": "Шуборужейник рвётся.",
   "sound.creaturefeature.shot": "Flintlockshot...",
+  "sound.creaturefeature.fiend_hurt": "Лютой кричит",
+  "sound.creaturefeature.fiend_death": "Лютой умирает",
+  "sound.creaturefeature.sinister_hurt": "Отраженец кипит",
+  "sound.creaturefeature.sinister_death": "Отраженец разваливается",
 
 
   "item.creaturefeature.toadstool_spawn_egg": "Яйцо призыва поганкца",

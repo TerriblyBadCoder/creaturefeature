@@ -14,12 +14,14 @@ import java.util.List;
 public class CFTrimMaterials {
     public static final ArrayList<ResourceKey<TrimMaterial>> MATERIALS = new ArrayList<>();
     public static final ArrayList<Item> ITEMS = new ArrayList<>(List.
-            of(CFItemInit.ECTOPLASM.get(),CFItemInit.TRANS_SCROLL.get(),CFItemInit.PAN_SCROLL.get(),CFItemInit.PRIDE_SCROLL.get()));
+            of(CFItemInit.ECTOPLASM.get(),CFItemInit.TRANS_SCROLL.get(),CFItemInit.PAN_SCROLL.get(),CFItemInit.PRIDE_SCROLL.get(),CFItemInit.BI_SCROLL.get()));
 
     public static final ResourceKey<TrimMaterial> ECTOPLASM = registryKey("ectoplasm");
     public static final ResourceKey<TrimMaterial> SCROLL_TRANS = registryKey("scroll_trans");
     public static final ResourceKey<TrimMaterial> SCROLL_PAN = registryKey("scroll_pan");
     public static final ResourceKey<TrimMaterial> SCROLL_PRIDE = registryKey("scroll_pride");
+    public static final ResourceKey<TrimMaterial> SCROLL_BI = registryKey("scroll_bi");
+
     private static ResourceKey<TrimMaterial> registryKey(String key) {
         ResourceKey<TrimMaterial> mat = ResourceKey.create(Registries.TRIM_MATERIAL, CreatureFeature.getId(key));
         MATERIALS.add(mat);

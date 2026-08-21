@@ -35,7 +35,8 @@ public class CFRenderTypes {
             CreatureFeature.getId("textures/trim_overlays/none.png"),
             CreatureFeature.getId("textures/trim_overlays/test_0.png"),
             CreatureFeature.getId("textures/trim_overlays/test_1.png"),
-            CreatureFeature.getId("textures/trim_overlays/test_2.png")} ;
+            CreatureFeature.getId("textures/trim_overlays/test_2.png"),
+            CreatureFeature.getId("textures/trim_overlays/test_3.png")} ;
     private static RenderType createArmorCutoutEvilCull(String name, ResourceLocation id, boolean equalDepthTest,int overlaid) {
         RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ARMOR_CUTOUT_EVIL_CULL_SHADER)
                 .setTextureState(new RenderStateShard.EmptyTextureStateShard(()->{

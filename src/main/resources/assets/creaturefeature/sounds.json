@@ -5,16 +5,40 @@
       "creaturefeature:nothing"
     ]
   },
+  "music_disc.newagenevermore": {
+    "subtitle": "sound.creaturefeature.new_age_nevermore",
+    "sounds": [
+      "creaturefeature:newagenevermore"
+    ]
+  },
   "entity.friend": {
     "subtitle": "sound.creaturefeature.laughter",
     "sounds": [
       "creaturefeature:smiles"
     ]
   },
-  "entity.stained_glass_retreat": {
-    "subtitle": "sound.creaturefeature.stained_glass_retreat",
+  "entity.sinister_hurt": {
+    "subtitle": "sound.creaturefeature.sinister_hurt",
     "sounds": [
-      "creaturefeature:stained_glass_rebound"
+      "creaturefeature:sinister_hurt"
+    ]
+  },
+  "entity.sinister_die": {
+    "subtitle": "sound.creaturefeature.sinister_death",
+    "sounds": [
+      "creaturefeature:sinister_die"
+    ]
+  },
+  "entity.fiend_hurt": {
+    "subtitle": "sound.creaturefeature.fiend_hurt",
+    "sounds": [
+      "creaturefeature:fiend_hurt08"
+    ]
+  },
+  "entity.fiend_die": {
+    "subtitle": "sound.creaturefeature.fiend_death",
+    "sounds": [
+      "creaturefeature:fiend_death"
     ]
   },
   "entity.coa_hurt": {

@@ -21,9 +21,11 @@ public class Config {
     private static final ModConfigSpec.Builder BUILDER2 = new ModConfigSpec.Builder();
     public static final ModConfigSpec.BooleanValue REMODEL_FRIEND;
     public static final ModConfigSpec.BooleanValue REMODEL_MB;
+    public static final ModConfigSpec.BooleanValue FIX_SAS;
     public static final ModConfigSpec.BooleanValue END_DREAMWEAVER;
     public static final ModConfigSpec.BooleanValue PATHOGEN;
     public static final ModConfigSpec.BooleanValue SAINT;
+    public static final ModConfigSpec.BooleanValue FIEND_FOLIO_RELOADED;
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         REMODEL_FRIEND = builder
@@ -33,6 +35,9 @@ public class Config {
         REMODEL_MB = builder
                 .comment("Pressure wash the Mockingbird.")
                 .define("remodelmb", false);
+        FIX_SAS = builder
+                .comment("Remove postprocessing from the bear (in case of broken depth).")
+                .define("fixsas", false);
 
         SPEC = builder.build();
         builder = new ModConfigSpec.Builder();
@@ -45,6 +50,9 @@ public class Config {
         SAINT = builder
                 .comment("Weakens the rotation of Saint Solis' Stars")
                 .define("pathogen", false);
+        FIEND_FOLIO_RELOADED = builder
+                .comment("Gives Fiend a gun.")
+                .define("ff_reloaded", true);
 
         SPEC2 = builder.build();
     }

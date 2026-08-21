@@ -1,5 +1,7 @@
 package net.atired.creaturefeature.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.atired.creaturefeature.accessors.PlayerBrainrotAccessor;
 import net.atired.creaturefeature.client.CreatureFeatureClient;
 import net.atired.creaturefeature.init.CFAchievements;
@@ -10,6 +12,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -59,6 +62,7 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerBrainrot
     private double creaturefeature$oldX =0;
     @Unique
     private double creaturefeature$oldZ =0;
+
     @Inject(method = "Lnet/minecraft/world/entity/player/Player;tick()V",at=@At("HEAD"))
     private void iDontTrustYerEventsPally(CallbackInfo ci){
         this.creaturefeature$aged +=1;

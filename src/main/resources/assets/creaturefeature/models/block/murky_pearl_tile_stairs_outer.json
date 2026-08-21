@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "creaturefeature:block/murky_pearl_mosaic",
+    "side": "creaturefeature:block/murky_pearl_mosaic",
+    "top": "creaturefeature:block/murky_pearl_mosaic"
+  }
+}

@@ -4,6 +4,7 @@ package net.atired.creaturefeature.client.renderers;
 import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.CreatureFeature;
 import net.atired.creaturefeature.client.CFClientProxy;
 import net.atired.creaturefeature.client.CFRenderTypes;
@@ -60,7 +61,7 @@ public class StarProjEntityRenderer extends EntityRenderer<StarProjEntity> {
             vertex(posed,consumer,-0.2,-0.2,0.1,1,1,0,0,1,packedLight,1);
             vertex(posed,consumer,-0.2,0.2,0.1,1,0,0,0,1,packedLight,1);
 
-            consumer = CFClientProxy.getSunSource().getBuffer(RenderType.entityTranslucent(STARPROJ_LOCATION));
+            consumer = (Config.FIX_SAS.isTrue()?buffer:CFClientProxy.getSunSource()).getBuffer(RenderType.entityTranslucent(STARPROJ_LOCATION));
             poseStack.popPose();
             poseStack.pushPose();
             poseStack.scale(scaled, scaled, scaled);

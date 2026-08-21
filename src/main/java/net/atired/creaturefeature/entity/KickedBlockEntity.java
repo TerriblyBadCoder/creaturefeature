@@ -44,6 +44,7 @@ public class KickedBlockEntity extends Projectile {
         super.onHitEntity(result);
         if(level() instanceof ServerLevel serverLevel){
             serverLevel.sendParticles(CFParticleInit.CRIT_PARTICLE.get(),getX(),getY()+0.3,getZ(),1,0.1,0,0.1,0);
+            serverLevel.sendParticles(CFParticleInit.CRIT_VER_PARTICLE.get(),getX(),getY(0.5),getZ(),10,0.2,0.2,0.2,0.1);
 
             Vec3 dir = getDeltaMovement().multiply(1,0,1).normalize().scale(0.6).add(0,0.5,0);
             result.getEntity().addDeltaMovement(dir);

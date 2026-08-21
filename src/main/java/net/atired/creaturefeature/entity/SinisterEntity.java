@@ -2,12 +2,14 @@ package net.atired.creaturefeature.entity;
 
 import net.atired.creaturefeature.init.CFAchievements;
 import net.atired.creaturefeature.init.CFParticleInit;
+import net.atired.creaturefeature.init.CFSoundInit;
 import net.atired.creaturefeature.networking.payloads.VelSyncPayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -74,6 +76,16 @@ public class SinisterEntity extends Monster {
 
     public static boolean checkSinisterSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random){
         return  checkMonsterSpawnRules(type, level, spawnType, pos, random)&&pos.getY()<-1;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return CFSoundInit.SINISTER_HURT.value();
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return CFSoundInit.SINISTER_DIE.value();
     }
 
     @Override

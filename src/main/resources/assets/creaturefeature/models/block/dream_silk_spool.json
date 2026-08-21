@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "creaturefeature:block/spool_top",
+    "side": "creaturefeature:block/silk_cube",
+    "top": "creaturefeature:block/spool_top"
+  }
+}

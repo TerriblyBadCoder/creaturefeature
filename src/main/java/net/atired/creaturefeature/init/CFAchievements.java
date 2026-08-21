@@ -23,6 +23,7 @@ public class CFAchievements {
     public static final DeferredHolder<CriterionTrigger<?>, DummyTrigger> GYAS =  TRIGGER_TYPES.register("gyas",DummyTrigger::new);
     public static final DeferredHolder<CriterionTrigger<?>, DummyTrigger> SINISTER =  TRIGGER_TYPES.register("sinister",DummyTrigger::new);
     public static final DeferredHolder<CriterionTrigger<?>, DummyTrigger> PILL=  TRIGGER_TYPES.register("pill",DummyTrigger::new);
+    public static final DeferredHolder<CriterionTrigger<?>, DummyTrigger> RENOVATION=  TRIGGER_TYPES.register("renovation",DummyTrigger::new);
     public static final DeferredHolder<CriterionTrigger<?>, DummyTrigger> NOBODY =  TRIGGER_TYPES.register("nobody",DummyTrigger::new);
 
 }

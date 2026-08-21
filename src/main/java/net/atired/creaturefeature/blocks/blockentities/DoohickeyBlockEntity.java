@@ -25,7 +25,7 @@ import java.util.List;
 public class DoohickeyBlockEntity extends BlockEntity  {
     public static ArrayList<Item> PLACEABLE = new ArrayList<>(List.of(new Item[]{
             CFItemInit.SLEEPING_POWDER.get(), CFItemInit.MINEDFLAYER_GOOP.get(),
-            CFItemInit.VERTIGO_HORN.get(), CFItemInit.BACTERIUM_BALL.get()}));
+            CFItemInit.VERTIGO_HORN.get(), CFItemInit.BACTERIUM_BALL.get(), CFItemInit.FIENDISH_ESSENCE.get()}));
     public ItemStack placedItem = Items.AIR.getDefaultInstance();
     public int aged = 0;
     public float ranged = 0.0f;
@@ -74,6 +74,9 @@ public class DoohickeyBlockEntity extends BlockEntity  {
         }
         if(doohickeyBlockEntity.placedItem.getItem()== CFItemInit.BACTERIUM_BALL.asItem()){
             doohickeyBlockEntity.color = new Vector3f(0.5f,1f,0.55f);
+        }
+        if(doohickeyBlockEntity.placedItem.getItem()== CFItemInit.FIENDISH_ESSENCE.asItem()){
+            doohickeyBlockEntity.color = new Vector3f(1f,0.45f,0.35f);
         }
         doohickeyBlockEntity.setChanged();
     }

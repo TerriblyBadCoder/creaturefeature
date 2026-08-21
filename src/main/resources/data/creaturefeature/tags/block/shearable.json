@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "creaturefeature:down_feathers",
+    "creaturefeature:mosaic_down_feathers",
+    "creaturefeature:down_feathers_carpet",
+    "creaturefeature:mosaic_down_feathers_carpet",
+    "creaturefeature:dream_silk_spool"
+  ]
+}

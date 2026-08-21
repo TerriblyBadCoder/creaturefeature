@@ -79,16 +79,21 @@ public class CFItemInit {
     public static final DeferredItem<Item> STAINED_GLASS_EGG = ITEMS.register("stained_glass_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.STAINED_GLASS.get(),0x9f96b6,0x45467f,new  Item.Properties()));
     public static final DeferredItem<Item> COAT_OF_ARMS_EGG = ITEMS.register("coat_of_arms_spawn_egg", ()->new
-            SpawnEggItem(CFEntityInit.COATOFARMS.get(),0xff8591,0x70433d,new  Item.Properties()));
+            SpawnEggItem(CFEntityInit.COATOFARMS.get(),0xdcafa7,0x975249,new  Item.Properties()));
 
 
 
 
 
     public static ResourceKey<JukeboxSong> NOTHING = ResourceKey.create(Registries.JUKEBOX_SONG, CreatureFeature.getId("nothing"));
+    public static ResourceKey<JukeboxSong> NEW_AGE_NEVERMORE = ResourceKey.create(Registries.JUKEBOX_SONG, CreatureFeature.getId("new_age_nevermore"));
     public static final DeferredItem<Item> NOTHING_DISC = ITEMS.register(
             "music_disc_nothing",
             ()->new Item((new Item.Properties()).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(NOTHING))
+    );
+    public static final DeferredItem<Item> NEW_AGE_NEVERMORE_DISC = ITEMS.register(
+            "music_disc_nan",
+            ()->new NanDiscItem((new Item.Properties()).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(NEW_AGE_NEVERMORE))
     );
     public static final DeferredItem<Item> BOUQUET = ITEMS.register(
             "bouquet",
@@ -114,6 +119,22 @@ public class CFItemInit {
             "sleeping_powder",
             ()->new Item(new Item.Properties())
     );
+    public static final DeferredItem<Item> COAT_SCRAPS = ITEMS.register(
+            "coat_scraps",
+            ()->new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> FIENDISH_ESSENCE = ITEMS.register(
+            "fiendish_essence",
+            ()->new Item(new Item.Properties())
+    );
+
+    public static final FoodProperties FIEND_FOOD = (new FoodProperties.Builder()).nutrition(-1).saturationModifier(0.0F).alwaysEdible().fast()
+            .effect(()->{return new MobEffectInstance(CFMobEffectInit.FIENDISH,300,0);},1f).build();
+
+    public static final DeferredItem<Item> FIENDISH_SODA = ITEMS.register(
+            "fiendish_soda",
+            ()->new CriticalSodaItem(new Item.Properties().food(FIEND_FOOD))
+    );
     public static final DeferredItem<Item> LIVING_GLASS_SHARDS = ITEMS.register(
             "living_glass_shards",
             ()->new LivingGlassItem(new Item.Properties())
@@ -121,6 +142,14 @@ public class CFItemInit {
     public static final DeferredItem<Item> CARAPACE = ITEMS.register(
             "carapace",
             ()->new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> VITRIC_ARROW = ITEMS.register(
+            "vitric_arrow",
+            ()->new VitricArrowItem(new Item.Properties())
+    );
+    public static final DeferredItem<Item> DOWN_FEATHER = ITEMS.register(
+            "down_feather",
+            ()->new DownFeatherItem(new Item.Properties())
     );
     public static final DeferredItem<Item> THINGAMABOB = ITEMS.register(
             "thingamabob",
@@ -183,6 +212,10 @@ public class CFItemInit {
     );
     public static final DeferredItem<Item> PRIDE_SCROLL = ITEMS.register(
             "scroll_pride",
+            ()->new Item(new Item.Properties().stacksTo(8))
+    );
+    public static final DeferredItem<Item> BI_SCROLL = ITEMS.register(
+            "scroll_bi",
             ()->new Item(new Item.Properties().stacksTo(8))
     );
     public static final DeferredItem<Item> MINEDFLAYER_GOOP = ITEMS.register(

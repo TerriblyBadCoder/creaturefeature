@@ -1,0 +1,8 @@
+{
+  "comparator_output": 3,
+  "description": {
+    "translate": "jukebox_song.creaturefeature.new_age_nevermore"
+  },
+  "length_in_seconds": 71,
+  "sound_event": "creaturefeature:music_disc.newagenevermore"
+}

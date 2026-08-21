@@ -1,0 +1,9 @@
+{
+  "asset_name": "scroll_bi",
+  "description": {
+    "color": "#faf593",
+    "translate": "trim_material.creaturefeature.scroll_bi"
+  },
+  "ingredient": "creaturefeature:scroll_bi",
+  "item_model_index": -1.0
+}

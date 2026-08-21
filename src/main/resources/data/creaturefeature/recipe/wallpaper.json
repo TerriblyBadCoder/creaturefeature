@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "creaturefeature:coat_scraps"
+    },
+    "A": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "A#A",
+    "A#A"
+  ],
+  "result": {
+    "count": 6,
+    "id": "creaturefeature:wallpaper"
+  }
+}

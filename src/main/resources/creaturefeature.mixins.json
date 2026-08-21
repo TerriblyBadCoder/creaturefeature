@@ -6,10 +6,12 @@
   "mixins": [
     "AbstractBlockMixin",
     "AbstractContainerMenuMixin",
-    "PlayerAdvancementsMixin",
+    "JukeBoxPlayableMixin",
     "LivingEntityGoopMixin",
     "MonsterEntityMixin",
-    "PlayerMixin"
+    "PlayerAdvancementsMixin",
+    "PlayerMixin",
+    "ShearsItemMixin"
   ],
   "client": [
     "AdvancementTabMixin",

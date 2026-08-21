@@ -5,5 +5,14 @@
       "id": "creaturefeature:runic_stone_bricks",
       "required": false
     },
+    "creaturefeature:fiendish_tiles",
+    "creaturefeature:blind_fiendish_tiles",
+    "creaturefeature:carapace_bricks",
+    "creaturefeature:carapace_brick_stairs",
+    "creaturefeature:murky_pearl_block",
+    "creaturefeature:solar_block",
+    "creaturefeature:solar_bricks",
+    "creaturefeature:murky_pearl_tiles",
+    "creaturefeature:murky_pearl_tile_stairs",
     "creaturefeature:doohickey"]
 }

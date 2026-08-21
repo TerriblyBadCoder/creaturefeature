@@ -5,11 +5,13 @@ import net.atired.creaturefeature.entity.PathogenesisEntity;
 import net.atired.creaturefeature.entity.VertigoEntity;
 import net.atired.creaturefeature.init.CFBlockInit;
 import net.atired.creaturefeature.init.CFEntityInit;
+import net.atired.creaturefeature.init.CFMobEffectInit;
 import net.atired.creaturefeature.init.CFParticleInit;
 import net.atired.creaturefeature.networking.payloads.DeAmpPayload;
 import net.atired.creaturefeature.networking.payloads.VelSyncPayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -30,6 +33,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -44,6 +49,7 @@ public abstract class LivingEntityGoopMixin extends Entity implements LivingEnti
     @Shadow public abstract float getMaxHealth();
 
     private float goop = 0.0f;
+    private float squashed = 0.0f;
     private int ampAdd = 0;
     private float hpNext = 0.0f;
     private static final EntityDataAccessor<Integer> DELAY = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.INT);
@@ -52,6 +58,28 @@ public abstract class LivingEntityGoopMixin extends Entity implements LivingEnti
 
     public LivingEntityGoopMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
+    }
+    @ModifyVariable(method = "hurt", at = @At(value = "HEAD", ordinal = 0), argsOnly = true)
+    private float hurtArgCF(float amount,DamageSource source) {
+        if(source.getEntity()!=null&&level() instanceof  ServerLevel serverLevel&&source.getEntity() instanceof LivingEntity living && living.hasEffect(CFMobEffectInit.FIENDISH)) {
+            return amount*1.8f;
+        }
+        return amount;
+    }
+    @Inject(method = "hurt",at=@At("RETURN"))
+    private void hurtCF(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if(cir.getReturnValue()&&!cir.isCancelled()&&source.getEntity()!=null&&level() instanceof  ServerLevel serverLevel&&source.getEntity() instanceof LivingEntity living && living.hasEffect(CFMobEffectInit.FIENDISH)){
+            serverLevel.sendParticles(CFParticleInit.CRIT_PARTICLE.get(),getX(),getY(0.5),getZ(),1,0,0,0,0);
+            serverLevel.sendParticles(CFParticleInit.CRIT_VER_PARTICLE.get(),getX(),getY(0.5),getZ(),6,0.2,0.2,0.2,0.4);
+            serverLevel.sendParticles(CFParticleInit.CRIT_TEXT_PARTICLE.get(),getX(),getY(1f),getZ(),1,0,0,0,0);
+            living.removeEffect(CFMobEffectInit.FIENDISH);
+            if(getHealth()<1){
+                discard();
+                serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, Items.ROTTEN_FLESH.getDefaultInstance()),getX(),getY(0.5),getZ(),20,0.4,1.2,0.4,0.3);
+                serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, Items.BEETROOT.getDefaultInstance()),getX(),getY(0.5),getZ(),50,0.4,1.2,0.4,1.4);
+
+            }
+        }
     }
     @Inject(method = "defineSynchedData",at=@At("HEAD"))
     private void defineSynchedDataCF(SynchedEntityData.Builder builder, CallbackInfo ci) {
@@ -83,6 +111,9 @@ public abstract class LivingEntityGoopMixin extends Entity implements LivingEnti
         }
         if(getGoop()>0){
             setGoop(getGoop()-0.05f);
+        }
+        if(getSquashed()>0){
+            setSquashed(getSquashed()-0.025f);
         }
         LivingEntity entity = (LivingEntity)(Object)this;
         if(level()!=null){
@@ -156,6 +187,16 @@ public abstract class LivingEntityGoopMixin extends Entity implements LivingEnti
     @Override
     public float getGoop() {
         return goop;
+    }
+
+    @Override
+    public void setSquashed(float squashed) {
+        this.squashed=Math.clamp(squashed,0.0f,1.0f);
+    }
+
+    @Override
+    public float getSquashed() {
+        return squashed;
     }
 
     @Override

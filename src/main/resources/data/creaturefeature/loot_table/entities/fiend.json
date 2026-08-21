@@ -26,7 +26,7 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "minecraft:bone"
+          "name": "minecraft:quartz"
         }
       ],
       "rolls": 1.0
@@ -41,7 +41,7 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
+                "max": 1.0,
                 "min": 0.0
               },
               "function": "minecraft:set_count"
@@ -56,7 +56,7 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ],
-          "name": "minecraft:quartz"
+          "name": "creaturefeature:fiendish_essence"
         }
       ],
       "rolls": 1.0

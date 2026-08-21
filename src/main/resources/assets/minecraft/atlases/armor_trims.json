@@ -7,7 +7,8 @@
         "scroll_trans": "creaturefeature:trims/color_palettes/scroll",
         "scroll_pan": "creaturefeature:trims/color_palettes/scroll",
         "ectoplasm": "creaturefeature:trims/color_palettes/ectoplasm",
-        "scroll_pride": "creaturefeature:trims/color_palettes/scroll"
+        "scroll_pride": "creaturefeature:trims/color_palettes/scroll",
+        "scroll_bi": "creaturefeature:trims/color_palettes/scroll"
       },
       "sources": [
         {

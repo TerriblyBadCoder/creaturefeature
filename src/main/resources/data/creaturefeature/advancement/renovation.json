@@ -1,0 +1,29 @@
+{
+  "parent": "creaturefeature:root",
+  "criteria": {
+    "0": {
+      "trigger": "creaturefeature:renovation"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "color": "#4a81a8",
+      "translate": "advancement.creaturefeature.renovation.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "creaturefeature:down_feathers"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.creaturefeature.renovation"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -45,7 +45,7 @@ public class FiendEntityRenderer extends MobRenderer<FiendEntity, FiendEntityMod
             poseStack.translate(Mth.sin(aged)/20f,1.8-f4/10f,-0.5-f4/6f+Mth.cos(aged)/20f);
             poseStack.scale(critted,1,1);
 
-            this.itemRenderer.renderStatic(CFItemInit.FLINTLOCK.toStack(), ItemDisplayContext.GROUND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), entity.getId());
+            this.itemRenderer.renderStatic(CFItemInit.FLINTLOCK.toStack(), ItemDisplayContext.NONE, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), entity.getId());
             poseStack.popPose();
         }
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);

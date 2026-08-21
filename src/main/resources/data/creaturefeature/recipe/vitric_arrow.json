@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "creaturefeature:living_glass_shards"
+    },
+    "Y": {
+      "item": "creaturefeature:down_feather"
+    }
+  },
+  "pattern": [
+    "X",
+    "#",
+    "Y"
+  ],
+  "result": {
+    "count": 6,
+    "id": "creaturefeature:vitric_arrow"
+  }
+}

@@ -63,6 +63,9 @@ public class DoohickeyBlockEntityRenderer implements BlockEntityRenderer<Doohick
                         CreatureFeatureClient.PROXY.bacterial=1.1f;
                     }
                 }
+                else if(doohickeyBlockEntity.placedItem.getItem()== CFItemInit.FIENDISH_ESSENCE.asItem()){
+                    CreatureFeatureClient.PROXY.fiendish2+=0.05f;
+                }
             }
 
         }

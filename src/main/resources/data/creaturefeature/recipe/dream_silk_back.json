@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "creaturefeature:dream_silk_spool"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "creaturefeature:dream_silk"
+  }
+}
