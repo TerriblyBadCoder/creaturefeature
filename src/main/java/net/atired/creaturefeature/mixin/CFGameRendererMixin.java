@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.mixin;
 
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.accessors.LivingEntityGoopAccessor;
 import net.atired.creaturefeature.accessors.PostChainDepthPassAccessor;
 import net.atired.creaturefeature.client.CFClientProxy;
@@ -48,9 +49,11 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
                 CreatureFeatureClient.MINEDFLAYER !=null&&Minecraft.getInstance().player!=null&&
                 Minecraft.getInstance().gameRenderer instanceof GameRendererResourceManagerAccessor accessor){
 
-            PostChain chain2 = CreatureFeatureClient.FRIEND;
-            chain2.process(deltaTracker.getRealtimeDeltaTicks());
-            chain2 = CreatureFeatureClient.SUN;
+            if(!Config.DISABLE_FRIEND_GLOW.isTrue()){
+                PostChain chain2 = CreatureFeatureClient.FRIEND;
+                chain2.process(deltaTracker.getRealtimeDeltaTicks());
+            }
+            PostChain chain2 = CreatureFeatureClient.SUN;
             chain2.setUniform("GameTime",(Minecraft.getInstance().level.getGameTime()%24000));
             chain2.process(deltaTracker.getRealtimeDeltaTicks());
             if(Minecraft.getInstance().player instanceof PlayerBrainrotAccessor accessor1&&
