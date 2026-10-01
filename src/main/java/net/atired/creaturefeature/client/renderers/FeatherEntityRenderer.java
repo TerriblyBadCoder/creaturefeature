@@ -46,7 +46,7 @@ public class FeatherEntityRenderer extends EntityRenderer<FeatherEntity> {
     }
 
     public void render(FeatherEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        if(!Config.SPEC.isLoaded()){
+        if(!Config.CLIENTSPEC.isLoaded()){
             return;
         }
         if (entity.tickCount >2 || !(this.entityRenderDispatcher.camera.getEntity().distanceToSqr(entity) < 12.25)) {

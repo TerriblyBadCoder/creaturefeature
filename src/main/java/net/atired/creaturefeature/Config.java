@@ -15,16 +15,16 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Neo's config APIs
 public class Config {
-    public static final ModConfigSpec SPEC;
-    public static final ModConfigSpec SPEC2;
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-    private static final ModConfigSpec.Builder BUILDER2 = new ModConfigSpec.Builder();
+    public static final ModConfigSpec CLIENTSPEC;
+    public static final ModConfigSpec SERVERSPEC;
+    public static final ModConfigSpec STARTUPSPEC;
     public static final ModConfigSpec.BooleanValue REMODEL_FRIEND;
     public static final ModConfigSpec.BooleanValue REMODEL_MB;
     public static final ModConfigSpec.BooleanValue FIX_SAS;
     public static final ModConfigSpec.BooleanValue END_DREAMWEAVER;
     public static final ModConfigSpec.BooleanValue PATHOGEN;
     public static final ModConfigSpec.BooleanValue SAINT;
+    public static final ModConfigSpec.BooleanValue DAYLIGHT_FEND;
     public static final ModConfigSpec.BooleanValue FIEND_FOLIO_RELOADED;
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -39,7 +39,8 @@ public class Config {
                 .comment("Remove postprocessing from the bear (in case of broken depth).")
                 .define("fixsas", false);
 
-        SPEC = builder.build();
+        CLIENTSPEC = builder.build();
+
         builder = new ModConfigSpec.Builder();
         END_DREAMWEAVER = builder
                 .comment("Dreamweavers only spawn Nothings, Endermen and themselves.")
@@ -48,12 +49,19 @@ public class Config {
                 .comment("Pathogen only spawns in temperate overworld biomes.")
                 .define("pathogen", false);
         SAINT = builder
-                .comment("Weakens the rotation of Saint Solis' Stars")
-                .define("pathogen", false);
+                .comment("Weakens the rotation of Saint Solis' Stars.")
+                .define("saint", false);
         FIEND_FOLIO_RELOADED = builder
                 .comment("Gives Fiend a gun.")
                 .define("ff_reloaded", true);
 
-        SPEC2 = builder.build();
+        SERVERSPEC = builder.build();
+
+        builder = new ModConfigSpec.Builder();
+        DAYLIGHT_FEND = builder
+                .comment("Allows Fends to spawn in broad daylight.")
+                .define("dayfend", false);
+        
+        STARTUPSPEC = builder.build();
     }
 }

@@ -15,7 +15,8 @@
   "creaturefeature.configuration.fixsas": "Tweak Saint Solis",
   "creaturefeature.configuration.endreamweaver": "End Dreamweavers",
   "creaturefeature.configuration.pathogen": "Pathogen spawning rework",
-  "creaturefeature.configuration.saint_solis": "Slow down Stars",
+  "creaturefeature.configuration.saint": "Slow down Stars",
+  "creaturefeature.configuration.dayfend": "Fends ignore light level",
   "creaturefeature.configuration.depth": "Depth Vista Compat Test",
   "creaturefeature.configuration.ff_reloaded": "Fiend Folio: RELOADED",
 
@@ -56,8 +57,10 @@
 
   "creaturefeature.configuration.section.creaturefeature.server.toml.title": "Server Creature!",
   "creaturefeature.configuration.section.creaturefeature.client.toml.title": "Client Creature!",
+  "creaturefeature.configuration.section.creaturefeature.startup.toml.title": "Startup Creature!",
   "creaturefeature.configuration.section.creaturefeature.server.toml": "Server Config...",
   "creaturefeature.configuration.section.creaturefeature.client.toml": "Client Config...",
+  "creaturefeature.configuration.section.creaturefeature.startup.toml": "Startup Config...",
 
   "sound.creaturefeature.new_age_nevermore": "NAN, by RENREN",
   "jukebox_song.creaturefeature.nothing": "Tory Fox - egg.ogg",

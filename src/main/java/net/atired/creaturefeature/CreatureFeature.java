@@ -42,8 +42,9 @@ public class CreatureFeature {
     public CreatureFeature(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::createEntityAttributes);
-        modContainer.registerConfig(ModConfig.Type.CLIENT, Config.SPEC);
-        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC2);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, Config.CLIENTSPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SERVERSPEC);
+        modContainer.registerConfig(ModConfig.Type.STARTUP, Config.STARTUPSPEC);
         CFRecipeSerialisers.RECIPES.register(modEventBus);
         CFAchievements.TRIGGER_TYPES.register(modEventBus);
         CFSoundInit.SOUND_EVENTS.register(modEventBus);
