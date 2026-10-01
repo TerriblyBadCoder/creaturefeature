@@ -473,7 +473,7 @@ public class CreatureFeatureClient {
                     }
                 }
 
-            Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+                Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
 
         }
     }
@@ -611,6 +611,8 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(BlossomEntityModel.LAYER_LOCATION, BlossomEntityModel::createBodyLayer);
         event.registerLayerDefinition(SaintSolisEntityModel.LAYER_LOCATION, SaintSolisEntityModel::createBodyLayer);
         event.registerLayerDefinition(DetritusEntityModel.LAYER_LOCATION, DetritusEntityModel::createBodyLayer);
+        event.registerLayerDefinition(TrichaelEntityModel.LAYER_LOCATION, TrichaelEntityModel::createBodyLayer);
+        event.registerLayerDefinition(TrichaelEntityModel.INNER_LAYER_LOCATION, ()->{return TrichaelEntityModel.createBodyLayer(0.01f);});
         event.registerLayerDefinition(StainedGlassEntityModel.LAYER_LOCATION, StainedGlassEntityModel::createBodyLayer);
         event.registerLayerDefinition(CoatOfArmsEntityModel.LAYER_LOCATION, CoatOfArmsEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_LOCATION, FendEntityModel::createBodyLayer);
@@ -644,6 +646,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.BLOSSOM.get(), BlossomEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.SAINT_SOLIS.get(), SaintSolisEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.DETRITUS.get(), DetritusEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.TRICHAEL.get(), TrichaelEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);

@@ -133,18 +133,15 @@ float cnoise(vec3 P){
     return 2.2 * n_xyz;
 }
 void main() {
-    float depth = LinearizeDepth(texture(TrueDepthSampler, texCoord).r);
+    float redness=min(texture(TrueDepthSampler, texCoord).r,texture(DiffuseDepthSampler, texCoord).r);
+    float depth = LinearizeDepth(redness);
 
     float distance = length(vec3(1., (2.*texCoord - 1.) * vec2(InSize.x/InSize.y,1.) * tan(radians(_FOV / 2.))) * depth);
 
     vec2 mosaicInSize = InSize / 2;
     vec2 offsettex = texCoord;
-    vec4 temp=texture(DiffuseDepthSampler,texCoord);
-    if(abs(temp.r-texture(TrueDepthSampler,texCoord).r)<0.001){
-        temp=vec4(0,1,1,1);
-    }
     fragColor = texture(DiffuseSampler,texCoord);
-    if(temp.r<0.9&&texture(SunDepthSampler,offsettex).r<texture(TrueDepthSampler,offsettex).r){
+    if(texture(SunDepthSampler,offsettex).r<redness){
         vec4 sobeled = sobel(offsettex);
         fragColor=texture(SunSampler,texCoord);
         float alphad = 1.0f-fragColor.a;

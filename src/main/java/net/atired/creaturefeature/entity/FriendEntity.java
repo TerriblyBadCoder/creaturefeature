@@ -196,6 +196,6 @@ public class FriendEntity extends Monster {
     }
 
     public static boolean checkFriendSpawnRules(EntityType<FriendEntity> friendEntityEntityType, ServerLevelAccessor serverLevelAccessor, MobSpawnType mobSpawnType, BlockPos pos, RandomSource randomSource) {
-        return checkMonsterSpawnRules(friendEntityEntityType,serverLevelAccessor,mobSpawnType,pos,randomSource)&&pos.getY()>126;
+        return checkMonsterSpawnRules(friendEntityEntityType,serverLevelAccessor,mobSpawnType,pos,randomSource)&&pos.getY()>serverLevelAccessor.dimensionType().logicalHeight()-2;
     }
 }

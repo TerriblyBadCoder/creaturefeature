@@ -125,16 +125,19 @@ public class CFRenderTypes {
             (CFRenderTypes::getSilkShaderInstance);
     private static final ResourceLocation SILK =CreatureFeature.getId("textures/entity/silk.png");
     private static final ResourceLocation CRIT =CreatureFeature.getId("textures/entity/crit2.png");
-    public static final BiFunction<ResourceLocation,Boolean, RenderType> ENTITY_SILK_CULL = Util.memoize(
-            (p_286169_,bool) -> {
+    private static final ResourceLocation TRICHAEL_SCREEN =CreatureFeature.getId("textures/entity/trichael_screen.png");
+    public static final BiFunction<ResourceLocation,Integer, RenderType> ENTITY_SILK_CULL = Util.memoize(
+            (p_286169_,in) -> {
                 RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_ENTITY_SILK_CULL_SHADER)
                         .setTextureState(new RenderStateShard.EmptyTextureStateShard(()->{
                             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
                             texturemanager.getTexture(p_286169_).setFilter(false, false);
                             RenderSystem.setShaderTexture(0, p_286169_);
-                            if(!bool){
+                            if(in == 0){
                                 RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(SILK).getId());
+                            }else if(in==2){
+                                RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(TRICHAEL_SCREEN).getId());
                             }else{
                                 RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(CRIT).getId());
                             }
@@ -149,10 +152,13 @@ public class CFRenderTypes {
     );
 
     public static RenderType entitySilkCull(ResourceLocation location) {
-        return ENTITY_SILK_CULL.apply(location,false);
+        return ENTITY_SILK_CULL.apply(location,0);
+    }
+    public static RenderType entityTrichaelCull(ResourceLocation location) {
+        return ENTITY_SILK_CULL.apply(location,2);
     }
     public static RenderType entityCritCull(ResourceLocation location) {
-        return ENTITY_SILK_CULL.apply(location,true);
+        return ENTITY_SILK_CULL.apply(location,1);
     }
     public static ShaderInstance FRIEND_SHADER_INSTANCE = null;
     public static ShaderInstance getFriendShaderInstance(){return FRIEND_SHADER_INSTANCE;}

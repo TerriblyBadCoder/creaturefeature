@@ -35,20 +35,8 @@ void main() {
     vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, vec3(0,0,1), Color);
     if(OffYPosition>-300.0||OffYPosition<-301.0){
         vertexColor.a*=clamp(Position.y-OffYPosition+sin(GameTime*3200.0+length(Position.xz))/8.0,0.0,1.0);
-        float fracted  =clamp(Position.y-OffYPosition+sin(GameTime*1200.0+length(Position.xz))/10.0,0.0,1.0);
-        fracted-=fract(fracted*64.0)/64.0;
-        positioner+=vec3(sin(GameTime*6400.0),0.0,-cos(GameTime*6400.0))*(1.0-fracted)/7.0;
-        vertexColor.x*=fracted*TypeMult.x+1.0f-TypeMult.x;
-        vertexColor.y*=fracted*TypeMult.y+1.0f-TypeMult.y;
-        vertexColor.z*=fracted*TypeMult.z+1.0f-TypeMult.z;
-        fracted=pow(fracted,5.0);
-        fracted=min(1.0,fracted);
-        lightMapColor = vec4(1,1,1,1)*fracted+texelFetch(Sampler2, UV2 / 16, 0)*(1.0f-fracted);
     }
-    else{
-        lightMapColor=texelFetch(Sampler2, UV2 / 16, 0);
-    }
-
+    lightMapColor=texelFetch(Sampler2, UV2 / 16, 0);
     gl_Position = ProjMat * ModelViewMat * vec4(positioner, 1.0);
 
 

@@ -61,6 +61,10 @@ public class CFEntityInit {
             ENTITIES.register("detritus", () -> EntityType.Builder.of(DetritusEntity::new, MobCategory.MONSTER)
                     .sized(EntityType.ZOMBIE.getWidth(), EntityType.ZOMBIE.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("detritus"));
+    public static final Supplier<EntityType<TrichaelEntity>> TRICHAEL =
+            ENTITIES.register("trichael", () -> EntityType.Builder.of(TrichaelEntity::new, MobCategory.MONSTER)
+                    .sized(EntityType.SKELETON.getWidth(), EntityType.SKELETON.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("trichael"));
     public static final Supplier<EntityType<StainedGlassEntity>> STAINED_GLASS =
             ENTITIES.register("stained_glass", () -> EntityType.Builder.of(StainedGlassEntity::new, MobCategory.MONSTER)
                     .sized(0.9f, 0.9f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)

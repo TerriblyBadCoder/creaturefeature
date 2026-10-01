@@ -156,7 +156,8 @@ public class DetritusEntity extends Monster {
         detritusEntity.getAttribute(Attributes.MAX_HEALTH).setBaseValue(detritusEntity.getHealth());
         detritusEntity.setUnburying(1.0f);
         serverLevel.addFreshEntity(detritusEntity);
-        detritusEntity.lookAt(getTarget(),360.0f,360.0f);
+        if(getTarget()!=null)
+            detritusEntity.lookAt(getTarget(),360.0f,360.0f);
     }
     @Override
     public boolean hurt(DamageSource source, float amount) {
