@@ -122,7 +122,7 @@ public class StainedGlassEntity extends Monster {
         return super.save(compound);
     }
     public static AttributeSupplier.Builder createStainedGlassAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 40.0).add(Attributes.ATTACK_DAMAGE,8.0f).add(Attributes.MOVEMENT_SPEED, 0.23).add(Attributes.MAX_HEALTH,10.0);
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 40.0).add(Attributes.ATTACK_DAMAGE,5.0f).add(Attributes.MOVEMENT_SPEED, 0.23).add(Attributes.MAX_HEALTH,10.0);
     }
     @Override
     public void load(CompoundTag compound) {

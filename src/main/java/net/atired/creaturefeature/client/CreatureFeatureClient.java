@@ -614,6 +614,7 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(TrichaelEntityModel.LAYER_LOCATION, TrichaelEntityModel::createBodyLayer);
         event.registerLayerDefinition(TrichaelEntityModel.INNER_LAYER_LOCATION, ()->{return TrichaelEntityModel.createBodyLayer(0.01f);});
         event.registerLayerDefinition(StainedGlassEntityModel.LAYER_LOCATION, StainedGlassEntityModel::createBodyLayer);
+        event.registerLayerDefinition(FishEyeEntityModel.LAYER_LOCATION, FishEyeEntityModel::createBodyLayer);
         event.registerLayerDefinition(CoatOfArmsEntityModel.LAYER_LOCATION, CoatOfArmsEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_LOCATION, FendEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_INNER_ARMOUR_LOCATION,()->{return LayerDefinition.create(HumanoidArmorModel.createBodyLayer(LayerDefinitions.INNER_ARMOR_DEFORMATION), 64, 32);});
@@ -648,6 +649,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.DETRITUS.get(), DetritusEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.TRICHAEL.get(), TrichaelEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.FISHEYE.get(), FishEyeEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEP.get(), EepEntityRenderer::new);

@@ -67,8 +67,12 @@ public class CFEntityInit {
                     .build("trichael"));
     public static final Supplier<EntityType<StainedGlassEntity>> STAINED_GLASS =
             ENTITIES.register("stained_glass", () -> EntityType.Builder.of(StainedGlassEntity::new, MobCategory.MONSTER)
-                    .sized(0.9f, 0.9f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .sized(1.1f, 1.1f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("stained_glass"));
+    public static final Supplier<EntityType<FishEyeEntity>> FISHEYE =
+            ENTITIES.register("fisheye", () -> EntityType.Builder.of(FishEyeEntity::new, MobCategory.MONSTER)
+                    .sized(1.1f, 1.1f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("fisheye"));
     public static final Supplier<EntityType<CoatOfArmsEntity>> COATOFARMS =
             ENTITIES.register("coat_of_arms", () -> EntityType.Builder.of(CoatOfArmsEntity::new, MobCategory.MONSTER)
                     .sized(0.9f, 1.9f).eyeHeight(1.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
