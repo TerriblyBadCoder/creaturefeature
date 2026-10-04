@@ -18,15 +18,20 @@ public class RedPowderParticle extends TextureSheetParticle {
         this.xd=xSpeed*(0.8f+Math.random()/5.0f)*0.1f;
         this.zd=zSpeed*(0.8f+Math.random()/5.0f)*0.1f;
         this.gravity=0;
-        this.quadSize=0;
+        this.quadSize=0.2f;
         this.roll=(float)Math.random()*3.14f*4.0f;
         this.oRoll=this.roll;
         this.spriteSet=sprite;
     }
 
     @Override
+    protected int getLightColor(float partialTick) {
+        return 15728880;
+    }
+
+    @Override
     public void tick() {
-        this.quadSize=Mth.lerp(0.2f,this.quadSize,(1.0f+Mth.sin(roll)/2.0f)*0.5f);
+        this.quadSize=Mth.lerp(0.5f,this.quadSize,(1.0f+Mth.sin(roll)/4.0f)*0.5f);
         this.gravity= -Mth.cos(this.age/8.0f*3.14f)/1.0f;
         setSpriteFromAge(spriteSet);
         super.tick();

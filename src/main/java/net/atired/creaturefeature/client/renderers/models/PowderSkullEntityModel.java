@@ -17,6 +17,7 @@ import net.minecraft.util.Mth;
 public class PowderSkullEntityModel<T extends PowderSkullEntity> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(CreatureFeature.getId("powderskullentitymodel"), "main");
+	public static final ModelLayerLocation INNER_LAYER_LOCATION = new ModelLayerLocation(CreatureFeature.getId("powderskullentitymodel"), "inner");
 	private final ModelPart head;
 	private final ModelPart jaw;
 	private final ModelPart skull;
@@ -30,6 +31,9 @@ public class PowderSkullEntityModel<T extends PowderSkullEntity> extends Hierarc
 	}
 
 	public static LayerDefinition createBodyLayer() {
+		return createBodyLayer(0);
+	}
+	public static LayerDefinition createBodyLayer(float in) {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
@@ -38,8 +42,8 @@ public class PowderSkullEntityModel<T extends PowderSkullEntity> extends Hierarc
 		PartDefinition jaw = head.addOrReplaceChild("jaw", CubeListBuilder.create().texOffs(44, 24).addBox(-5.0F, 0.0F, -10.0F, 10.0F, 6.0F, 10.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 61).addBox(-5.0F, 1.95F, -10.05F, 10.0F, 4.0F, 10.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.5F, -2.4F, 4.6F, 0.5672F, 0.0F, 0.0F));
 
-		PartDefinition skull = head.addOrReplaceChild("skull", CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, -10.95F, -10.95F, 12.0F, 12.0F, 12.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 24).addBox(-5.5F, -10.55F, -10.55F, 11.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.5F, -1.45F, 4.55F));
+		PartDefinition skull = head.addOrReplaceChild("skull", CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, -10.95F, -10.95F, 12.0F, 12.0F, 12.0F, new CubeDeformation(in))
+		.texOffs(0, 24).addBox(-5.5F, -10.55F, -10.55F, 11.0F, 11.0F, 11.0F, new CubeDeformation(in)), PartPose.offset(0.5F, -1.45F, 4.55F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

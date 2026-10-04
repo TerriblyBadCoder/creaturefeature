@@ -18,42 +18,48 @@ public class PowderSkullEntityRenderer extends MobRenderer<PowderSkullEntity, Po
     private static final ResourceLocation RED_POWDER_BG_LOCATION = CreatureFeature.getId("textures/entity/red_powder_bg.png");
 
     public PowderSkullEntityRenderer(EntityRendererProvider.Context context) {
-        super(context, new PowderSkullEntityModel<>(context.bakeLayer(PowderSkullEntityModel.LAYER_LOCATION)), 1.5f);
+        super(context, new PowderSkullEntityModel<>(context.bakeLayer(PowderSkullEntityModel.LAYER_LOCATION)), 0.5f);
+        this.addLayer(new PowderSkullEyesLayer<>(this));
+
     }
+
 
     @Override
     public void render(PowderSkullEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         if(entity.tickCount>0){
             poseStack.pushPose();
 
-            poseStack.mulPose(new Quaternionf()
-
-                    .rotationY(-entityYaw/180.0f*3.14f)
-                    .rotationX(entity.getViewXRot(partialTicks)/180.0f*3.14f)
+            poseStack.mulPose(new Quaternionf().rotationZYX(0,-entityYaw/180.0f*3.14f,entity.getViewXRot(partialTicks)/180.0f*3.14f+0.2f)
             );
-            poseStack.translate(0,0.8,-1.2);
-            PoseStack.Pose pose = poseStack.last();
+            poseStack.translate(0,0.8,-0.1-Math.abs(entity.getViewXRot(partialTicks)/180.0f));
 
             VertexConsumer consumer = buffer.getBuffer(CFRenderTypes.entityRedCull(RED_POWDER_BG_LOCATION));
-            vertex(pose,consumer,-1.5,1.5,0,0,0,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,1.5,1.5,0,1,0,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
+            float wide = 1.0f;
+            float tall = 1.0f;
+            for (int i = 0; i < 1; i++) {
+                PoseStack.Pose pose = poseStack.last();
+                vertex(pose,consumer,-1.5,1.5,-1.5,0,0,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,1.5,1.5,-1.5,1,0,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
 
-            vertex(pose,consumer,-1.5,1.5,0,0,0,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,-1.5,-1.5,0,0,1,0,0,1,packedLight,1.0f);
+                vertex(pose,consumer,-1.5,1.5,-1.5,0,0,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,-1.5,-1.5,-1.5,0,1,0,0,1,15728880,0.0f);
 
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,1.5,-1.5,0,1,1,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,-1.5,-1.5,0,0,1,0,0,1,packedLight,1.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,1.5,-1.5,-1.5,1,1,0,0,1,15728880,0.0f);
+                vertex(pose,consumer,-1.5,-1.5,-1.5,0,1,0,0,1,15728880,0.0f);
 
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,1.5,1.5,0,1,0,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,1.5,-1.5,0,1,1,0,0,1,packedLight,1.0f);
-            vertex(pose,consumer,0,0,1.5,0.5f,0.5f,0,0,1,packedLight,1.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,1.5,1.5,-1.5,1,0,0,0,1,15728880,1.0f);
+                vertex(pose,consumer,1.5,-1.5,-1.5,1,1,0,0,1,15728880,0.0f);
+                vertex(pose,consumer,0,0,0,0.5f,0.5f,0,0,1,15728880,1.0f);
+                poseStack.translate(0,0,-0.1);
+                poseStack.scale(1.0f,1.0f,1/0.6f);
+            }
             poseStack.popPose();
         }
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);

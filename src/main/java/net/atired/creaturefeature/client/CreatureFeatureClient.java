@@ -598,6 +598,7 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(EeperEntityModel.LAYER_LOCATION, EeperEntityModel::createBodyLayer);
         event.registerLayerDefinition(MinedFlayerEntityModel.LAYER_LOCATION, MinedFlayerEntityModel::createBodyLayer);
         event.registerLayerDefinition(PowderSkullEntityModel.LAYER_LOCATION, PowderSkullEntityModel::createBodyLayer);
+        event.registerLayerDefinition(PowderSkullEntityModel.INNER_LAYER_LOCATION, ()->{return PowderSkullEntityModel.createBodyLayer(0.05f);});
         event.registerLayerDefinition(NoThingEntityModel.LAYER_LOCATION, NoThingEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityModel.LAYER_LOCATION, CanaryEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityPartModel.LAYER_LOCATION, CanaryEntityPartModel::createBodyLayer);
