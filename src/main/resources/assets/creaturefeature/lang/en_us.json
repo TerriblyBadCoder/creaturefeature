@@ -66,6 +66,7 @@
   "sound.creaturefeature.stained_glass_retreat": "Stained Glass Rebounds",
   "sound.creaturefeature.stained_glass_die": "Stained Glass Shatters",
   "sound.creaturefeature.coa_hurt": "Coat of Arms tears away.",
+  "sound.creaturefeature.fisheye_screech": "Fisheye Screeches",
   "sound.creaturefeature.shot": "Flintlockshot...",
   "sound.creaturefeature.fiend_hurt": "Fiend screams.",
   "sound.creaturefeature.fiend_death": "Fiend dies.",
@@ -193,5 +194,8 @@
   "entity.creaturefeature.canary_part": "Canary Part",
   "entity.creaturefeature.mockingbird": "Mockingbird",
   "entity.creaturefeature.blossom": "Blossom",
-  "entity.creaturefeature.saint_solis": "Saint Solis"
+  "entity.creaturefeature.saint_solis": "Saint Solis",
+  "entity.creaturefeature.trichael": "Trichael",
+  "entity.creaturefeature.fisheye": "Fisheye",
+  "entity.creaturefeature.powder_skull": "Powder Skull"
 }

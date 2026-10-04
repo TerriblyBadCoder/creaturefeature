@@ -573,6 +573,8 @@ public class CreatureFeatureClient {
         event.registerSpriteSet(CFParticleInit.FLOWER_PARTICLE.get(), FlowerParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CRIT_PARTICLE.get(), CritParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CRIT_TEXT_PARTICLE.get(), CritTextParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.FISHEYE_PARTICLE.get(), FisheyeParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.RED_POWDER_PARTICLE.get(), RedPowderParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CRIT_VER_PARTICLE.get(), CritVerParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPARKLE_PARTICLE.get(), SparkleParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPORE_PARTICLE.get(), SporeParticle.Provider::new);
@@ -595,6 +597,7 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(BlitzEntityModel.LAYER_LOCATION, BlitzEntityModel::createBodyLayer);
         event.registerLayerDefinition(EeperEntityModel.LAYER_LOCATION, EeperEntityModel::createBodyLayer);
         event.registerLayerDefinition(MinedFlayerEntityModel.LAYER_LOCATION, MinedFlayerEntityModel::createBodyLayer);
+        event.registerLayerDefinition(PowderSkullEntityModel.LAYER_LOCATION, PowderSkullEntityModel::createBodyLayer);
         event.registerLayerDefinition(NoThingEntityModel.LAYER_LOCATION, NoThingEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityModel.LAYER_LOCATION, CanaryEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityPartModel.LAYER_LOCATION, CanaryEntityPartModel::createBodyLayer);
@@ -632,6 +635,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.BLITZ.get(), BlitzEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEPER.get(), EeperEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MINEDFLAYER.get(), MinedFlayerEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.POWDER_SKULL.get(), PowderSkullEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.NOTHING.get(), NoThingEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.CANARY.get(), CanaryEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.CANARY_PART.get(), CanaryPartRenderer::new);

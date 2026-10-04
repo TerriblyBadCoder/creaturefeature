@@ -3,12 +3,14 @@ package net.atired.creaturefeature.client.renderers.models;// Made with Blockben
 // Paste this class into your mod and generate all required imports
 
 import net.atired.creaturefeature.CreatureFeature;
+import net.atired.creaturefeature.client.CFRenderTypes;
 import net.atired.creaturefeature.entity.FishEyeEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 
 public class FishEyeEntityModel<T extends FishEyeEntity> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -21,6 +23,7 @@ public class FishEyeEntityModel<T extends FishEyeEntity> extends HierarchicalMod
 	private final ModelPart root;
 
 	public FishEyeEntityModel(ModelPart root) {
+		super(CFRenderTypes::entityFisheyeItselfCull);
 		this.root=root;
 		this.body = root.getChild("body");
 		this.tail = this.body.getChild("tail");
@@ -51,6 +54,14 @@ public class FishEyeEntityModel<T extends FishEyeEntity> extends HierarchicalMod
 	@Override
 	public void setupAnim(FishEyeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		headPitch*=1.5f;
+		this.eye.yRot= Mth.sin(ageInTicks/4.0f)/4.0f;
+		this.body.yRot= Mth.sin(ageInTicks/3.0f)/3.0f;
+		this.tail.yRot= Mth.sin(ageInTicks/3.0f)/2.0f;
+		this.dorsal.yRot= Mth.sin(ageInTicks/3.0f)/1.5f;
+		this.eye.zRot= -Mth.sin(ageInTicks/2.0f)/6.0f;
+		this.body.zRot= Mth.cos(ageInTicks/5.0f)/2.0f;
+		this.tail.zRot= Mth.cos(ageInTicks/5.0f)/4.0f;
+		this.dorsal.zRot= Mth.cos(ageInTicks/5.0f)/3.5f;
 		this.body.xRot=headPitch/180.0f*3.14f/1.2f;
 		this.eye.xRot=headPitch/180.0f*3.14f/1.2f;
 		this.tail.xRot=-headPitch/180.0f*3.14f/3.2f;

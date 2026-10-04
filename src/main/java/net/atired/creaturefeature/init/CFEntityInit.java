@@ -34,6 +34,10 @@ public class CFEntityInit {
             ENTITIES.register("minedflayer", () -> EntityType.Builder.of(MinedFlayerEntity::new, MobCategory.MONSTER)
                     .sized(1.1f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("minedflayer"));
+    public static final Supplier<EntityType<PowderSkullEntity>> POWDER_SKULL =
+            ENTITIES.register("powder_skull", () -> EntityType.Builder.of(PowderSkullEntity::new, MobCategory.MONSTER)
+                    .sized(1.4f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("powder_skull"));
     public static Supplier<EntityType<ToadstoolEntity>> TOADSTOOL;
     static {
         TOADSTOOL=null;

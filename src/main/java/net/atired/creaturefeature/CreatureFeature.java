@@ -90,6 +90,7 @@ public class CreatureFeature {
         event.put(CFEntityInit.TRICHAEL.get(), TrichaelEntity.createTrichaelAttributes().build());
         event.put(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntity.createStainedGlassAttributes().build());
         event.put(CFEntityInit.FISHEYE.get(), FishEyeEntity.createFishEyeAttributes().build());
+        event.put(CFEntityInit.POWDER_SKULL.get(), PowderSkullEntity.createPowderSkullAttributes().build());
         event.put(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntity.createCoatOfArmsAttributes().build());
     }
 

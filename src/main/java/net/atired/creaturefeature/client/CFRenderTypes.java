@@ -1,15 +1,19 @@
 package net.atired.creaturefeature.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.atired.creaturefeature.CreatureFeature;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -23,6 +27,19 @@ import java.util.function.Function;
 
 @EventBusSubscriber(modid = CreatureFeature.MODID,value = Dist.CLIENT)
 public class CFRenderTypes {
+    public static ParticleRenderType PARTICLE_SHEET_FISHEYE = new ParticleRenderType() {
+        public BufferBuilder begin(Tesselator p_350826_, TextureManager p_107456_) {
+            RenderSystem.depthMask(true);
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            return p_350826_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        public String toString() {
+            return "PARTICLE_SHEET_CREATUREFEATURE_FISHEYE";
+        }
+    };
     public static ShaderInstance ARMOR_EVIL_SHADER_INSTANCE = null;
     public static ShaderInstance getRendertypeArmorCutoutEvilCullShader(){return ARMOR_EVIL_SHADER_INSTANCE;}
     public static final RenderStateShard.ShaderStateShard RENDERTYPE_ARMOR_CUTOUT_EVIL_CULL_SHADER = new RenderStateShard.
@@ -53,7 +70,49 @@ public class CFRenderTypes {
                 .setDepthTestState(equalDepthTest ? RenderType.EQUAL_DEPTH_TEST : RenderType.LEQUAL_DEPTH_TEST).createCompositeState(true);
         return RenderType.create(name, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, false, rendertype$compositestate);
     }
+    public static ShaderInstance RED_SHADER_INSTANCE = null;
+    public static ShaderInstance getRedShaderInstance(){return RED_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_RED_CULL_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getRedShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_RED_CULL = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_RED_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_fisheye_itself", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
 
+    public static RenderType entityRedCull(ResourceLocation location) {
+        return ENTITY_RED_CULL.apply(location);
+    }
+
+    public static ShaderInstance FISHEYE_ITSELF_SHADER_INSTANCE = null;
+    public static ShaderInstance getFisheyeItselfShaderInstance(){return FISHEYE_ITSELF_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_FISHEYE_ITSELF_CULL_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getFisheyeItselfShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_FISHEYE_ITSELF_CULL = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_FISHEYE_ITSELF_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_fisheye_itself", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+
+    public static RenderType entityFisheyeItselfCull(ResourceLocation location) {
+        return ENTITY_FISHEYE_ITSELF_CULL.apply(location);
+    }
 
     public static ShaderInstance MONOCHROME_SHADER_INSTANCE = null;
     public static ShaderInstance getMonochromeShaderInstance(){return MONOCHROME_SHADER_INSTANCE;}
@@ -76,6 +135,23 @@ public class CFRenderTypes {
     public static RenderType entityMonochromeCull(ResourceLocation location) {
         return ENTITY_MONOCHROME_CULL.apply(location);
     }
+    public static ShaderInstance FISHEYE_SHADER_INSTANCE = null;
+    public static ShaderInstance getFisheyeShaderInstance(){return FISHEYE_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_FISHEYE_CULL_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getFisheyeShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_FISHEYE_CULL = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_FISHEYE_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_fisheye", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
     public static ShaderInstance STAR_SHADER_INSTANCE = null;
     public static ShaderInstance getStarShaderInstance(){return STAR_SHADER_INSTANCE;}
     public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_STAR_CULL_SHADER = new RenderStateShard.ShaderStateShard
@@ -113,6 +189,9 @@ public class CFRenderTypes {
 
     public static RenderType entityStarCull(ResourceLocation location) {
         return ENTITY_STAR_CULL.apply(location);
+    }
+    public static RenderType entityFisheyeCull(ResourceLocation location) {
+        return ENTITY_FISHEYE_CULL.apply(location);
     }
     public static RenderType entityBlossomCull(ResourceLocation location) {
         return ENTITY_BLOSSOM_CULL.apply(location);
@@ -285,7 +364,16 @@ public class CFRenderTypes {
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_star"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{STAR_SHADER_INSTANCE=a;});
         registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_fisheye"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{FISHEYE_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_monochrome"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{MONOCHROME_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_fisheye_itself"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{FISHEYE_ITSELF_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_red"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{RED_SHADER_INSTANCE=a;});
     }
 }

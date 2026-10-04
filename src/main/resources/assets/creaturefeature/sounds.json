@@ -23,6 +23,12 @@
       "creaturefeature:sinister_hurt"
     ]
   },
+  "entity.fisheye_screech": {
+    "subtitle": "sound.creaturefeature.fisheye_screech",
+    "sounds": [
+      "creaturefeature:fisheye_screech"
+    ]
+  },
   "entity.sinister_die": {
     "subtitle": "sound.creaturefeature.sinister_death",
     "sounds": [
