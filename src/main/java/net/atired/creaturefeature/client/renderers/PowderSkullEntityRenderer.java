@@ -11,6 +11,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.OminousItemSpawner;
+import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
 import org.joml.Quaternionf;
 
 public class PowderSkullEntityRenderer extends MobRenderer<PowderSkullEntity, PowderSkullEntityModel<PowderSkullEntity>> {
@@ -23,16 +27,25 @@ public class PowderSkullEntityRenderer extends MobRenderer<PowderSkullEntity, Po
 
     }
 
+    @Override
+    protected void scale(PowderSkullEntity livingEntity, PoseStack poseStack, float partialTickTime) {
+        float multiplied = Math.min(1.0f,livingEntity.tickCount/15.0f);
+        multiplied= (Mth.sin(multiplied*3.14f)*1.0f+1.0f)*multiplied;
+        multiplied*=multiplied;
+        poseStack.scale(multiplied,1,multiplied);
+        super.scale(livingEntity, poseStack, partialTickTime);
+    }
 
     @Override
     public void render(PowderSkullEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         if(entity.tickCount>0){
             poseStack.pushPose();
-
+            float multiplied = Math.min(1.0f,entity.tickCount/15.0f);
+            multiplied= (Mth.sin(multiplied*3.14f)*1.0f+1.0f)*multiplied;
             poseStack.mulPose(new Quaternionf().rotationZYX(0,-entityYaw/180.0f*3.14f,entity.getViewXRot(partialTicks)/180.0f*3.14f+0.2f)
             );
             poseStack.translate(0,0.8,-0.1-Math.abs(entity.getViewXRot(partialTicks)/180.0f));
-
+            poseStack.scale(multiplied,1,multiplied);
             VertexConsumer consumer = buffer.getBuffer(CFRenderTypes.entityRedCull(RED_POWDER_BG_LOCATION));
             float wide = 1.0f;
             float tall = 1.0f;

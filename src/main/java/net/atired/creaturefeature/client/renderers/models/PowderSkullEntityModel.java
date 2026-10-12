@@ -50,11 +50,14 @@ public class PowderSkullEntityModel<T extends PowderSkullEntity> extends Hierarc
 
 	@Override
 	public void setupAnim(PowderSkullEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+
+		float multiplied = Math.min(1.0f,entity.tickCount/30.0f);
+		multiplied= Mth.sin(multiplied*3.14f*2.0f)/5.0f;
 		this.head.xRot=headPitch/180.0f*3.14f;
 		this.skull.yRot=netHeadYaw/180.0f*3.14f+Mth.sin(ageInTicks/8.0f)/12.0f;
 		this.jaw.yRot=-Mth.sin(ageInTicks/8.0f)/12.0f;
-		this.jaw.zRot=-Mth.cos(ageInTicks/8.0f)/12.0f;
-		this.skull.zRot=Mth.cos(ageInTicks/8.0f)/12.0f;
+		this.jaw.zRot=-Mth.cos(ageInTicks/8.0f)/12.0f+multiplied;
+		this.skull.zRot=Mth.cos(ageInTicks/8.0f)/12.0f-multiplied;
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class PowderSkullEntity extends Monster {
 
     @Override
     public void tick() {
-        if(level()!=null){
+        if(level()!=null&&this.tickCount>15){
             for (int i = 0; i < 2; i++) {
                 Vec3 dir = getViewVector(1).scale(-1).multiply(1,0,1).normalize().scale(1.5);
                 level().addParticle(CFParticleInit.RED_POWDER_PARTICLE.get(),dir.x*0.6f+getX((Math.random()-0.5)*0.7f),getY(Math.random()*0.7f+0.1),dir.z*0.6f+getZ((Math.random()-0.5)*0.7f),dir.x,0,dir.z);
