@@ -66,7 +66,13 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerBrainrot
     @Inject(method = "Lnet/minecraft/world/entity/player/Player;tick()V",at=@At("HEAD"))
     private void iDontTrustYerEventsPally(CallbackInfo ci){
         this.creaturefeature$aged +=1;
-        if(getY()>127.8&&level()!=null&&(getYRot()<-89&&getYRot()>-91)&&level().isClientSide()&&CreatureFeatureClient.PROXY.searchingForHim&&level().dimensionType().respawnAnchorWorks()&&this.creaturefeature$aged%50==(48-creaturefeature$counter *2)){
+        if(getY()>127.8
+                &&level()!=null
+                &&(getYRot()<-89&&getYRot()>-91)
+                &&level().isClientSide()
+                &&CreatureFeatureClient.PROXY.searchingForHim
+                &&level().dimensionType().respawnAnchorWorks()
+                &&this.creaturefeature$aged%50==(48-creaturefeature$counter *2)){
             if(Math.abs(this.creaturefeature$oldX -this.getX())>0.02&&Math.abs(this.creaturefeature$oldZ -this.getZ())<0.02){
                 creaturefeature$counter +=1;
                 this.creaturefeature$aged =0;

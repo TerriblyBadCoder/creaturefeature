@@ -9,6 +9,7 @@
     "JukeBoxPlayableMixin",
     "LivingEntityGoopMixin",
     "MonsterEntityMixin",
+    "OminousItemSpawnerMixin",
     "PlayerAdvancementsMixin",
     "PlayerMixin",
     "ShearsItemMixin"

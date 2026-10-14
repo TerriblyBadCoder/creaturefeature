@@ -96,14 +96,14 @@ void main(){
     cos(fracted.x*3.14*8.0+GameTime/100.0)/40.0*FadeInTest*dist/6.0f);
 
     vec2 texCopied = texCoord*(1.0-FadeInTest*dist/6.0f)+texEvil*FadeInTest*dist/6.0f;
-    dist = clamp(5*(0.1+length(texCopied-vec2(0.5,0.5))*0.9),1.0,20.0);
+    dist = clamp(5.0f*(0.1+length(texCopied-vec2(0.5,0.5))*0.9),1.0,20.0);
     vec4 diffuseColor = texture(DiffuseSampler, texCopied);
     fragColor = diffuseColor;
     vec2 dirForNoise = fracted-vec2(0.5,0.5);
 
     float noise = dist*FadeInTest*((abs(cnoise(vec3(dirForNoise*20.7,GameTime/30.0f+20.0))*0.5)+0.2)*pow(length(fracted-vec2(0.5,0.5)),2.0)*2.0);
     noise-=fract(noise*12.0)/12.0;
-    fragColor.xyz*=max(1.0f-noise,0f);
+    fragColor.xyz*=max(1.0f-noise,0.0f);
     fragColor.y/=dist*FadeInTest+(1.0-FadeInTest);
     fragColor.a=1.0f;
 }

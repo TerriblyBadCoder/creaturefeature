@@ -24,6 +24,11 @@ public class CFSoundInit {
             // Takes in the registry name
             SoundEvent::createVariableRangeEvent
     );
+    public static final Holder<SoundEvent> FISHEYE_SCREECH = SOUND_EVENTS.register(
+            "entity.fisheye_screech",
+            // Takes in the registry name
+            SoundEvent::createVariableRangeEvent
+    );
     public static final Holder<SoundEvent> SINISTER_DIE = SOUND_EVENTS.register(
             "entity.sinister_die",
             // Takes in the registry name

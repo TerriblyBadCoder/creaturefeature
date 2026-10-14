@@ -473,7 +473,7 @@ public class CreatureFeatureClient {
                     }
                 }
 
-            Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+                Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
 
         }
     }
@@ -573,6 +573,8 @@ public class CreatureFeatureClient {
         event.registerSpriteSet(CFParticleInit.FLOWER_PARTICLE.get(), FlowerParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CRIT_PARTICLE.get(), CritParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CRIT_TEXT_PARTICLE.get(), CritTextParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.FISHEYE_PARTICLE.get(), FisheyeParticle.Provider::new);
+        event.registerSpriteSet(CFParticleInit.RED_POWDER_PARTICLE.get(), RedPowderParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.CRIT_VER_PARTICLE.get(), CritVerParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPARKLE_PARTICLE.get(), SparkleParticle.Provider::new);
         event.registerSpriteSet(CFParticleInit.SPORE_PARTICLE.get(), SporeParticle.Provider::new);
@@ -595,6 +597,8 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(BlitzEntityModel.LAYER_LOCATION, BlitzEntityModel::createBodyLayer);
         event.registerLayerDefinition(EeperEntityModel.LAYER_LOCATION, EeperEntityModel::createBodyLayer);
         event.registerLayerDefinition(MinedFlayerEntityModel.LAYER_LOCATION, MinedFlayerEntityModel::createBodyLayer);
+        event.registerLayerDefinition(PowderSkullEntityModel.LAYER_LOCATION, PowderSkullEntityModel::createBodyLayer);
+        event.registerLayerDefinition(PowderSkullEntityModel.INNER_LAYER_LOCATION, ()->{return PowderSkullEntityModel.createBodyLayer(0.05f);});
         event.registerLayerDefinition(NoThingEntityModel.LAYER_LOCATION, NoThingEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityModel.LAYER_LOCATION, CanaryEntityModel::createBodyLayer);
         event.registerLayerDefinition(CanaryEntityPartModel.LAYER_LOCATION, CanaryEntityPartModel::createBodyLayer);
@@ -611,7 +615,10 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(BlossomEntityModel.LAYER_LOCATION, BlossomEntityModel::createBodyLayer);
         event.registerLayerDefinition(SaintSolisEntityModel.LAYER_LOCATION, SaintSolisEntityModel::createBodyLayer);
         event.registerLayerDefinition(DetritusEntityModel.LAYER_LOCATION, DetritusEntityModel::createBodyLayer);
+        event.registerLayerDefinition(TrichaelEntityModel.LAYER_LOCATION, TrichaelEntityModel::createBodyLayer);
+        event.registerLayerDefinition(TrichaelEntityModel.INNER_LAYER_LOCATION, ()->{return TrichaelEntityModel.createBodyLayer(0.01f);});
         event.registerLayerDefinition(StainedGlassEntityModel.LAYER_LOCATION, StainedGlassEntityModel::createBodyLayer);
+        event.registerLayerDefinition(FishEyeEntityModel.LAYER_LOCATION, FishEyeEntityModel::createBodyLayer);
         event.registerLayerDefinition(CoatOfArmsEntityModel.LAYER_LOCATION, CoatOfArmsEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_LOCATION, FendEntityModel::createBodyLayer);
         event.registerLayerDefinition(FendEntityModel.LAYER_INNER_ARMOUR_LOCATION,()->{return LayerDefinition.create(HumanoidArmorModel.createBodyLayer(LayerDefinitions.INNER_ARMOR_DEFORMATION), 64, 32);});
@@ -629,6 +636,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.BLITZ.get(), BlitzEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEPER.get(), EeperEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MINEDFLAYER.get(), MinedFlayerEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.POWDER_SKULL.get(), PowderSkullEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.NOTHING.get(), NoThingEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.CANARY.get(), CanaryEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.CANARY_PART.get(), CanaryPartRenderer::new);
@@ -644,7 +652,9 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.BLOSSOM.get(), BlossomEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.SAINT_SOLIS.get(), SaintSolisEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.DETRITUS.get(), DetritusEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.TRICHAEL.get(), TrichaelEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.FISHEYE.get(), FishEyeEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEP.get(), EepEntityRenderer::new);

@@ -34,6 +34,10 @@ public class CFEntityInit {
             ENTITIES.register("minedflayer", () -> EntityType.Builder.of(MinedFlayerEntity::new, MobCategory.MONSTER)
                     .sized(1.1f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("minedflayer"));
+    public static final Supplier<EntityType<PowderSkullEntity>> POWDER_SKULL =
+            ENTITIES.register("powder_skull", () -> EntityType.Builder.of(PowderSkullEntity::new, MobCategory.MONSTER)
+                    .sized(1.4f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("powder_skull"));
     public static Supplier<EntityType<ToadstoolEntity>> TOADSTOOL;
     static {
         TOADSTOOL=null;
@@ -61,10 +65,18 @@ public class CFEntityInit {
             ENTITIES.register("detritus", () -> EntityType.Builder.of(DetritusEntity::new, MobCategory.MONSTER)
                     .sized(EntityType.ZOMBIE.getWidth(), EntityType.ZOMBIE.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("detritus"));
+    public static final Supplier<EntityType<TrichaelEntity>> TRICHAEL =
+            ENTITIES.register("trichael", () -> EntityType.Builder.of(TrichaelEntity::new, MobCategory.MONSTER)
+                    .sized(EntityType.SKELETON.getWidth(), EntityType.SKELETON.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("trichael"));
     public static final Supplier<EntityType<StainedGlassEntity>> STAINED_GLASS =
             ENTITIES.register("stained_glass", () -> EntityType.Builder.of(StainedGlassEntity::new, MobCategory.MONSTER)
-                    .sized(0.9f, 0.9f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .sized(1.1f, 1.1f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("stained_glass"));
+    public static final Supplier<EntityType<FishEyeEntity>> FISHEYE =
+            ENTITIES.register("fisheye", () -> EntityType.Builder.of(FishEyeEntity::new, MobCategory.MONSTER)
+                    .sized(1.1f, 1.1f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("fisheye"));
     public static final Supplier<EntityType<CoatOfArmsEntity>> COATOFARMS =
             ENTITIES.register("coat_of_arms", () -> EntityType.Builder.of(CoatOfArmsEntity::new, MobCategory.MONSTER)
                     .sized(0.9f, 1.9f).eyeHeight(1.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)

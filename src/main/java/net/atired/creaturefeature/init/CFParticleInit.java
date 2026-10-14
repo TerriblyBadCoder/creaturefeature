@@ -20,6 +20,14 @@ public class CFParticleInit {
             "crit_text",
             () -> new SimpleParticleType(false)
     );
+    public static final Supplier<SimpleParticleType> RED_POWDER_PARTICLE = PARTICLE_TYPES.register(
+            "red_powder",
+            () -> new SimpleParticleType(false)
+    );
+    public static final Supplier<SimpleParticleType> FISHEYE_PARTICLE = PARTICLE_TYPES.register(
+            "fisheye",
+            () -> new SimpleParticleType(false)
+    );
     public static final Supplier<SimpleParticleType> LEAF_PARTICLE = PARTICLE_TYPES.register(
             "leaf",
             () -> new SimpleParticleType(false)

@@ -95,7 +95,7 @@ public class ToadstoolEntity extends Monster {
 
     @Override
     public void die(DamageSource damageSource) {
-        if(myCube!=null){
+        if(myCube!=null&&!myCube.isRemoved()){
             ServerLevel other = myCube.getLevel();
             BlockPos pos = myCube.getPlot().getCenterBlock();
             for (int z = - 7; z < 8; z++) {
@@ -244,15 +244,18 @@ public class ToadstoolEntity extends Monster {
                 );
 
                 myCube=serverSubLevel;
-                hasMadeCube=true;
-                final LevelAccelerator resultingAccelerator = new LevelAccelerator(serverLevel);
-                final SubLevelAssemblyHelper.AssemblyTransform transform = new SubLevelAssemblyHelper.AssemblyTransform(getOnPos(), myCube.getPlot().getCenterBlock(), 0, Rotation.NONE, serverLevel);
-                BlockPos newPos = transform.apply(getOnPos().above(1));
-                LevelChunk chunk = resultingAccelerator.getChunk(SectionPos.blockToSectionCoord(newPos.getX()), SectionPos.blockToSectionCoord(newPos.getZ()));
-                chunk.setBlockState(newPos, Blocks.CHISELED_STONE_BRICKS.defaultBlockState(), true);
-                newPos = transform.apply(getOnPos().above(2));
-                chunk = resultingAccelerator.getChunk(SectionPos.blockToSectionCoord(newPos.getX()), SectionPos.blockToSectionCoord(newPos.getZ()));
-                chunk.setBlockState(newPos, CFBlockInit.RUNIC_STONE_BRICKS.get().defaultBlockState(), true);
+                if(myCube!=null){
+                    hasMadeCube=true;
+                    final LevelAccelerator resultingAccelerator = new LevelAccelerator(serverLevel);
+                    final SubLevelAssemblyHelper.AssemblyTransform transform = new SubLevelAssemblyHelper.AssemblyTransform(getOnPos(), myCube.getPlot().getCenterBlock(), 0, Rotation.NONE, serverLevel);
+                    BlockPos newPos = transform.apply(getOnPos().above(1));
+                    LevelChunk chunk = resultingAccelerator.getChunk(SectionPos.blockToSectionCoord(newPos.getX()), SectionPos.blockToSectionCoord(newPos.getZ()));
+                    chunk.setBlockState(newPos, Blocks.CHISELED_STONE_BRICKS.defaultBlockState(), true);
+                    newPos = transform.apply(getOnPos().above(2));
+                    chunk = resultingAccelerator.getChunk(SectionPos.blockToSectionCoord(newPos.getX()), SectionPos.blockToSectionCoord(newPos.getZ()));
+                    chunk.setBlockState(newPos, CFBlockInit.RUNIC_STONE_BRICKS.get().defaultBlockState(), true);
+                }
+
             }
         }
         if(level() instanceof ServerLevel serverLevel){
