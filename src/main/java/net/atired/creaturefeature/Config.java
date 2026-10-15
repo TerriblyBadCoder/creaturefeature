@@ -25,6 +25,7 @@ public class Config {
     public static final ModConfigSpec.BooleanValue PATHOGEN;
     public static final ModConfigSpec.BooleanValue SAINT;
     public static final ModConfigSpec.BooleanValue DAYLIGHT_FEND;
+    public static final ModConfigSpec.BooleanValue SURFACE_SINISTER;
     public static final ModConfigSpec.BooleanValue FIEND_FOLIO_RELOADED;
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -54,6 +55,9 @@ public class Config {
         FIEND_FOLIO_RELOADED = builder
                 .comment("Gives Fiend a gun.")
                 .define("ff_reloaded", true);
+        SURFACE_SINISTER = builder
+                .comment("Lets Sinisters above Y = -1")
+                .define("surface_sin", false);
 
         SERVERSPEC = builder.build();
 

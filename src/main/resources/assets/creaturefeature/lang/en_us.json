@@ -17,6 +17,7 @@
   "creaturefeature.configuration.pathogen": "Pathogen spawning rework",
   "creaturefeature.configuration.saint": "Slow down Stars",
   "creaturefeature.configuration.dayfend": "Fends ignore light level",
+  "creaturefeature.configuration.surface_sin": "Sinisters spawn on surface",
   "creaturefeature.configuration.depth": "Depth Vista Compat Test",
   "creaturefeature.configuration.ff_reloaded": "Fiend Folio: RELOADED",
 
