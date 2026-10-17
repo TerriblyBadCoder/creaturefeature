@@ -282,6 +282,28 @@ public class CFRenderTypes {
     public static RenderType entityOutlinedCutout(ResourceLocation location) {
         return ENTITY_OUTLINED_CUTOUT.apply(location);
     }
+    public static ShaderInstance WRAITH_SHADER_INSTANCE = null;
+    public static ShaderInstance getWraithShaderInstance(){return WRAITH_SHADER_INSTANCE;}
+    public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_WRAITH_CUTOUT_SHADER = new RenderStateShard.ShaderStateShard
+            (CFRenderTypes::getWraithShaderInstance);
+    public static final Function<ResourceLocation, RenderType> ENTITY_WRAITH_CUTOUT = Util.memoize(
+            p_286169_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_WRAITH_CUTOUT_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_wraith", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+
+    public static RenderType entityWraithCutout(ResourceLocation location) {
+        return ENTITY_WRAITH_CUTOUT.apply(location);
+    }
+    //
     public static ShaderInstance FEND_SHADER_INSTANCE = null;
     public static ShaderInstance getFendShaderInstance(){return FEND_SHADER_INSTANCE;}
     public static final RenderStateShard.ShaderStateShard RENDERTYPE_ENTITY_FEND_CUTOUT_SHADER = new RenderStateShard.ShaderStateShard
@@ -351,6 +373,9 @@ public class CFRenderTypes {
         registerShadersEvent.registerShader(
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_fend"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{FEND_SHADER_INSTANCE=a;});
+        registerShadersEvent.registerShader(
+                new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_wraith"), DefaultVertexFormat.NEW_ENTITY)
+                ,(a)->{WRAITH_SHADER_INSTANCE=a;});
         registerShadersEvent.registerShader(
                 new ShaderInstance(registerShadersEvent.getResourceProvider(), CreatureFeature.getId("rendertype_entity_silk"), DefaultVertexFormat.NEW_ENTITY)
                 ,(a)->{SILK_SHADER_INSTANCE=a;});

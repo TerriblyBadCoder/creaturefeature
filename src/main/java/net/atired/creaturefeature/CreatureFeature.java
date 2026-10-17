@@ -87,10 +87,13 @@ public class CreatureFeature {
         event.put(CFEntityInit.BLOSSOM.get(), BlossomEntity.createAttributes().build());
         event.put(CFEntityInit.SAINT_SOLIS.get(), SaintSolisEntity.createSaintSolisAttributes().build());
         event.put(CFEntityInit.DETRITUS.get(), DetritusEntity.createDetritusAttributes().build());
-        event.put(CFEntityInit.TRICHAEL.get(), TrichaelEntity.createTrichaelAttributes().build());
         event.put(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntity.createStainedGlassAttributes().build());
+
+        event.put(CFEntityInit.TRICHAEL.get(), TrichaelEntity.createTrichaelAttributes().build());
         event.put(CFEntityInit.FISHEYE.get(), FishEyeEntity.createFishEyeAttributes().build());
         event.put(CFEntityInit.POWDER_SKULL.get(), PowderSkullEntity.createPowderSkullAttributes().build());
+        event.put(CFEntityInit.WRAITH.get(), WraithEntity.createWraithAttributes().build());
+
         event.put(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntity.createCoatOfArmsAttributes().build());
     }
 

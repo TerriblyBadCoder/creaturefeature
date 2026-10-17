@@ -597,6 +597,8 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(BlitzEntityModel.LAYER_LOCATION, BlitzEntityModel::createBodyLayer);
         event.registerLayerDefinition(EeperEntityModel.LAYER_LOCATION, EeperEntityModel::createBodyLayer);
         event.registerLayerDefinition(MinedFlayerEntityModel.LAYER_LOCATION, MinedFlayerEntityModel::createBodyLayer);
+        event.registerLayerDefinition(WraithEntityModel.LAYER_LOCATION, ()->{return WraithEntityModel.createBodyLayer(0.0f);});
+        event.registerLayerDefinition(WraithEntityModel.INNER_LAYER_LOCATION, ()->{return WraithEntityModel.createBodyLayer(0.01f);});
         event.registerLayerDefinition(PowderSkullEntityModel.LAYER_LOCATION, PowderSkullEntityModel::createBodyLayer);
         event.registerLayerDefinition(PowderSkullEntityModel.INNER_LAYER_LOCATION, ()->{return PowderSkullEntityModel.createBodyLayer(0.05f);});
         event.registerLayerDefinition(NoThingEntityModel.LAYER_LOCATION, NoThingEntityModel::createBodyLayer);
@@ -655,6 +657,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.TRICHAEL.get(), TrichaelEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FISHEYE.get(), FishEyeEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.WRAITH.get(), WraithEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEP.get(), EepEntityRenderer::new);
@@ -663,6 +666,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.STAR.get(),  (c)->{return new StarProjEntityRenderer(c,1.0f,false);});
         event.registerEntityRenderer(CFEntityInit.KICKED_BLOCK.get(), KickedBlockEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.SPAT_BLOCK.get(), SpatBlockEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.DELAY.get(), LightningDelayEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.BULLET.get(), BulletEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MURKY_PEARL.get(), (c)->{return new MurkyPearlEntityRenderer(c,1.0f,false);});
     }
