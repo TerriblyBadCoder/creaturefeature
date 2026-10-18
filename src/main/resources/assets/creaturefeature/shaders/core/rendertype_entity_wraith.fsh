@@ -8,6 +8,7 @@ uniform vec4 ColorModulator;
 uniform float FogStart;
 uniform float FogEnd;
 uniform float Revealness;
+uniform float Flipped;
 uniform vec4 FogColor;
 uniform vec2 ScreenSize;
 uniform mat4 ProjMat;
@@ -97,13 +98,17 @@ void main() {
 
     color *= ColorModulator;
     color.a*=vertexColor.a;
-    float lin_len = pow((vertexColor.r+vertexColor.g+vertexColor.b)/3.0,2.0);
-    color.rgb=color.rgb*lin_len+vertexColor.rgb*(1.0-lin_len);
 
     vec2 fractedTex = texCoord0;
     vec2 ScreenSized = vec2(64.0,64.0);
     fractedTex.x-=fract(fractedTex.x*ScreenSized.x)/ScreenSized.x;
     fractedTex.y-=fract(fractedTex.y*ScreenSized.y)/ScreenSized.y;
+    if(Flipped>0.5){
+        color.a*=1.0+sin(fractedTex.x*3.14f*2.0f+GameTime*1000.0+fractedTex.y*3.14f*1.0f)/5.0f;
+    }
+    float lin_len = pow((vertexColor.r+vertexColor.g+vertexColor.b)/3.0,2.0);
+    color.rgb=color.rgb*lin_len+vertexColor.rgb*(1.0-lin_len);
+
     float fracted = min( abs(cnoise(vec3(GameTime*10.0,fractedTex*1.4*vec2(10.0,1.4)-vec2(0,GameTime*2000.0)))*3.0),1.0);
     color.a=min(1.0,color.a*1.1);
     if(color.a*1.4f<fracted||color.a<0.02){

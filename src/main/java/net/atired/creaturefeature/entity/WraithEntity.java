@@ -28,6 +28,7 @@ public class WraithEntity extends Monster {
     private static final EntityDataAccessor<Float> DRIFT= SynchedEntityData.defineId(WraithEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> SWING= SynchedEntityData.defineId(WraithEntity.class, EntityDataSerializers.FLOAT);
     public Vec3 storedMovement = new Vec3(0,0,0);
+    private int attackCount = 1;
     public WraithEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
     }
@@ -37,10 +38,11 @@ public class WraithEntity extends Monster {
 
         if(level() instanceof ServerLevel serverLevel){
             setSwing(getSwing()*0.8f);
-            if(this.tickCount%72>42){
+            if(this.tickCount%53>35){
                 this.getNavigation().stop();
-                if(this.tickCount%72==43){
-                    if(getTarget()!=null&&getTarget().getPosition(1).distanceTo(getPosition(1))>1.2&&Math.random()>0.7){
+                if(this.tickCount%53==36){
+                    if(getTarget()!=null&&getTarget().getPosition(1).distanceTo(getPosition(1))>1.2&&Math.random()>0.1&&this.attackCount<=0){
+                        this.attackCount=2;
                         LightningDelayEntity entity = new LightningDelayEntity(CFEntityInit.DELAY.get(), serverLevel);
                         setSwing(1.0f);
                         Vec3 pos = getTarget().getPosition(1);
@@ -53,12 +55,13 @@ public class WraithEntity extends Monster {
                         if(result1!=null&&result1.getLocation()!=null){
                            pos=result1.getLocation();
                         }
-                        entity.setPos(getPosition(1));
-                        entity.setDeltaMovement(getPosition(1).subtract(pos).scale(-0.23));
+                        entity.setPos(getPosition(1).add(0,0.04,0));
+                        entity.setDeltaMovement(getPosition(1).subtract(pos).scale(-0.2));
                         serverLevel.addFreshEntity(entity);
                         this.setDeltaMovement(getDeltaMovement().scale(0.2));
                         addDeltaMovement(getViewVector(1).multiply(1,0,1).normalize().scale(-1.2).yRot((float)(Math.random()-0.5)*1.0f*1.57f).add(0,0.1,0));
                     }else{
+                        this.attackCount-=1;
                         this.setDeltaMovement(getDeltaMovement().scale(0.2));
                         addDeltaMovement(getViewVector(1).multiply(1,0,1).normalize().scale(-0.8).yRot((float)(Math.random()-0.5)*2.0f*1.57f).add(0,0.1,0));
                     }

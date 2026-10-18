@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:spawners/trial_chamber/items_to_drop_when_ominous"
+    }
+  ],
+  "table": "creaturefeature:entities/ominous_powder_skull"
+}

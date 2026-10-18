@@ -40,7 +40,7 @@ public class PowderSkullEntity extends Monster {
 
     @Override
     public float getSpeed() {
-        return 0.2f;
+        return 0.24f;
     }
     public static AttributeSupplier.Builder createPowderSkullAttributes() {
         return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 40.0).add(Attributes.MOVEMENT_SPEED, 0.26).add(Attributes.MAX_HEALTH,16.0);
@@ -49,7 +49,6 @@ public class PowderSkullEntity extends Monster {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1,new RandomFloatAroundGoal(this));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, true));
         super.registerGoals();
     }
