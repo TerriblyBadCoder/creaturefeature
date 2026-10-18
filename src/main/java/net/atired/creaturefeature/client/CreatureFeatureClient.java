@@ -667,6 +667,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.KICKED_BLOCK.get(), KickedBlockEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.SPAT_BLOCK.get(), SpatBlockEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.DELAY.get(), LightningDelayEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.COLLUMN.get(), CollumnEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.BULLET.get(), BulletEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.MURKY_PEARL.get(), (c)->{return new MurkyPearlEntityRenderer(c,1.0f,false);});
     }

@@ -157,6 +157,10 @@ public class CFEntityInit {
             ENTITIES.register("bullet", () -> EntityType.Builder.<BulletEntity>of(BulletEntity::new, MobCategory.MISC)
                     .sized(0.1f, 0.2f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("bullet"));
+    public static final Supplier<EntityType<CollumnEntity>> COLLUMN =
+            ENTITIES.register("collumn", () -> EntityType.Builder.<CollumnEntity>of(CollumnEntity::new, MobCategory.MISC)
+                    .sized(0.5f, 0.1f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("collumn"));
     public static final Supplier<EntityType<KickedBlockEntity>> KICKED_BLOCK =
             ENTITIES.register("kicked_block", () -> EntityType.Builder.<KickedBlockEntity>of(KickedBlockEntity::new, MobCategory.MISC)
                     .sized(0.6f, 0.6f).eyeHeight(0.3f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
