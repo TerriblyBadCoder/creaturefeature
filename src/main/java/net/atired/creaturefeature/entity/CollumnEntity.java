@@ -14,16 +14,20 @@ public class CollumnEntity extends Entity {
     public int count = 5;
     public CollumnEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
+        this.dir=new Vec3(1,0,0).yRot((float)(Math.random()*3.14f*4.0f));
     }
 
     @Override
     public void tick() {
-        if(level() instanceof ServerLevel serverLevel&&this.tickCount==14&&this.count>0){
+        if(level() instanceof ServerLevel serverLevel&&this.tickCount==6&&this.count>0){
             CollumnEntity collumnEntity = new CollumnEntity(CFEntityInit.COLLUMN.get(), serverLevel);
             collumnEntity.count=this.count-1;
-            collumnEntity.setPos(getPosition(1).add(this.dir));
+            collumnEntity.setPos(getPosition(1).add(this.dir.scale(1.9f).yRot((float)(Math.random()-0.5f))));
             collumnEntity.dir=this.dir;
             serverLevel.addFreshEntity(collumnEntity);
+        }
+        if(this.tickCount==84){
+            discard();
         }
         super.tick();
     }
