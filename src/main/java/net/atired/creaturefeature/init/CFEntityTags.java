@@ -10,4 +10,13 @@ public class CFEntityTags {
             Registries.ENTITY_TYPE,
             CreatureFeature.getId("pathogen_sources")
     );
+    
+    public static final TagKey<EntityType<?>> DREAMWEAVER_SUMMONS = TagKey.create(
+            Registries.ENTITY_TYPE,
+            CreatureFeature.getId("dreamweaver_summons")
+    );
+    public static final TagKey<EntityType<?>> DREAMWEAVER_END_SUMMONS = TagKey.create(
+            Registries.ENTITY_TYPE,
+            CreatureFeature.getId("dreamweaver_end_summons")
+    );
 }

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#creaturefeature:dreamweaver_end_summons",
+    "minecraft:illusioner",
+    "minecraft:vex",
+    "creaturefeature:fend",
+    "minecraft:tropical_fish",
+    "minecraft:zombie"
+  ]
+}

@@ -2,10 +2,14 @@ package net.atired.creaturefeature.entity;
 
 import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.init.CFEntityInit;
+import net.atired.creaturefeature.init.CFEntityTags;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
@@ -26,10 +30,11 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 public class DreamWeaverEntity extends Spider {
     private static final EntityDataAccessor<Float> RUPTURING= SynchedEntityData.defineId(DreamWeaverEntity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Integer> SPAWNED_ID= SynchedEntityData.defineId(DreamWeaverEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<String> SPAWNED_ID= SynchedEntityData.defineId(DreamWeaverEntity.class, EntityDataSerializers.STRING);
     public LivingEntity theSummonee = null;
     public DreamWeaverEntity(EntityType<? extends Spider> entityType, Level level) {
         super(entityType, level);
@@ -45,39 +50,23 @@ public class DreamWeaverEntity extends Spider {
         }
         super.tick();
     }
-    public LivingEntity getSpawned(int type){
-        if(type==10){
-            return new EnderMan(EntityType.ENDERMAN,level());
+    public LivingEntity getSpawned(String type){
+        Optional<Holder.Reference<EntityType<?>>> spawnKey = BuiltInRegistries.ENTITY_TYPE.getHolder(ResourceLocation.parse(type));
+        if (spawnKey.isPresent()) {
+            Entity spawned = ((EntityType<Entity>)spawnKey.get().value()).create(level());
+            if (spawned instanceof LivingEntity livingSpawned) { return livingSpawned; }
         }
-        if(type==0){
-            return new Illusioner(EntityType.ILLUSIONER,level());
-        };
-        if(type==1){
-            return new Vex(EntityType.VEX,level());
-        };
-        if(type==2){
-            return new FendEntity(CFEntityInit.FEND.get(), level());
-        };
-        if(type==3){
-            return new NoThingEntity(CFEntityInit.NOTHING.get(), level());
-        };
-        if(type==4){
-            return new TropicalFish(EntityType.TROPICAL_FISH, level());
-        };
-        if(type==6){
-            return new DreamWeaverEntity(CFEntityInit.DREAMWEAVER.get(), level());
-        };
         return new Zombie(level());
     }
     @Override
     public void load(CompoundTag compound) {
-        entityData.set(SPAWNED_ID,compound.getInt("spawned_bonus_id"));
+        entityData.set(SPAWNED_ID,compound.getString("spawned_bonus_id"));
         super.load(compound);
     }
 
     @Override
     public boolean save(CompoundTag compound) {
-        compound.putInt("spawned_bonus_id",entityData.get(SPAWNED_ID));
+        compound.putString("spawned_bonus_id",entityData.get(SPAWNED_ID));
         compound.putFloat("spider_rupturing",getRupturing());
 
         return super.save(compound);
@@ -86,13 +75,8 @@ public class DreamWeaverEntity extends Spider {
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        int spawnIdDream = random.nextInt(0,7);
-        if(Config.END_DREAMWEAVER.isTrue()){
-            spawnIdDream=6;
-            if(Math.random()>0.5)spawnIdDream=3;
-            if(Math.random()>0.5)spawnIdDream=10;
-        }
-        entityData.set(SPAWNED_ID,spawnIdDream);
+        Optional<Holder<EntityType<?>>> pickedSummon = BuiltInRegistries.ENTITY_TYPE.getRandomElementOf(Config.END_DREAMWEAVER.isTrue() ? CFEntityTags.DREAMWEAVER_END_SUMMONS : CFEntityTags.DREAMWEAVER_SUMMONS, level.getRandom());
+        entityData.set(SPAWNED_ID,pickedSummon.map(picked -> picked.getRegisteredName()).orElse(""));
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 
@@ -100,7 +84,7 @@ public class DreamWeaverEntity extends Spider {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(RUPTURING,-1.0f);
-        builder.define(SPAWNED_ID,0);
+        builder.define(SPAWNED_ID,"");
     }
     public void setRupturing(float rupturing){
         entityData.set(RUPTURING,rupturing);
@@ -113,12 +97,8 @@ public class DreamWeaverEntity extends Spider {
         boolean hasHurt = super.hurt(source, amount);
         if(getRupturing()<=-1.0f&&this.theSummonee!=null&&hasHurt&&getHealth()>0.01f&&getHealth()<getMaxHealth()*0.75f){
             setRupturing(1.0f);
-            int spawned = entityData.get(SPAWNED_ID);
+            String spawned = entityData.get(SPAWNED_ID);
             int count = 4;
-            if(spawned==0||spawned==10){count=2;}
-            if(spawned==2||spawned==5){count=3;}
-            if(spawned==4){count=12;}
-            if(spawned==6){count=1;}
             Vector3f dir2 = new Vector3f(0,0.6f,-0.6f).rotateY(getYRot()/180.0f*3.14f);
 
             for (int i = 0; i < count; i++) {
@@ -135,7 +115,7 @@ public class DreamWeaverEntity extends Spider {
                         }
                         if(mob instanceof DreamWeaverEntity entity && Math.random()>0.2){
                             entity.setRupturing(-2.0f);
-                            entity.entityData.set(SPAWNED_ID,6);
+                            entity.entityData.set(SPAWNED_ID,Holder.direct(CFEntityInit.DREAMWEAVER.get()).getRegisteredName());
                         }
                     }
                     serverLevel.addFreshEntity(this.theSummonee);
