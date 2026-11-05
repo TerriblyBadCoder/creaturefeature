@@ -33,6 +33,8 @@ public class CFItemInit {
 
     public static final DeferredItem<Item> EEPER_EGG = ITEMS.register("eeper_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.EEPER.get(),0xd1e198,0x5d9b98,new  Item.Properties()));
+    public static final DeferredItem<Item> POWDER_SKULL_EGG = ITEMS.register("powder_skull_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.POWDER_SKULL.get(),0xf5293d,0xc83c51,new  Item.Properties()));
     public static final DeferredItem<Item> BLITZ_EGG = ITEMS.register("blitz_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.BLITZ.get(),0xeec1db,0xd442dd,new  Item.Properties()));
     public static final DeferredItem<Item> MINEDFLAYER_EGG = ITEMS.register("minedflayer_spawn_egg", ()->new

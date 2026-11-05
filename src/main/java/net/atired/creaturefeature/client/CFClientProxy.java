@@ -48,6 +48,7 @@ public class CFClientProxy {
         }
     }
     private static final ResourceLocation FEND_LOCATION = CreatureFeature.getId("textures/entity/fend.png");
+    private static final ResourceLocation WRAITH_LOCATION = CreatureFeature.getId("textures/entity/wraith.png");
     public static MultiBufferSource.BufferSource FEND_SOURCE = null;
 
     public static MultiBufferSource.BufferSource getFendSource(){
@@ -57,6 +58,8 @@ public class CFClientProxy {
             SequencedMap<RenderType,ByteBufferBuilder> buffers = new Object2ObjectLinkedOpenHashMap<>();
             buffers.put(CFRenderTypes.entityFendCutout(FEND_LOCATION),
                     new ByteBufferBuilder(CFRenderTypes.entityFendCutout(FEND_LOCATION).bufferSize()));
+            buffers.put(CFRenderTypes.entityWraithCutout(FEND_LOCATION),
+                    new ByteBufferBuilder(CFRenderTypes.entityWraithCutout(FEND_LOCATION).bufferSize()));
             FEND_SOURCE=MultiBufferSource.immediateWithBuffers(buffers,new ByteBufferBuilder(256));
             return FEND_SOURCE;
         }

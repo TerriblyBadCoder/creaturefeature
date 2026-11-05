@@ -38,6 +38,10 @@ public class CFEntityInit {
             ENTITIES.register("powder_skull", () -> EntityType.Builder.of(PowderSkullEntity::new, MobCategory.MONSTER)
                     .sized(1.4f, 1.4f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("powder_skull"));
+    public static final Supplier<EntityType<WraithEntity>> WRAITH =
+            ENTITIES.register("wraith", () -> EntityType.Builder.of(WraithEntity::new, MobCategory.MONSTER)
+                    .sized(0.7f, 1.86f).eyeHeight(0.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("wraith"));
     public static Supplier<EntityType<ToadstoolEntity>> TOADSTOOL;
     static {
         TOADSTOOL=null;
@@ -145,10 +149,18 @@ public class CFEntityInit {
             ENTITIES.register("star", () -> EntityType.Builder.<StarProjEntity>of(StarProjEntity::new, MobCategory.MISC)
                     .sized(0.3f, 0.3f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("star"));
+    public static final Supplier<EntityType<LightningDelayEntity>> DELAY =
+            ENTITIES.register("delay", () -> EntityType.Builder.<LightningDelayEntity>of(LightningDelayEntity::new, MobCategory.MISC)
+                    .sized(0.1f, 0.1f).eyeHeight(0.0f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("delay"));
     public static final Supplier<EntityType<BulletEntity>> BULLET =
             ENTITIES.register("bullet", () -> EntityType.Builder.<BulletEntity>of(BulletEntity::new, MobCategory.MISC)
                     .sized(0.1f, 0.2f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
                     .build("bullet"));
+    public static final Supplier<EntityType<CollumnEntity>> COLLUMN =
+            ENTITIES.register("collumn", () -> EntityType.Builder.<CollumnEntity>of(CollumnEntity::new, MobCategory.MISC)
+                    .sized(0.5f, 0.1f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .build("collumn"));
     public static final Supplier<EntityType<KickedBlockEntity>> KICKED_BLOCK =
             ENTITIES.register("kicked_block", () -> EntityType.Builder.<KickedBlockEntity>of(KickedBlockEntity::new, MobCategory.MISC)
                     .sized(0.6f, 0.6f).eyeHeight(0.3f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
