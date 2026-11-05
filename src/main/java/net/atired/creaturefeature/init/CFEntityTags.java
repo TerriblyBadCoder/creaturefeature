@@ -19,4 +19,12 @@ public class CFEntityTags {
             Registries.ENTITY_TYPE,
             CreatureFeature.getId("dreamweaver_end_summons")
     );
+    public static final TagKey<EntityType<?>> DREAMWEAVER_LIMITED = TagKey.create(
+            Registries.ENTITY_TYPE,
+            CreatureFeature.getId("dreamweaver_summon_one")
+    );
+    public static final TagKey<EntityType<?>> DREAMWEAVER_UNLIMITED = TagKey.create(
+            Registries.ENTITY_TYPE,
+            CreatureFeature.getId("dreamweaver_summon_many")
+    );
 }

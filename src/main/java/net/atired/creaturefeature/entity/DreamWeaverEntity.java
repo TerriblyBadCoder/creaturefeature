@@ -51,10 +51,13 @@ public class DreamWeaverEntity extends Spider {
         super.tick();
     }
     public LivingEntity getSpawned(String type){
-        Optional<Holder.Reference<EntityType<?>>> spawnKey = BuiltInRegistries.ENTITY_TYPE.getHolder(ResourceLocation.parse(type));
-        if (spawnKey.isPresent()) {
-            Entity spawned = ((EntityType<Entity>)spawnKey.get().value()).create(level());
-            if (spawned instanceof LivingEntity livingSpawned) { return livingSpawned; }
+        ResourceLocation spawnId = ResourceLocation.tryParse(type);
+        if (spawnId != null) {
+            Optional<Holder.Reference<EntityType<?>>> spawnKey = BuiltInRegistries.ENTITY_TYPE.getHolder(spawnId);
+            if (spawnKey.isPresent()) {
+                Entity spawned = ((EntityType<Entity>)spawnKey.get().value()).create(level());
+                if (spawned instanceof LivingEntity livingSpawned) { return livingSpawned; }
+            }
         }
         return new Zombie(level());
     }
@@ -98,10 +101,11 @@ public class DreamWeaverEntity extends Spider {
         if(getRupturing()<=-1.0f&&this.theSummonee!=null&&hasHurt&&getHealth()>0.01f&&getHealth()<getMaxHealth()*0.75f){
             setRupturing(1.0f);
             String spawned = entityData.get(SPAWNED_ID);
-            int count = 4;
+            int maxCount = 5;
+            float spentHealth = 45;
             Vector3f dir2 = new Vector3f(0,0.6f,-0.6f).rotateY(getYRot()/180.0f*3.14f);
 
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < maxCount && spentHealth > 0; i++) {
                 this.theSummonee.setPos(position().add(new Vec3(dir2).multiply(3,1,3)));
                 Vec3 dir = new Vec3(1,0,0).scale(0.5f+Math.random()/2.0f).yRot((float)Math.random()*3.14f*4.0f);
                 this.theSummonee.setDeltaMovement(dir2.x,dir2.y+Math.random()*0.2f,dir2.z);
@@ -110,15 +114,22 @@ public class DreamWeaverEntity extends Spider {
                     if(this.theSummonee instanceof Mob mob){
                         mob.setTarget(getTarget());
                         mob.finalizeSpawn(serverLevel,this.level().getCurrentDifficultyAt(this.blockPosition()), MobSpawnType.SPAWNER, (SpawnGroupData)null);
-                        if(mob instanceof MagmaCube magmaCube){
-                            magmaCube.setSize(1,true);
+                        if(mob instanceof Slime slimeBased){
+                            slimeBased.setSize(1,true);
                         }
                         if(mob instanceof DreamWeaverEntity entity && Math.random()>0.2){
                             entity.setRupturing(-2.0f);
-                            entity.entityData.set(SPAWNED_ID,Holder.direct(CFEntityInit.DREAMWEAVER.get()).getRegisteredName());
+                            entity.entityData.set(SPAWNED_ID,BuiltInRegistries.ENTITY_TYPE.getKey(CFEntityInit.DREAMWEAVER.get()).toString());
                         }
                     }
+                    if (this.theSummonee.getType().is(CFEntityTags.DREAMWEAVER_UNLIMITED)){
+                        maxCount = 12;
+                    }
+                    if (this.theSummonee.getType().is(CFEntityTags.DREAMWEAVER_LIMITED)){
+                        maxCount = 0;
+                    }
                     serverLevel.addFreshEntity(this.theSummonee);
+                    spentHealth -= this.theSummonee.getMaxHealth();
                 }
                 this.theSummonee=getSpawned(spawned);
             }
