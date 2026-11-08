@@ -12,6 +12,7 @@ import net.atired.creaturefeature.init.*;
 import net.atired.creaturefeature.client.renderers.*;
 import net.atired.creaturefeature.client.renderers.models.*;
 import net.atired.creaturefeature.items.DreamCatcherContents;
+import net.atired.creaturefeature.misc.CFsimplexNoise;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -234,6 +235,14 @@ public class CreatureFeatureClient {
     }
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((blockState, blockAndTintGetter, blockPos, tintIndex) -> {
+            if(blockPos!=null){
+                float minimal = Math.min(1.0f,1.0f- Math.abs(CFsimplexNoise.sampleNoise3D(blockPos.getX(),blockPos.getY()*0.5f,blockPos.getZ(),6.0f)/2.0f)+Mth.sin(blockPos.getY()/1.2f)/16.0f);
+                int a = (int)(minimal*255);
+                return new Color(a,a,a,255).getRGB();
+            }
+            return 0xFFFFFFFF;
+        }, CFBlockInit.OBELISK.get());
         event.register((blockState, blockAndTintGetter, blockPos, tintIndex) -> {
 
             if(blockPos==null){
@@ -615,6 +624,7 @@ public class CreatureFeatureClient {
         event.registerLayerDefinition(MockingBirdEntityModel.LAYER_LOCATION, MockingBirdEntityModel::createBodyLayer);
         event.registerLayerDefinition(PathogenEntityModel.LAYER_LOCATION, PathogenEntityModel::createBodyLayer);
         event.registerLayerDefinition(BlossomEntityModel.LAYER_LOCATION, BlossomEntityModel::createBodyLayer);
+        event.registerLayerDefinition(HenchEntityModel.LAYER_LOCATION, HenchEntityModel::createBodyLayer);
         event.registerLayerDefinition(SaintSolisEntityModel.LAYER_LOCATION, SaintSolisEntityModel::createBodyLayer);
         event.registerLayerDefinition(DetritusEntityModel.LAYER_LOCATION, DetritusEntityModel::createBodyLayer);
         event.registerLayerDefinition(TrichaelEntityModel.LAYER_LOCATION, TrichaelEntityModel::createBodyLayer);
@@ -658,6 +668,7 @@ public class CreatureFeatureClient {
         event.registerEntityRenderer(CFEntityInit.STAINED_GLASS.get(), StainedGlassEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FISHEYE.get(), FishEyeEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.WRAITH.get(), WraithEntityRenderer::new);
+        event.registerEntityRenderer(CFEntityInit.HENCH.get(), HenchEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.FEND.get(), FendEntityRenderer::new);
         event.registerEntityRenderer(CFEntityInit.EEP.get(), EepEntityRenderer::new);

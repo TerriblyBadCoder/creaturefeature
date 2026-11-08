@@ -73,6 +73,10 @@ public class CFEntityInit {
             ENTITIES.register("trichael", () -> EntityType.Builder.of(TrichaelEntity::new, MobCategory.MONSTER)
                     .sized(EntityType.SKELETON.getWidth(), EntityType.SKELETON.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
                     .build("trichael"));
+    public static final Supplier<EntityType<HenchEntity>> HENCH =
+            ENTITIES.register("hench", () -> EntityType.Builder.of(HenchEntity::new, MobCategory.MONSTER)
+                    .sized(EntityType.SKELETON.getWidth(), EntityType.SKELETON.getHeight()).eyeHeight(1.78F).passengerAttachments(2.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
+                    .build("hench"));
     public static final Supplier<EntityType<StainedGlassEntity>> STAINED_GLASS =
             ENTITIES.register("stained_glass", () -> EntityType.Builder.of(StainedGlassEntity::new, MobCategory.MONSTER)
                     .sized(1.1f, 1.1f).eyeHeight(0.48F).passengerAttachments(1.0125F).ridingOffset(-0.7F).clientTrackingRange(12)
@@ -159,7 +163,7 @@ public class CFEntityInit {
                     .build("bullet"));
     public static final Supplier<EntityType<CollumnEntity>> COLLUMN =
             ENTITIES.register("collumn", () -> EntityType.Builder.<CollumnEntity>of(CollumnEntity::new, MobCategory.MISC)
-                    .sized(0.5f, 0.1f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(12)
+                    .sized(0.5f, 0.1f).eyeHeight(0.2f).passengerAttachments(0.3125F).ridingOffset(-0.1F).clientTrackingRange(48)
                     .build("collumn"));
     public static final Supplier<EntityType<KickedBlockEntity>> KICKED_BLOCK =
             ENTITIES.register("kicked_block", () -> EntityType.Builder.<KickedBlockEntity>of(KickedBlockEntity::new, MobCategory.MISC)

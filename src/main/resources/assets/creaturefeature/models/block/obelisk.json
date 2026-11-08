@@ -1,6 +1,14 @@
 {
-  "parent": "minecraft:block/template_single_face",
   "textures": {
-    "texture": "creaturefeature:block/obelisk_outside"
-  }
+    "texture": "creaturefeature:block/obelisk_outside",
+    "particle": "creaturefeature:block/obelisk_outside"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 0 ],
+      "faces": {
+        "north": { "texture": "#texture","tintindex": 0, "cullface":"north" }
+      }
+    }
+  ]
 }

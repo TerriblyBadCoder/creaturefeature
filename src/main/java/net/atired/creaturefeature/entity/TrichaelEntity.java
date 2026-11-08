@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.init.CFEntityInit;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -27,21 +28,63 @@ public class TrichaelEntity extends Monster {
     public TrichaelEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
     }
+    public void dance(Vec3 dir,ServerLevel serverLevel){
+        double randumb = Math.random();
+        if(randumb>0.6){
+            for (int i = 0; i < 3; i++) {
+                HenchEntity henchEntity = new HenchEntity(CFEntityInit.HENCH.get(), serverLevel);
+                henchEntity.setPos(getPosition(1).add(dir.yRot(-1.57f).scale(i-1).scale(1.5)));
+                henchEntity.dir=dir;
+                henchEntity.tickCount=this.random.nextInt(0,7);
+                serverLevel.addFreshEntity(henchEntity);
+            }
+        } else if (randumb>0.3f) {
+            for (int i = 0; i < 3; i++) {
+                HenchEntity henchEntity = new HenchEntity(CFEntityInit.HENCH.get(), serverLevel);
+                henchEntity.setPos(getPosition(1).add(dir.yRot(-1.57f).scale(i-1).scale(0.5)));
+                henchEntity.dir=dir.yRot((i-1)*-0.4f);
+                henchEntity.tickCount=this.random.nextInt(0,7);
 
+                serverLevel.addFreshEntity(henchEntity);
+            }
+        } else if (randumb>0.1f) {
+            for (int i = 0; i < 3; i++) {
+                HenchEntity henchEntity = new HenchEntity(CFEntityInit.HENCH.get(), serverLevel);
+                henchEntity.setPos(getPosition(1).add(dir.yRot(-1.57f).scale(i-1).scale(1.7)));
+                henchEntity.dir=dir;
+                henchEntity.tickCount=25;
+                henchEntity.setTarget(getTarget());
+                serverLevel.addFreshEntity(henchEntity);
+                henchEntity.setDeltaMovement(dir.add(0,0.4,0));
+            }
+        } else {
+            for (int i = 0; i < 4; i++) {
+                HenchEntity henchEntity = new HenchEntity(CFEntityInit.HENCH.get(), serverLevel);
+                henchEntity.setPos(getPosition(1).add(dir.yRot(i*1.57f).scale(0.7)));
+                henchEntity.dir=dir.yRot(i*1.57f);
+                henchEntity.tickCount=this.random.nextInt(0,7);
+
+                serverLevel.addFreshEntity(henchEntity);
+            }
+        }
+    }
     @Override
     public void tick() {
 
-        if(getTarget()!=null){
+        if(level() instanceof ServerLevel serverLevel&&getTarget()!=null){
             this.danceDelay-=1;
             if(this.danceDelay<=0){
                 setDancing(1.0f);
                 this.danceAmount-=1;
                 this.danceDelay=15;
-                this.danceAway=getPosition(1).subtract(getTarget().getPosition(1)).multiply(1,0,1).normalize().scale(-1).yRot(((float)Math.random()-0.5f)*2.0f);
+                Vec3 dir = getPosition(1).subtract(getTarget().getPosition(1)).multiply(1,0,1).normalize().scale(-1);
+                this.danceAway=dir.yRot(((float)Math.random()-0.5f)*2.0f);
+
                 if(this.getPosition(1).distanceTo(getTarget().getPosition(1))<4){
                     this.danceAway=this.danceAway.scale(-0.7);
                 }
                 if(this.danceAmount<=0){
+                    this.dance(dir,serverLevel);
                     this.danceDelay=50;
                     this.danceAmount=5;
                 }

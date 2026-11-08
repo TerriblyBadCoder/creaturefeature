@@ -62,7 +62,7 @@ public class CFBlockInit {
     public static final DeferredBlock<Block> FIENDISH_TILES = registerBlock("fiendish_tiles",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
     public static final DeferredBlock<Block> OBELISK = registerBlock("obelisk",
-            () -> new MonolithBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERRACK)));
+            () -> new MonolithBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERRACK).randomTicks()));
     public static final DeferredBlock<Block> BLIND_FIENDISH_TILES = registerBlock("blind_fiendish_tiles",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
     public static final DeferredBlock<Block> MURKY_PEARL_TILES = registerBlock("murky_pearl_tiles",
