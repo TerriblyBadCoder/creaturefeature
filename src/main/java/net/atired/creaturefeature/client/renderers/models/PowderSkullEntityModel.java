@@ -53,11 +53,18 @@ public class PowderSkullEntityModel<T extends PowderSkullEntity> extends Hierarc
 
 		float multiplied = Math.min(1.0f,entity.tickCount/30.0f);
 		multiplied= Mth.sin(multiplied*3.14f*2.0f)/5.0f;
+		float sin = Mth.sin(entity.getCharging()*3.14f);
 		this.head.xRot=headPitch/180.0f*3.14f;
-		this.skull.yRot=netHeadYaw/180.0f*3.14f+Mth.sin(ageInTicks/8.0f)/12.0f;
+		this.jaw.y=-2.4f-sin*4.0f;
+		this.skull.y=-1.45f-sin*6.0f;
+
+		this.head.z=0.4f-sin*8.0f;
+		this.skull.xRot=-sin*0.6f*(1.0f+Mth.sin(ageInTicks)/24.0f);
+		this.skull.yRot=netHeadYaw/180.0f*3.14f+Mth.sin(ageInTicks/8.0f)/12.0f+sin*0.2f*(Mth.cos(ageInTicks)/6.0f);
 		this.jaw.yRot=-Mth.sin(ageInTicks/8.0f)/12.0f;
 		this.jaw.zRot=-Mth.cos(ageInTicks/8.0f)/12.0f+multiplied;
-		this.skull.zRot=Mth.cos(ageInTicks/8.0f)/12.0f-multiplied;
+		this.jaw.xRot=sin/1.6f;
+		this.skull.zRot=Mth.cos(ageInTicks/8.0f)/12.0f+sin*0.2f*(Mth.sin(ageInTicks)/6.0f)-multiplied;
 	}
 
 	@Override

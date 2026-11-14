@@ -2,10 +2,16 @@ package net.atired.creaturefeature.entity;
 
 import net.atired.creaturefeature.init.CFParticleInit;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -21,9 +27,36 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 
 public class PowderSkullEntity extends Monster {
+    public int delay = 40;
+    private static final EntityDataAccessor<Float> CHARGING = SynchedEntityData.defineId(PowderSkullEntity.class, EntityDataSerializers.FLOAT);
+
     public PowderSkullEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
         this.moveControl=new PowderSkullMoveControl(this);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(CHARGING,0.0f);
+        super.defineSynchedData(builder);
+    }
+    public void setCharging(float mirrorBounce) {
+        entityData.set(CHARGING,mirrorBounce);
+    }
+    public float getCharging() {
+        return entityData.get(CHARGING);
+    }
+
+    @Override
+    public void push(Entity entity) {
+        if(entity instanceof LivingEntity living){
+            Vec3 dist = entity.getPosition(1).subtract(getPosition(1)).multiply(1,0,1).normalize().yRot((float)Math.random()-0.5f);
+            living.knockback(0.1+getCharging()*1.3,-dist.x,-dist.z);
+            if(getCharging()>0.35){
+                living.hurt(damageSources().mobAttack(this),2);
+            }
+        }
+        super.push(entity);
     }
 
     @Override
@@ -32,6 +65,21 @@ public class PowderSkullEntity extends Monster {
             for (int i = 0; i < 2; i++) {
                 Vec3 dir = getViewVector(1).scale(-1).multiply(1,0,1).normalize().scale(1.5);
                 level().addParticle(CFParticleInit.RED_POWDER_PARTICLE.get(),dir.x*0.6f+getX((Math.random()-0.5)*0.7f),getY(Math.random()*0.7f+0.1),dir.z*0.6f+getZ((Math.random()-0.5)*0.7f),dir.x,0,dir.z);
+            }
+        }
+
+        if(level() instanceof ServerLevel serverLevel){
+            this.setCharging(this.getCharging()*0.92f);
+        }
+        if(getTarget()!=null){
+            this.delay-=1;
+            if(this.delay<0){
+                this.delay=40;
+                this.setCharging(1.0f);
+                double dist = getPosition(1).add(0,0.5,0).distanceTo(getTarget().getPosition(1).add(0,getTarget().getBbHeight()/2.0,0));
+                dist=Math.max(dist-1,0);
+                dist= Math.pow(dist,0.5);
+                this.addDeltaMovement(getViewVector(1).scale(0.3).scale(dist));
             }
         }
         this.noPhysics=true;
@@ -43,23 +91,22 @@ public class PowderSkullEntity extends Monster {
         return 0.24f;
     }
     public static AttributeSupplier.Builder createPowderSkullAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 40.0).add(Attributes.MOVEMENT_SPEED, 0.26).add(Attributes.MAX_HEALTH,16.0);
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 40.0).add(Attributes.MOVEMENT_SPEED, 0.26).add(Attributes.MAX_HEALTH,8.0);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1,new RandomFloatAroundGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, false));
         super.registerGoals();
     }
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-    }
 
     @Override
     protected double getDefaultGravity() {
+        if(getTarget()==null){
+            return  0.002f;
+        }
         return 0.0f;
     }
     static class RandomFloatAroundGoal extends Goal {

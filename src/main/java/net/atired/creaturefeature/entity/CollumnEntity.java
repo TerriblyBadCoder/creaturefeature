@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.DragonFireball;
 import net.minecraft.world.level.ClipContext;
@@ -63,9 +64,9 @@ public class CollumnEntity extends Entity {
                 serverLevel.addFreshEntity(collumnEntity);
             }
         }
-        if(this.tickCount==4&&level() instanceof ServerLevel serverLevel){
+        if(this.tickCount>=4&&this.tickCount<12&&level() instanceof ServerLevel serverLevel){
             for (LivingEntity livingEntity : serverLevel.getEntitiesOfClass(LivingEntity.class,getBoundingBox().inflate(0.5,4,0.5).move(0.0,1.9,0.0))){
-                if(livingEntity.hurt(this.damageSources().flyIntoWall(),4)){
+                if(livingEntity.hurt(this.damageSources().flyIntoWall(),livingEntity instanceof Monster ? 0.2f : 4.0f)){
                     Vec3 thrown = new Vec3(0,0.3,0).add(dir.yRot(Math.random()>0.5f?-1.57f:1.57f));
                     livingEntity.setDeltaMovement(thrown);
                     if(livingEntity instanceof ServerPlayer player){

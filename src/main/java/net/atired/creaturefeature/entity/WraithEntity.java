@@ -29,6 +29,7 @@ public class WraithEntity extends Monster {
     private static final EntityDataAccessor<Float> SWING= SynchedEntityData.defineId(WraithEntity.class, EntityDataSerializers.FLOAT);
     public Vec3 storedMovement = new Vec3(0,0,0);
     private int attackCount = 1;
+    public int delay = 0;
     public WraithEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
     }
@@ -37,12 +38,18 @@ public class WraithEntity extends Monster {
     public void tick() {
 
         if(level() instanceof ServerLevel serverLevel){
-            setSwing(getSwing()*0.8f);
+            setSwing(getSwing()*0.87f);
+            if(this.delay>0){
+                this.moveControl.strafe(-4,0);
+                this.storedMovement=this.storedMovement.scale(0.2);
+                this.delay-=1;
+            }
             if(this.tickCount%53>35){
                 this.getNavigation().stop();
                 if(this.tickCount%53==36){
                     if(getTarget()!=null&&getTarget().getPosition(1).distanceTo(getPosition(1))>1.2&&Math.random()>0.1&&this.attackCount<=0){
                         this.attackCount=2;
+                        this.delay=70;
                         LightningDelayEntity entity = new LightningDelayEntity(CFEntityInit.DELAY.get(), serverLevel);
                         setSwing(1.0f);
                         Vec3 pos = getTarget().getPosition(1);
@@ -72,12 +79,14 @@ public class WraithEntity extends Monster {
 
             }
             else{
-                this.storedMovement=this.storedMovement.lerp(getDeltaMovement(),0.5);
-                this.setDeltaMovement(this.getDeltaMovement().multiply(1.05,1.01,1.05).add(this.storedMovement.scale(0.21).multiply(1,0.01,1)));
+                if(this.delay<=0){
+                    this.storedMovement=this.storedMovement.lerp(getDeltaMovement(),0.5);
+                    this.setDeltaMovement(this.getDeltaMovement().multiply(1.05,1.01,1.05).add(this.storedMovement.scale(0.21).multiply(1,0.01,1)));
 
-                if(this.tickCount%4==0&&getTarget()!=null){
-                    this.getNavigation().moveTo(getTarget(),1.0f);
-                    this.addDeltaMovement(getViewVector(1).multiply(1,0,1).scale(0.2).yRot((float)(Math.random()-0.5)*1.0f*1.57f));
+                    if(this.tickCount%4==0&&getTarget()!=null){
+                        this.getNavigation().moveTo(getTarget(),1.0f);
+                        this.addDeltaMovement(getViewVector(1).multiply(1,0,1).scale(0.2).yRot((float)(Math.random()-0.5)*1.0f*1.57f));
+                    }
                 }
                 this.entityData.set(DRIFT,Mth.clamp((float)Mth.lerp(0.23f,getDrift(),Math.min(2.0f,this.getDeltaMovement().multiply(1,0,1).length()*20.4f-0.3)),0.0f,1.0f));
 
@@ -128,6 +137,6 @@ public class WraithEntity extends Monster {
 
     @Override
     public float getSpeed() {
-        return super.getSpeed()*1.0f;
+        return super.getSpeed()*1.0f*(Math.max(0.0f,1.0f-getSwing()*12.0f));
     }
 }

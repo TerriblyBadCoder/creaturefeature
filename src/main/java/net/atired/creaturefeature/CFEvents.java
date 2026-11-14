@@ -7,11 +7,15 @@ import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFItemInit;
 import net.atired.creaturefeature.misc.SableCarrier;
 import net.atired.creaturefeature.networking.payloads.*;
+import net.atired.creaturefeature.worldgen.CFDatapackProvider;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.InstrumentTags;
@@ -31,6 +35,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
@@ -41,6 +47,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
+import java.util.concurrent.CompletableFuture;
+
 @EventBusSubscriber(modid = CreatureFeature.MODID)
 public class CFEvents {
 
@@ -49,6 +57,14 @@ public class CFEvents {
         if (event.getItemStack().is(CFItemInit.SOLAR_SHARD.get())) {
             event.setBurnTime(1600*8);
         }
+    }
+    @SubscribeEvent
+    public static void gatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        PackOutput packOutput = generator.getPackOutput();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        generator.addProvider(true, new CFDatapackProvider(packOutput, lookupProvider));
     }
     @SubscribeEvent // on the mod event bus
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
@@ -247,6 +263,8 @@ public class CFEvents {
         event.register(CFEntityInit.COATOFARMS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CoatOfArmsEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.STAINED_GLASS.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ((entityType, serverLevelAccessor, mobSpawnType, blockPos, randomSource) -> {return Monster.isDarkEnoughToSpawn(serverLevelAccessor, blockPos, randomSource)&&blockPos.getY()>0&&Math.random()>0.4&&serverLevelAccessor.getHeight(Heightmap.Types.MOTION_BLOCKING,blockPos.getX(),blockPos.getZ())+6>blockPos.getY();}), RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.MOCKINGBIRD.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MockingBirdEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+
+        event.register(CFEntityInit.FISHEYE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FishEyeEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
     }
     @SubscribeEvent

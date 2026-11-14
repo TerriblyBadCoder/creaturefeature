@@ -32,9 +32,9 @@ public class MonolithBlock  extends HugeMushroomBlock {
 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if(level.getBlockState(pos.below()).getBlock()!=this){
+        if(level.getBlockState(pos.below()).getBlock()!=this&&Math.random()>0.6){
             Vec3 posCenter = pos.getCenter();
-            Player player = level.getNearestPlayer(posCenter.x,posCenter.y,posCenter.z,20,false);
+            Player player = level.getNearestPlayer(posCenter.x,posCenter.y,posCenter.z,60,false);
             CollumnEntity collumnEntity = new CollumnEntity(CFEntityInit.COLLUMN.get(),level);
             collumnEntity.setPos(posCenter);
             if(player!=null){

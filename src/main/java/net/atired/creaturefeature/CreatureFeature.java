@@ -52,6 +52,7 @@ public class CreatureFeature {
         CFMobEffectInit.MOB_EFFECTS.register(modEventBus);
         CFDataComponentTypeInit.DATA_COMPONENT_TYPES.register(modEventBus);
         CFItemInit.ITEMS.register(modEventBus);
+        CFFeatures.FEATURES.register(modEventBus);
         CFBlockInit.BLOCKS.register(modEventBus);
         CFBlockEntityInit.BLOCK_ENTITY_TYPES.register(modEventBus);
 

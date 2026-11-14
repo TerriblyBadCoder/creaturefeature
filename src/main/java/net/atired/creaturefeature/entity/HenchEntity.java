@@ -61,6 +61,11 @@ public class HenchEntity extends Monster {
     }
 
     @Override
+    protected int getBaseExperienceReward() {
+        return super.getBaseExperienceReward()/3;
+    }
+
+    @Override
     public float getSpeed() {
         return super.getSpeed()*(2.0f-Math.abs(Mth.sin(getId()/16.0f)));
     }

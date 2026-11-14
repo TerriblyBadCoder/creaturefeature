@@ -98,7 +98,8 @@ public class StainedGlassEntity extends Monster {
             setReturning(getReturning()-0.05f);
             serverLevel.sendParticles(CFParticleInit.GLASS_SHARD_PARTICLE.get(),getX(),getY()+0.3,getZ(),1,0.1,0.1,0.1,0.1);
             serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.TINTED_GLASS.defaultBlockState()),getX(),getY()+0.3,getZ(),3,0.1,0.1,0.1,0.1);
-            setDeltaMovement(getDeltaMovement().scale(1.01));
+            setDeltaMovement(getDeltaMovement().scale(0.61));
+            addDeltaMovement(new Vec3(0,-0.12,0));
         }
         if(this.chargeCD>0){
             this.chargeCD-=1;
@@ -157,7 +158,7 @@ public class StainedGlassEntity extends Monster {
             RandomSource randomsource = this.glass.getRandom();
             if(this.glass.getTarget()!=null&&this.glass.floatingUp<0&&this.glass.getTarget().getY()-this.glass.getY()>-1.2f&&this.glass.distanceTo(this.glass.getTarget())>5&&this.glass.chargeCD<=0){
                 this.glass.floatingUp=-1;
-                this.glass.moveControl.setWantedPosition(this.glass.getX(),this.glass.getY()+1.6,this.glass.getZ(),0.3f);
+                this.glass.moveControl.setWantedPosition(this.glass.getX(),this.glass.getY()+0.6,this.glass.getZ(),0.2f);
             }else if(this.glass.getTarget()!=null&&this.glass.chargeCD<=0&&this.glass.floatingUp<0&&this.glass.getTarget().getY()-this.glass.getY()<=-1.2f){
                 this.glass.floatingUp=0;
                 this.glass.chargeCD=20;
@@ -182,7 +183,7 @@ public class StainedGlassEntity extends Monster {
         if(this.getDeltaMovement().length()<0.12){
             return super.getAttackBoundingBox();
         }
-        return super.getAttackBoundingBox().inflate(.3).inflate(getDeltaMovement().x,getDeltaMovement().y,getDeltaMovement().z);
+        return super.getAttackBoundingBox().inflate(.2);
     }
 
     @Override
@@ -208,6 +209,7 @@ public class StainedGlassEntity extends Monster {
     static class StainedGlassMoveControl extends MoveControl {
         private final StainedGlassEntity glass;
         private int collisionCheckCooldown;
+        private float actuallyHitting = 0.0f;
 
         public StainedGlassMoveControl(StainedGlassEntity mosqo) {
             super(mosqo);
@@ -215,6 +217,7 @@ public class StainedGlassEntity extends Monster {
         }
 
         public void tick() {
+            this.actuallyHitting*=0.9f;
             if(this.glass.getReturning()>0.01)return;
             MoveControl moveControl = this.glass.getMoveControl();
             LivingEntity i = this.glass.getTarget();
@@ -230,7 +233,20 @@ public class StainedGlassEntity extends Monster {
                     double d = vec3.length();
                     vec3 = vec3.normalize();
                     if(i!=null&&this.glass.floatingUp==0&&this.glass.getReturning()<0.01){
-                        this.glass.addDeltaMovement(new Vec3(0,-0.01,0));
+
+                        float dist =  ((float)Math.pow(this.glass.getPosition(1).distanceTo(i.getPosition(1)),2.0)/3.0f);
+                        float dist2 = Math.clamp(dist-16,1,6.2f);
+                        if(dist<120){
+                            if(this.glass.getDeltaMovement().multiply(1,0,1).length()<0.1){
+                                dist2*=1.14f;
+                            }
+                            vec3=vec3.yRot(this.mob.getId()%2==0?-0.21f*dist2:0.21f*dist2);
+                            if(dist2>1.1){
+                                this.glass.setDeltaMovement(this.glass.getDeltaMovement().scale(0.7));
+                            }
+                            this.actuallyHitting+=1.0f;
+                            vec3=vec3.multiply(1,0,1).normalize().scale(vec3.length()).add(0,vec3.y,0);
+                        }
                         Vec3 dir = new Vec3(this.wantedX,this.wantedY,this.wantedZ).lerp(i.position().add(0,1,0).subtract(glass.position()).normalize().scale(11).add(this.glass.position()),0.2);
                         this.glass.moveControl.setWantedPosition(
                                 dir.x,dir.y,dir.z,0.7f);
@@ -241,7 +257,7 @@ public class StainedGlassEntity extends Monster {
                     if (this.willCollide(vec3, Mth.ceil(d))) {
                         bounce(i);
                         if(this.glass.chargeCD<15){
-                            this.glass.setDeltaMovement(this.glass.getDeltaMovement().scale(0.52).add(vec3.scale(this.speedModifier)));
+                            this.glass.setDeltaMovement(this.glass.getDeltaMovement().scale(0.62).add(vec3.scale(this.speedModifier*0.9)));
                         }
                     } else {
 
@@ -255,7 +271,7 @@ public class StainedGlassEntity extends Monster {
             }
         }
         private boolean bounce(LivingEntity i){
-            if(i!=null&&this.glass.getReturning()<0.01&&i.hurtTime<=0&&this.glass.isWithinMeleeAttackRange(i)){
+            if(i!=null&&this.glass.getReturning()<0.01&&i.hurtTime<=0&&this.glass.isWithinMeleeAttackRange(i)&&this.actuallyHitting>5.0f){
                 Vec3 dir = this.glass.getLookAngle().multiply(1,0,1).normalize().add(0,0.4,0).scale(0.5);
                 i.addDeltaMovement(dir);
                 i.hurtDuration=0;
