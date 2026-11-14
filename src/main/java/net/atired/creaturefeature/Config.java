@@ -22,6 +22,7 @@ public class Config {
     public static final ModConfigSpec.BooleanValue REMODEL_FRIEND;
     public static final ModConfigSpec.BooleanValue REMODEL_MB;
     public static final ModConfigSpec.BooleanValue FIX_SAS;
+    public static final ModConfigSpec.BooleanValue DISABLE_FRIEND_GLOW;
     public static final ModConfigSpec.BooleanValue END_DREAMWEAVER;
     public static final ModConfigSpec.BooleanValue PATHOGEN;
     public static final ModConfigSpec.BooleanValue SAINT;
@@ -38,6 +39,9 @@ public class Config {
         FIX_SAS = builder
                 .comment("Remove postprocessing from the bear (in case of broken depth).")
                 .define("fixsas", false);
+        DISABLE_FRIEND_GLOW = builder
+                .comment("Turn off Friend's screen-wide glow effect.")
+                .define("disablefriendglow", false);
 
         SPEC = builder.build();
         builder = new ModConfigSpec.Builder();
