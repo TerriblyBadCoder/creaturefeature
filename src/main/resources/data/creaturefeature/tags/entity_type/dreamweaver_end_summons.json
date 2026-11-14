@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:enderman",
+    "creaturefeature:dreamweaver",
+    "creaturefeature:nothing"
+  ]
+}

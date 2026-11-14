@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.init.CFAchievements;
 import net.atired.creaturefeature.init.CFParticleInit;
 import net.atired.creaturefeature.init.CFSoundInit;
@@ -75,7 +76,7 @@ public class SinisterEntity extends Monster {
     }
 
     public static boolean checkSinisterSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random){
-        return  checkMonsterSpawnRules(type, level, spawnType, pos, random)&&pos.getY()<-1;
+        return checkMonsterSpawnRules(type, level, spawnType, pos, random) && (Config.SURFACE_SINISTER.isTrue() || pos.getY()<-1);
     }
 
     @Override

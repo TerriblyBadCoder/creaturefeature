@@ -1,5 +1,6 @@
 package net.atired.creaturefeature;
 
+import net.atired.creaturefeature.Config;
 import net.atired.creaturefeature.accessors.LivingEntityGoopAccessor;
 import net.atired.creaturefeature.entity.*;
 import net.atired.creaturefeature.init.CFBlockInit;
@@ -34,6 +35,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -218,6 +220,12 @@ public class CFEvents {
         }
     }
     @SubscribeEvent
+    public static void allowFends(MobSpawnEvent.SpawnPlacementCheck event) {
+        if (event.getEntityType() == CFEntityInit.FEND.get()) {
+            event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.SUCCEED);
+        }
+    }
+    @SubscribeEvent
     public static void spawnPlacements(RegisterSpawnPlacementsEvent event) {
         event.register(CFEntityInit.EEPER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.NOTHING.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
@@ -236,7 +244,7 @@ public class CFEvents {
 
         event.register(CFEntityInit.FIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FiendEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.FRIEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FriendEntity::checkFriendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
-        event.register(CFEntityInit.FEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FendEntity::checkFendSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.FEND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FendEntity::checkFendSpawnRules, Config.DAYLIGHT_FEND.isTrue() ? RegisterSpawnPlacementsEvent.Operation.REPLACE : RegisterSpawnPlacementsEvent.Operation.AND);
 
         if(ModList.get().isLoaded("sable")){
             SableCarrier.initspawn(event);
