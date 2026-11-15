@@ -99,11 +99,11 @@ public class CollumnEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
-
+        this.count=0;
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compoundTag) {
-
+        compoundTag.putInt("pillar_count",0);
     }
 }

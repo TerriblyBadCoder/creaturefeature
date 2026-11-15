@@ -5,6 +5,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -68,6 +71,17 @@ public class TrichaelEntity extends Monster {
             }
         }
     }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.STRAY_DEATH;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return SoundEvents.STRAY_HURT;
+    }
+
     @Override
     public void tick() {
 
@@ -118,7 +132,7 @@ public class TrichaelEntity extends Monster {
         super.registerGoals();
     }
     public static AttributeSupplier.Builder createTrichaelAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 30.0).add(Attributes.ATTACK_DAMAGE,0.2f).add(Attributes.MOVEMENT_SPEED, 0.13).add(Attributes.MAX_HEALTH,25.0);
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 30.0).add(Attributes.ATTACK_DAMAGE,0.2f).add(Attributes.MOVEMENT_SPEED, 0.13).add(Attributes.MAX_HEALTH,20.0);
     }
 
     @Override

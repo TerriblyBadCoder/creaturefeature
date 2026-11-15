@@ -12,7 +12,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.HugeMushroomBlock;
+import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.Vec3;
 
 public class MonolithBlock  extends HugeMushroomBlock {
@@ -28,6 +30,17 @@ public class MonolithBlock  extends HugeMushroomBlock {
     @Override
     protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        for (Direction dir : Direction.values()){
+            if(!level.getBlockState(pos.offset(dir.getNormal())).isEmpty()){
+                state=state.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(dir), false);
+            }
+            level.setBlock(pos,state,2);
+        }
+        super.tick(state, level, pos, random);
     }
 
     @Override

@@ -6,7 +6,7 @@
       "item": "minecraft:paper"
     },
     "A": {
-      "item": "creaturefeature:ectoplasm"
+      "tag": "creaturefeature:ghostly"
     },
     "M": {
       "item": "minecraft:pink_dye"

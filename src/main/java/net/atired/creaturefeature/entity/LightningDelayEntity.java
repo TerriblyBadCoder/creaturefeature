@@ -7,7 +7,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class LightningDelayEntity extends Entity {
     public int delay = 24;
@@ -17,13 +20,24 @@ public class LightningDelayEntity extends Entity {
 
     @Override
     public void tick() {
-        this.setPos(getPosition(0).add(getDeltaMovement()));
-        setDeltaMovement(getDeltaMovement().scale(0.81));
-        if(this.tickCount<40){
-            for (int i = 0; i < 3; i++) {
-                level().addParticle(ParticleTypes.RAIN,getX((Math.random()-0.5)*20.0f),getY()+0.04f+Math.random()*1.4f,getZ((Math.random()-0.5)*20.0f),0,0.01,0);
+        if(level()!=null){
+            Vec3 fromPos = getPosition(1).add(getDeltaMovement());
+            BlockHitResult result = level().clip(new ClipContext(
+                    fromPos.add(0,1.7,0),
+                    fromPos.add(new Vec3(0,-1.7,0)),
+                    ClipContext.Block.COLLIDER,
+                    ClipContext.Fluid.NONE,
+                    this));
+            this.setPos(result.getLocation());
+
+            setDeltaMovement(getDeltaMovement().scale(0.81));
+            if(this.tickCount<40){
+                for (int i = 0; i < 3; i++) {
+                    level().addParticle(ParticleTypes.RAIN,getX((Math.random()-0.5)*20.0f),getY()+0.04f+Math.random()*1.4f,getZ((Math.random()-0.5)*20.0f),0,0.01,0);
+                }
             }
         }
+
         if(level() instanceof ServerLevel serverLevel&&this.tickCount>42){
             LightningBolt bolt = new LightningBolt(EntityType.LIGHTNING_BOLT,serverLevel);
             bolt.setPos(getPosition(1));

@@ -5,17 +5,13 @@ import net.atired.creaturefeature.items.*;
 import net.atired.creaturefeature.misc.SableCarrier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.InstrumentTags;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -77,11 +73,19 @@ public class CFItemInit {
     public static final DeferredItem<Item> SAINT_SOLIS_EGG = ITEMS.register("saint_solis_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.SAINT_SOLIS.get(),0xeb9e5a,0xdb4b4b,new  Item.Properties()));
     public static final DeferredItem<Item> DETRITUS_EGG = ITEMS.register("detritus_spawn_egg", ()->new
-            SpawnEggItem(CFEntityInit.DETRITUS.get(),0xcb67ad,0x7d6a42,new  Item.Properties()));
+            SpawnEggItem(CFEntityInit.DETRITUS.get(),0xcb67ad,0x777f56,new  Item.Properties()));
     public static final DeferredItem<Item> STAINED_GLASS_EGG = ITEMS.register("stained_glass_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.STAINED_GLASS.get(),0x9f96b6,0x45467f,new  Item.Properties()));
     public static final DeferredItem<Item> COAT_OF_ARMS_EGG = ITEMS.register("coat_of_arms_spawn_egg", ()->new
             SpawnEggItem(CFEntityInit.COATOFARMS.get(),0xdcafa7,0x975249,new  Item.Properties()));
+    public static final DeferredItem<Item> HENCH_EGG = ITEMS.register("hench_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.HENCH.get(),0xbba688,0x3b2d45,new  Item.Properties()));
+    public static final DeferredItem<Item> TRICHAEL_EGG = ITEMS.register("trichael_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.TRICHAEL.get(),0xeeb1e7,0xbba688,new  Item.Properties()));
+    public static final DeferredItem<Item> FISHEYE_EGG = ITEMS.register("fisheye_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.FISHEYE.get(),0x80b6bd,0x717439,new  Item.Properties()));
+    public static final DeferredItem<Item> WRAITH_EGG = ITEMS.register("wraith_spawn_egg", ()->new
+            SpawnEggItem(CFEntityInit.WRAITH.get(),0xc0b8ec,0x38a6c3,new  Item.Properties()));
 
 
 
@@ -99,7 +103,7 @@ public class CFItemInit {
     );
     public static final DeferredItem<Item> BOUQUET = ITEMS.register(
             "bouquet",
-            ()->new BouquetItem(new Item.Properties().durability(8).stacksTo(1))
+            ()->new BouquetItem(new Item.Properties().durability(16).stacksTo(1))
     );
     public static final FoodProperties BLIGHTED_BRAIN_FOOD = (new FoodProperties.Builder()).nutrition(11).saturationModifier(0.3F)
             .effect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0), 0.8F)
@@ -120,6 +124,12 @@ public class CFItemInit {
     public static final DeferredItem<Item> SLEEPING_POWDER = ITEMS.register(
             "sleeping_powder",
             ()->new Item(new Item.Properties())
+    );
+
+    public static final FoodProperties FISH_FOOD = (new FoodProperties.Builder()).nutrition(1).saturationModifier(0.1F).alwaysEdible().build();
+    public static final DeferredItem<Item> FISHEYE = ITEMS.register(
+            "fisheye",
+            ()->new FisheyeItem(new Item.Properties().food(FISH_FOOD))
     );
     public static final DeferredItem<Item> COAT_SCRAPS = ITEMS.register(
             "coat_scraps",
@@ -192,9 +202,18 @@ public class CFItemInit {
             "ectoplasm",
             ()->new Item(new Item.Properties())
     );
+    public static final DeferredItem<Item> REMNANT = ITEMS.register(
+            "remnant",
+            ()->new Item(new Item.Properties())
+    );
     public static final DeferredItem<Item> MURKY_PEARL = ITEMS.register(
             "murky_pearl",
             ()->new MurkyPearlItem(new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> WEATHERING_ROD = ITEMS.register(
+            "weathering_rod",
+            ()->new WeatheringRodItem(new Item.Properties().stacksTo(1).durability(16))
     );
     public static final DeferredItem<Item> OPEN_MIND = ITEMS.register(
             "open_mind",

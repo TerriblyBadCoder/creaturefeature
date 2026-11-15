@@ -205,6 +205,42 @@ public class CFRenderTypes {
     private static final ResourceLocation SILK =CreatureFeature.getId("textures/entity/silk.png");
     private static final ResourceLocation CRIT =CreatureFeature.getId("textures/entity/crit2.png");
     private static final ResourceLocation TRICHAEL_SCREEN =CreatureFeature.getId("textures/entity/trichael_screen.png");
+    public static final BiFunction<ResourceLocation,Integer, RenderType> ENTITY_TRIC_CULL = Util.memoize(
+            (p_286169_,in) -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_SILK_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.EmptyTextureStateShard(()->{
+                            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+                            texturemanager.getTexture(p_286169_).setFilter(false, false);
+                            RenderSystem.setShaderTexture(0, p_286169_);
+                            RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(TRICHAEL_SCREEN).getId());
+                        },()->{}))
+                        .setCullState(RenderType.CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_silk", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
+    public static final BiFunction<ResourceLocation,Integer, RenderType> ENTITY_CRIT_CULL = Util.memoize(
+            (p_286169_,in) -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENTITY_SILK_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.EmptyTextureStateShard(()->{
+                            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+                            texturemanager.getTexture(p_286169_).setFilter(false, false);
+                            RenderSystem.setShaderTexture(0, p_286169_);
+                            RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(CRIT).getId());
+                        },()->{}))
+                        .setCullState(RenderType.CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .createCompositeState(true);
+                return RenderType.create("entity_silk", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, rendertype$compositestate);
+            }
+    );
     public static final BiFunction<ResourceLocation,Integer, RenderType> ENTITY_SILK_CULL = Util.memoize(
             (p_286169_,in) -> {
                 RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
@@ -213,13 +249,7 @@ public class CFRenderTypes {
                             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
                             texturemanager.getTexture(p_286169_).setFilter(false, false);
                             RenderSystem.setShaderTexture(0, p_286169_);
-                            if(in == 0){
-                                RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(SILK).getId());
-                            }else if(in==2){
-                                RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(TRICHAEL_SCREEN).getId());
-                            }else{
-                                RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(CRIT).getId());
-                            }
+                            RenderSystem.setShaderTexture(4,Minecraft.getInstance().getTextureManager().getTexture(SILK).getId());
                         },()->{}))
                         .setCullState(RenderType.CULL)
                         .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
@@ -234,10 +264,10 @@ public class CFRenderTypes {
         return ENTITY_SILK_CULL.apply(location,0);
     }
     public static RenderType entityTrichaelCull(ResourceLocation location) {
-        return ENTITY_SILK_CULL.apply(location,2);
+        return ENTITY_TRIC_CULL.apply(location,2);
     }
     public static RenderType entityCritCull(ResourceLocation location) {
-        return ENTITY_SILK_CULL.apply(location,1);
+        return ENTITY_CRIT_CULL.apply(location,1);
     }
     public static ShaderInstance FRIEND_SHADER_INSTANCE = null;
     public static ShaderInstance getFriendShaderInstance(){return FRIEND_SHADER_INSTANCE;}

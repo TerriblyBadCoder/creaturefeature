@@ -9,8 +9,11 @@ import net.atired.creaturefeature.items.DoohickeyBlockItem;
 import net.atired.creaturefeature.misc.SableCarrier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.ColorRGBA;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -25,6 +28,12 @@ public class CFBlockInit {
     public static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name,block);
         registerBlockItem(name, toReturn);
+        return toReturn;
+    }
+
+    public static <T extends Block> DeferredBlock<T> registerObeliskBlock(String name, Supplier<T> block) {
+        DeferredBlock<T> toReturn = BLOCKS.register(name,block);
+        CFItemInit.ITEMS.register(name, () -> new BlockItem(toReturn.get(),new Item.Properties().food(Foods.RABBIT)));
         return toReturn;
     }
     public static <T extends Block> DeferredBlock<T> registerDoohickeyBlock(String name, Supplier<T> block) {
@@ -61,7 +70,7 @@ public class CFBlockInit {
             () -> new FeathersCarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CYAN_WOOL)));
     public static final DeferredBlock<Block> FIENDISH_TILES = registerBlock("fiendish_tiles",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
-    public static final DeferredBlock<Block> OBELISK = registerBlock("obelisk",
+    public static final DeferredBlock<Block> OBELISK = registerObeliskBlock("obelisk",
             () -> new MonolithBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERRACK).randomTicks()));
     public static final DeferredBlock<Block> BLIND_FIENDISH_TILES = registerBlock("blind_fiendish_tiles",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));

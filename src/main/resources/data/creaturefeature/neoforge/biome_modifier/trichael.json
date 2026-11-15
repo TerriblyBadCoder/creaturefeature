@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_desert",
+  "spawners":
+  {
+    "type": "creaturefeature:trichael",
+    "weight": 12,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}

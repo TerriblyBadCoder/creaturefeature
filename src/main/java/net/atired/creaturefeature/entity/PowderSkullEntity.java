@@ -6,6 +6,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSources;
@@ -80,6 +81,9 @@ public class PowderSkullEntity extends Monster {
                 dist=Math.max(dist-1,0);
                 dist= Math.pow(dist,0.5);
                 this.addDeltaMovement(getViewVector(1).scale(0.3).scale(dist));
+                this.playSound(SoundEvents.EVOKER_FANGS_ATTACK,1.0f,0.2f+(float)Math.random()/5.0f);
+                this.playSound(SoundEvents.EVOKER_FANGS_ATTACK,0.6f,0.6f+(float)Math.random()/5.0f);
+                this.playSound(SoundEvents.SKELETON_CONVERTED_TO_STRAY,0.6f,0.6f+(float)Math.random()/5.0f);
             }
         }
         this.noPhysics=true;

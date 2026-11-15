@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:copper_ingot"
+    },
+    "Z": {
+      "item": "creaturefeature:remnant"
+    }
+  },
+  "pattern": [
+    "##",
+    "#Z",
+    "# "
+  ],
+  "result": {
+    "count": 1,
+    "id": "creaturefeature:weathering_rod"
+  }
+}

@@ -1,4 +1,4 @@
 {
   "replace": false,
-  "values": ["creaturefeature:wallpaper"]
+  "values": ["creaturefeature:wallpaper","creaturefeature:obelisk"]
 }

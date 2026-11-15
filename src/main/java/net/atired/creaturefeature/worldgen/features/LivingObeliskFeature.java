@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import net.atired.creaturefeature.init.CFBlockInit;
 import net.atired.creaturefeature.misc.CFsimplexNoise;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.ticks.TickPriority;
 
 public class LivingObeliskFeature  extends Feature<NoneFeatureConfiguration> {
     public LivingObeliskFeature(Codec<NoneFeatureConfiguration> codec) {
@@ -41,7 +43,9 @@ public class LivingObeliskFeature  extends Feature<NoneFeatureConfiguration> {
             for (int z = 0; z < count; z++) {
                 for (int y = -3; y < height; y++) {
                     BlockPos pos1 = pos.offset(x,y,z);
+
                     level.setBlock(pos1, CFBlockInit.OBELISK.get().defaultBlockState(),2);
+                    level.scheduleTick(pos1,CFBlockInit.OBELISK.get(),2, TickPriority.EXTREMELY_LOW);
                 }
             }
         }
