@@ -49,7 +49,7 @@ public class Config {
                 .define("pathogen", false);
         SAINT = builder
                 .comment("Weakens the rotation of Saint Solis' Stars")
-                .define("pathogen", false);
+                .define("saint", false);
         FIEND_FOLIO_RELOADED = builder
                 .comment("Gives Fiend a gun.")
                 .define("ff_reloaded", true);
