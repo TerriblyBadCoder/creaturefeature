@@ -53,6 +53,7 @@ public class CreatureFeature {
         CFMobEffectInit.MOB_EFFECTS.register(modEventBus);
         CFDataComponentTypeInit.DATA_COMPONENT_TYPES.register(modEventBus);
         CFItemInit.ITEMS.register(modEventBus);
+        CFFeatures.FEATURES.register(modEventBus);
         CFBlockInit.BLOCKS.register(modEventBus);
         CFBlockEntityInit.BLOCK_ENTITY_TYPES.register(modEventBus);
 
@@ -94,6 +95,7 @@ public class CreatureFeature {
         event.put(CFEntityInit.FISHEYE.get(), FishEyeEntity.createFishEyeAttributes().build());
         event.put(CFEntityInit.POWDER_SKULL.get(), PowderSkullEntity.createPowderSkullAttributes().build());
         event.put(CFEntityInit.WRAITH.get(), WraithEntity.createWraithAttributes().build());
+        event.put(CFEntityInit.HENCH.get(), HenchEntity.createHenchAttributes().build());
 
         event.put(CFEntityInit.COATOFARMS.get(), CoatOfArmsEntity.createCoatOfArmsAttributes().build());
     }

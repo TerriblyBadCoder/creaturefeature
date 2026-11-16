@@ -5,6 +5,7 @@ uniform sampler2D Sampler0;
 
 uniform vec4 ColorModulator;
 uniform float FogStart;
+uniform float Sized;
 uniform float FogEnd;
 uniform vec4 FogColor;
 uniform float GameTime;
@@ -106,11 +107,11 @@ float cnoise(vec3 P){
 }
 void main() {
     vec4 color = texture(Sampler0, texCoord0);
-    vec2 fracted = texCoord0-vec2(fract(texCoord0.x*64.0)/64.0-0.5/64.0,fract(texCoord0.y*64.0)/64.0-0.5/64.0);
+    vec2 fracted = texCoord0-vec2(fract(texCoord0.x*64.0*Sized)/64.0/Sized-0.5/64.0*Sized,fract(texCoord0.y*64.0*Sized)/64.0/Sized-0.5/64.0);
     vec2 dir = (fracted-vec2(0.5,0.5))*2.0;
-    float noisy = cnoise(vec3(normalize(dir)*4.0,GameTime*4000.0))+(0.5-length(dir))*3.0;
+    float noisy = cnoise(vec3(normalize(dir)*4.0,GameTime*4000.0))+(0.5-length(dir))*4.0;
 
-    if(noisy*color.a*color.a<0.1){
+    if(noisy*color.a*color.a<0.1/Sized){
         discard;
     }
     color *= vertexColor * ColorModulator;

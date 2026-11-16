@@ -42,11 +42,16 @@ public class PowderSkullEntityRenderer extends MobRenderer<PowderSkullEntity, Po
             poseStack.pushPose();
             float multiplied = Math.min(1.0f,entity.tickCount/15.0f);
             multiplied= (Mth.sin(multiplied*3.14f)*1.0f+1.0f)*multiplied;
+            float charg = (1.0f+Mth.sin(entity.getCharging()*3.14f)/1.5f);
+            multiplied*=charg;
             poseStack.mulPose(new Quaternionf().rotationZYX(0,-entityYaw/180.0f*3.14f,entity.getViewXRot(partialTicks)/180.0f*3.14f+0.2f)
             );
             poseStack.translate(0,0.8,-0.1-Math.abs(entity.getViewXRot(partialTicks)/180.0f));
-            poseStack.scale(multiplied,1,multiplied);
+            poseStack.scale(multiplied,charg,multiplied);
             VertexConsumer consumer = buffer.getBuffer(CFRenderTypes.entityRedCull(RED_POWDER_BG_LOCATION));
+            if(CFRenderTypes.RED_SHADER_INSTANCE!=null){
+                CFRenderTypes.RED_SHADER_INSTANCE.safeGetUniform("Sized").set(charg);
+            }
             float wide = 1.0f;
             float tall = 1.0f;
             for (int i = 0; i < 1; i++) {

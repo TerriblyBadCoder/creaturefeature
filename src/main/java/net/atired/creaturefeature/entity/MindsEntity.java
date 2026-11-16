@@ -65,11 +65,7 @@ public class MindsEntity extends Zombie {
 
     @Override
     public void knockback(double strength, double x, double z) {
-        if(hasNoMind()){
-            super.knockback(Math.min(0.3,strength), -x, -z);
-            return;
-        }
-        super.knockback(strength, x, z);
+        super.knockback(0, x, z);
     }
 
     @Override
@@ -109,11 +105,22 @@ public class MindsEntity extends Zombie {
     public void tick() {
 
         if(hasNoMind()&&isAlive()&&deathTime<=0){
+            if(this.tickCount%40==0&&this.getTarget()!=null){
+                this.stopInPlace();
+                this.moveControl.strafe(-0.2f,Math.random()>0.5?-0.5f:0.5f);
+                this.setSpeedUp(0.2f);
+                Vec3 pos = this.getTarget().getPosition(1);
+            }
+            if(this.tickCount%40==7&&this.getTarget()!=null) {
+                this.stopInPlace();
+                Vec3 pos = this.getTarget().getPosition(1);
+                this.getMoveControl().setWantedPosition(pos.x,pos.y,pos.z,1);
+            }
             Vec3 dir = new Vec3(0,0,1).yRot(-yBodyRot/180f*3.14f).multiply(1,0,1).normalize().scale(0.5);
             level().addParticle(ParticleTypes.WITCH,getX(Math.random()*1.0f-0.5f)+dir.x,getY(0.9f+Math.random()/5.0f),getZ(Math.random()*1.0f-0.5f)+dir.z,0,0.2,0);
         }
         if(getSpeedUp()>0.0001f){
-            setSpeedUp(getSpeedUp()*0.83f);
+            setSpeedUp(getSpeedUp()*0.63f);
         }
         else{
             setSpeedUp(0);
@@ -136,7 +143,7 @@ public class MindsEntity extends Zombie {
         if(getTarget()!=null){
             dist=Math.clamp(distanceTo(getTarget())/6f,1f,2f);
         }
-        return super.getSpeed()*(1.0f+(float)Math.min(Math.pow(getSpeedUp()*5.2f,0.5f)*1.5f,1.0f)*9.0f)*(hasNoMind()?(2f*dist):1f);
+        return super.getSpeed()*(1.0f+(float)Math.min(Math.pow(getSpeedUp()*2.5f,0.5f)*1.5f,1.0f)*9.0f)*(hasNoMind()?(1.3f*dist):1f);
     }
     public boolean hurt(MindsEntityPart part, DamageSource source, float damage) {
         if(level().isClientSide){
@@ -170,13 +177,13 @@ public class MindsEntity extends Zombie {
                 setSpeedUp(1.0f);
             }
         }
-        if(getSpeedUp()<0.3f&&!hasNoMind()){
+        if(getSpeedUp()<0.2f&&!hasNoMind()){
             if(source.is(DamageTypes.FALLING_ANVIL)&&!hasNoMind()){
                 hurt(this.mind,source,amount*1.5f);
                 setNoMind(true);
                 return false;
             }
-            setSpeedUp(0.3f);
+            setSpeedUp(0.2f);
         }
         if(!hasNoMind()&&getHealth()<10+amount&&level()!=null&&!level().isClientSide()){
             if(level() instanceof ServerLevel serverLevel){

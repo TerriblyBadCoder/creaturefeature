@@ -96,8 +96,8 @@ public class LightningDelayEntityRenderer extends EntityRenderer<LightningDelayE
 
             vertex(pose,consumer,vec3_1.x,0.0f, vec3_1.z, i/1.5f,0,0,0,1,packedLight,1);
             vertex(pose,consumer,vec3_2.x,0.0f, vec3_2.z, (i+1)/1.5f,0,0,0,1,packedLight,1);
-            vertex(pose,consumer,vec3_2.x,-6.0f, vec3_2.z, (i+1)/1.5f,3,0,0,1,packedLight,1);
-            vertex(pose,consumer,vec3_1.x,-6.0f, vec3_1.z, i/1.5f,3,0,0,1,packedLight,1);
+            vertex(pose,consumer,vec3_2.x,-6.0f, vec3_2.z, (i+1)/1.5f,3,0,0,1,packedLight,0);
+            vertex(pose,consumer,vec3_1.x,-6.0f, vec3_1.z, i/1.5f,3,0,0,1,packedLight,0);
 
         }
         poseStack.popPose();

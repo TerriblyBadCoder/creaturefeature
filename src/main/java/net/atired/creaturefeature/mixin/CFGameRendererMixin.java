@@ -31,7 +31,7 @@ public class CFGameRendererMixin implements GameRendererResourceManagerAccessor 
 
     }
     //
-    @Inject(method = "render",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V",ordinal = 0,shift= At.Shift.BEFORE))
+    @Inject(method = "render",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V",ordinal = 0,shift= At.Shift.AFTER))
     private void renderCFDepth(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci){
         CreatureFeatureClient.SUN_TARGET2.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
         if(CreatureFeatureClient.SUN instanceof PostChainDepthPassAccessor accessor2){

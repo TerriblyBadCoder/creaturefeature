@@ -197,7 +197,7 @@ public class FishEyeEntity extends Monster {
                     if(this.fisheye.level() instanceof ServerLevel serverLevel) {
                         sendParticles(serverLevel,CFParticleInit.FISHEYE_PARTICLE.get(),this.fisheye.getX(),this.fisheye.getY()+0.1,this.fisheye.getZ(),1,0,0,0,0.1);
                     }
-                    this.fisheye.playSound(CFSoundInit.FISHEYE_SCREECH.value(),0.6f,1.0f+(float)Math.random()/4.0f);
+                    this.fisheye.playSound(CFSoundInit.FISHEYE_SCREECH.value(),0.2f,1.0f+(float)Math.random()/4.0f);
                     this.fisheye.setPos(this.storedPos);
                     if(this.fisheye.level() instanceof ServerLevel serverLevel) {
                         sendParticles(serverLevel,CFParticleInit.FISHEYE_PARTICLE.get(),this.fisheye.getX(),this.fisheye.getY()+0.1,this.fisheye.getZ(),1,0,0,0,0.1);

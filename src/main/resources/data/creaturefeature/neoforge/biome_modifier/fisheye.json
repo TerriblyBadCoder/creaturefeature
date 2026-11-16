@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_outer_end_island",
+  "spawners":
+  {
+    "type": "creaturefeature:fisheye",
+    "weight": 3,
+    "minCount":3,
+    "maxCount": 3
+  }
+}

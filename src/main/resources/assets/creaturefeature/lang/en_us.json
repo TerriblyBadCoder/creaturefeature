@@ -98,6 +98,12 @@
   "item.creaturefeature.fend_spawn_egg": "Fend Spawn Egg",
   "item.creaturefeature.friend_spawn_egg": "Friend Spawn Egg",
 
+  "item.creaturefeature.powder_skull_spawn_egg": "Powder Skull Spawn Egg",
+  "item.creaturefeature.hench_spawn_egg": "Hench Spawn Egg",
+  "item.creaturefeature.trichael_spawn_egg": "Trichael Spawn Egg",
+  "item.creaturefeature.fisheye_spawn_egg": "Fisheye Spawn Egg",
+  "item.creaturefeature.wraith_spawn_egg": "Wraith Spawn Egg",
+  "item.creaturefeature.obelisk_spawn_egg": "Obelisk Spawn? Egg",
 
   "item.creaturefeature.toadstool_spawn_egg": "Toadstool Spawn Egg",
   "item.creaturefeature.mockingbird_spawn_egg": "Mockingbird Spawn Egg",
@@ -122,10 +128,13 @@
   "item.creaturefeature.music_disc_nan": "Music Disc",
 
   "item.creaturefeature.carapace": "Carapace",
+  "item.creaturefeature.fisheye": "Fisheye",
   "item.creaturefeature.flintlock": "Flimsy Flintlock",
   "item.creaturefeature.dream_silk": "Dream Silk",
   "item.creaturefeature.bacterium_ball": "Bacterium Ball",
   "item.creaturefeature.bouquet": "Living Bouquet",
+  "item.creaturefeature.weathering_rod": "Weathering Rod",
+  "item.creaturefeature.remnant": "Remnant",
   "item.creaturefeature.ectoplasm": "Ectoplasm",
   "item.creaturefeature.solar_shard": "Solar Shard",
   "item.creaturefeature.thingamabob": "Thingamabob",
@@ -200,7 +209,10 @@
   "entity.creaturefeature.blossom": "Blossom",
   "entity.creaturefeature.saint_solis": "Saint Solis",
   "entity.creaturefeature.trichael": "Trichael",
+  "entity.creaturefeature.hench": "Hench",
   "entity.creaturefeature.fisheye": "Fisheye",
+  "comment.creaturefeature.collumn": "the misspelling of Collunm is intentional",
+  "entity.creaturefeature.collumn": "Collunm",
   "entity.creaturefeature.wraith": "Wraith",
   "entity.creaturefeature.delay": "Sigil",
   "entity.creaturefeature.powder_skull": "Powder Skull"

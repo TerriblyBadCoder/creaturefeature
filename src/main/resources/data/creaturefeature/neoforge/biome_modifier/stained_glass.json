@@ -5,7 +5,7 @@
   {
     "type": "creaturefeature:stained_glass",
     "weight": 14,
-    "minCount": 1,
-    "maxCount": 1
+    "minCount": 4,
+    "maxCount": 5
   }
 }

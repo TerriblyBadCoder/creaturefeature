@@ -8,11 +8,15 @@ import net.atired.creaturefeature.init.CFEntityInit;
 import net.atired.creaturefeature.init.CFItemInit;
 import net.atired.creaturefeature.misc.SableCarrier;
 import net.atired.creaturefeature.networking.payloads.*;
+import net.atired.creaturefeature.worldgen.CFDatapackProvider;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.InstrumentTags;
@@ -32,6 +36,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
@@ -43,6 +49,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
+import java.util.concurrent.CompletableFuture;
+
 @EventBusSubscriber(modid = CreatureFeature.MODID)
 public class CFEvents {
 
@@ -51,6 +59,14 @@ public class CFEvents {
         if (event.getItemStack().is(CFItemInit.SOLAR_SHARD.get())) {
             event.setBurnTime(1600*8);
         }
+    }
+    @SubscribeEvent
+    public static void gatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        PackOutput packOutput = generator.getPackOutput();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        generator.addProvider(true, new CFDatapackProvider(packOutput, lookupProvider));
     }
     @SubscribeEvent // on the mod event bus
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
@@ -86,6 +102,13 @@ public class CFEvents {
             event.accept(CFItemInit.STAINED_GLASS_EGG.get());
             event.accept(CFItemInit.COAT_OF_ARMS_EGG.get());
 
+
+            event.accept(CFItemInit.POWDER_SKULL_EGG.get());
+            event.accept(CFItemInit.HENCH_EGG.get());
+            event.accept(CFItemInit.TRICHAEL_EGG.get());
+            event.accept(CFItemInit.FISHEYE_EGG.get());
+            event.accept(CFItemInit.WRAITH_EGG.get());
+
         }
         if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
             event.insertAfter(Items.MILK_BUCKET.getDefaultInstance(),CFItemInit.THE_PILL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);;
@@ -108,6 +131,7 @@ public class CFEvents {
             event.insertAfter(Items.POPPED_CHORUS_FRUIT.getDefaultInstance(),CFItemInit.DREAM_SILK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.HONEYCOMB.getDefaultInstance(),CFItemInit.DOWN_FEATHER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.HONEYCOMB.getDefaultInstance(),CFItemInit.ECTOPLASM.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.HONEYCOMB.getDefaultInstance(),CFItemInit.REMNANT.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.GHAST_TEAR.getDefaultInstance(),CFItemInit.THINGAMABOB.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.GHAST_TEAR.getDefaultInstance(),CFItemInit.FIENDISH_ESSENCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.LEATHER.getDefaultInstance(),CFItemInit.COAT_SCRAPS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -121,7 +145,9 @@ public class CFEvents {
             event.insertBefore(Items.BRUSH.getDefaultInstance(),CFItemInit.OPEN_MIND.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.SADDLE.getDefaultInstance(),CFItemInit.DREAM_CATCHER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.SADDLE.getDefaultInstance(),CFItemInit.BACTERIUM_BALL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.SADDLE.getDefaultInstance(),CFItemInit.WEATHERING_ROD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
+            event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.FISHEYE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.BOUQUET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.SOLAR_SHARD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.ENDER_PEARL.getDefaultInstance(),CFItemInit.MURKY_PEARL.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -152,10 +178,11 @@ public class CFEvents {
             event.insertAfter(Items.JUKEBOX.getDefaultInstance(), CFBlockInit.DOOHICKEY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.SOUL_CAMPFIRE.getDefaultInstance(), CFBlockInit.CARAPACE_BLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.LODESTONE.getDefaultInstance(), CFBlockInit.MINEDFLAYER_JELLY.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertBefore(Items.LODESTONE.getDefaultInstance(), CFBlockInit.OBELISK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if(event.getTabKey()==CreativeModeTabs.FOOD_AND_DRINKS){
             event.insertBefore(Items.CAKE.getDefaultInstance(), CFItemInit.FIENDISH_SODA.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-
+            event.insertBefore(Items.TROPICAL_FISH.getDefaultInstance(), CFItemInit.FISHEYE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.SPIDER_EYE.getDefaultInstance(), CFItemInit.VERTIGO_CHUNK.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertBefore(Items.ROTTEN_FLESH.getDefaultInstance(), CFItemInit.BLIGHTED_BRAIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
@@ -255,6 +282,10 @@ public class CFEvents {
         event.register(CFEntityInit.COATOFARMS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CoatOfArmsEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.STAINED_GLASS.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ((entityType, serverLevelAccessor, mobSpawnType, blockPos, randomSource) -> {return Monster.isDarkEnoughToSpawn(serverLevelAccessor, blockPos, randomSource)&&blockPos.getY()>0&&Math.random()>0.4&&serverLevelAccessor.getHeight(Heightmap.Types.MOTION_BLOCKING,blockPos.getX(),blockPos.getZ())+6>blockPos.getY();}), RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(CFEntityInit.MOCKINGBIRD.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MockingBirdEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+
+        event.register(CFEntityInit.FISHEYE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FishEyeEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.TRICHAEL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TrichaelEntity::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(CFEntityInit.WRAITH.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WraithEntity::checkWraithSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
 
     }
     @SubscribeEvent

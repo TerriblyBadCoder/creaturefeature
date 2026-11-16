@@ -13,6 +13,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class  CFDataComponentTypeInit {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPES =
             DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, CreatureFeature.MODID);
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WEATHER_ROD_AMOUNT =
+            DATA_COMPONENT_TYPES.register("weather_rod_amount", () -> DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> OPENED =
             DATA_COMPONENT_TYPES.register("opened_mind", () ->
                     DataComponentType.<Integer>builder()
