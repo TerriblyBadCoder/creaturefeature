@@ -1,5 +1,6 @@
 package net.atired.creaturefeature.entity;
 
+import net.atired.creaturefeature.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -23,6 +24,8 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
@@ -53,8 +56,13 @@ public class FendEntity extends Monster implements RangedAttackMob {
     public boolean isDeep(){
         return entityData.get(DEEP);
     }
+    @Override
+    public float getWalkTargetValue(BlockPos pos, LevelReader world) {
+        if (Config.DAYLIGHT_FEND.isTrue()) { return world.getBrightness(LightLayer.SKY, pos) - 0.5F; }
+        else { return super.getWalkTargetValue(pos, world); }
+    }
     public static boolean checkFendSpawnRules(EntityType<FendEntity> fend, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return checkMonsterSpawnRules(fend, level, spawnType, pos, random) && (MobSpawnType.isSpawner(spawnType) || level.canSeeSky(pos.above()));
+        return (Config.DAYLIGHT_FEND.isTrue() ? checkAnyLightMonsterSpawnRules(fend, level, spawnType, pos, random) : checkMonsterSpawnRules(fend, level, spawnType, pos, random)) && (MobSpawnType.isSpawner(spawnType) || level.canSeeSky(pos.above()));
     }
     @Nullable
     @Override

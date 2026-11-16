@@ -29,7 +29,7 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
 
     @Override
     public ResourceLocation getTextureLocation(MockingBirdEntity machinationEntity) {
-        if(!Config.SPEC.isLoaded()){
+        if(!Config.CLIENTSPEC.isLoaded()){
             return MOCKINGBIRD_LOCATION;
         }
         return Config.REMODEL_MB.get()?MOCKINGBIRD_DT_LOCATION:MOCKINGBIRD_LOCATION;
@@ -39,7 +39,7 @@ public class MockingBirdEntityRenderer extends MobRenderer<MockingBirdEntity, Mo
     public void render(MockingBirdEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
 
-        if(!Config.SPEC.isLoaded()){
+        if(!Config.CLIENTSPEC.isLoaded()){
             return;
         }
         float yawEd = -entity.getPreciseBodyRotation(partialTicks)/180.0f*3.14f;

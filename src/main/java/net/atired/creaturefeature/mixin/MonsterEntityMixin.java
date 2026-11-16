@@ -1,9 +1,10 @@
 package net.atired.creaturefeature.mixin;
 
 import net.atired.creaturefeature.Config;
+import net.atired.creaturefeature.init.CFEntityTags;
+import net.atired.creaturefeature.init.CFBiomeTags;
 import net.atired.creaturefeature.accessors.LivingEntityGoopAccessor;
 import net.atired.creaturefeature.networking.payloads.PathogenPayload;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
@@ -24,7 +25,7 @@ public abstract class MonsterEntityMixin extends LivingEntity {
     }
     @Inject(method = "finalizeSpawn",at=@At("HEAD"))
     private void finaliseCFspawnUndead(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir){
-        if(getType().is(EntityTypeTags.UNDEAD)&&(!Config.PATHOGEN.isTrue()||level.getBiome(getOnPos()).is(Tags.Biomes.IS_TEMPERATE_OVERWORLD))){
+        if(getType().is(CFEntityTags.PATHOGEN_SOURCES)&&(!Config.PATHOGEN.isTrue()||level.getBiome(getOnPos()).is(CFBiomeTags.HAS_PATHOGEN))){
             if(this instanceof LivingEntityGoopAccessor accessor && Math.random()>0.92){
                 accessor.setBacterial(9);
             }
